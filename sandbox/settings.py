@@ -15,6 +15,7 @@ ALLOWED_HOSTS = [
     'master.oscarcommerce.com',
     'localhost',
     '127.0.0.1',
+    '*',
 ]
 
 # This is needed for the hosted version of the sandbox
@@ -28,17 +29,27 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 MANAGERS = ADMINS
 
 # Use a Sqlite database by default
+#DATABASES = {
+#    'default': {
+#        'ENGINE': os.environ.get('DATABASE_ENGINE', 'django.db.backends.postgres'),
+#        'NAME': os.environ.get('DATABASE_NAME', location('db.sqlite')),
+#        'USER': os.environ.get('DATABASE_USER', None),
+#        'PASSWORD': os.environ.get('DATABASE_PASSWORD', None),
+#        'HOST': os.environ.get('DATABASE_HOST', None),
+#        'PORT': os.environ.get('DATABASE_PORT', None),
+#        'ATOMIC_REQUESTS': True
+#    }
+#}
 DATABASES = {
-    'default': {
-        'ENGINE': os.environ.get('DATABASE_ENGINE', 'django.db.backends.sqlite3'),
-        'NAME': os.environ.get('DATABASE_NAME', location('db.sqlite')),
-        'USER': os.environ.get('DATABASE_USER', None),
-        'PASSWORD': os.environ.get('DATABASE_PASSWORD', None),
-        'HOST': os.environ.get('DATABASE_HOST', None),
-        'PORT': os.environ.get('DATABASE_PORT', None),
-        'ATOMIC_REQUESTS': True
-    }
-}
+            'default': {
+                'ENGINE': 'django.db.backends.postgresql_psycopg2',
+                'NAME': 'oscar',
+                'USER': 'eastman',
+                'PASSWORD': 'thjsjs4p4ssword',
+                'HOST': '127.0.0.1',
+                'PORT': '',
+                }
+            }
 
 CACHES = {
     'default': env.cache(default='locmemcache://'),
