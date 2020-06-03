@@ -2,8 +2,8 @@ VENV = venv
 PYTEST = $(PWD)/$(VENV)/bin/py.test
 
 # These targets are not files
-.PHONY: build_sandbox clean compile_translations coverage css docs extract_translations help install install-python \
- install-test install-js lint release retest sandbox_clean sandbox_image sandbox test todo venv
+.PHONY: build_sandbox build_quiz clean compile_translations coverage css docs extract_translations help install install-python \
+ install-test install-js lint release retest sandbox_clean sandbox_image sandbox quiz_clean quiz_image quiz test todo venv
 
 help: ## Display this help message
 	@echo "Please use \`make <target>\` where <target> is one of"
@@ -67,6 +67,40 @@ sandbox_load_data: ## Import fixtures and collect static
 sandbox_image: ## Build latest docker image of django-oscar-sandbox
 	docker build -t django-oscar-sandbox:latest .
 
+#############################
+# English Quiz management commands
+#############################
+quiz: install build_quiz ## Install requirements and create a quiz
+
+build_quiz: quiz_clean quiz_load_user quiz_load_data ## Creates a quiz from scratch
+
+quiz_clean: ## Clean quiz images,cache,static and database
+	# Remove media
+	-rm -rf quiz/public/media/images
+	-rm -rf quiz/public/media/cache
+	-rm -rf quiz/public/static
+	-rm -f quiz/db.sqlite
+	# Create database
+	quiz/manage.py migrate
+
+quiz_load_user: ## Load user data into quiz
+	quiz/manage.py loaddata quiz/fixtures/auth.json
+
+quiz_load_data: ## Import fixtures and collect static
+	# Import some fixtures. Order is important as JSON fixtures include primary keys
+	quiz/manage.py loaddata quiz/fixtures/child_products.json
+	quiz/manage.py oscar_import_catalogue quiz/fixtures/*.csv
+	quiz/manage.py oscar_import_catalogue_images quiz/fixtures/images.tar.gz
+	quiz/manage.py oscar_populate_countries --initial-only
+	quiz/manage.py loaddata quiz/fixtures/pages.json quiz/fixtures/ranges.json quiz/fixtures/offers.json
+	quiz/manage.py loaddata quiz/fixtures/orders.json
+	quiz/manage.py clear_index --noinput
+	quiz/manage.py update_index catalogue
+	quiz/manage.py thumbnail cleanup
+	quiz/manage.py collectstatic --noinput
+
+quiz_image: ## Build latest docker image of django-oscar-quiz
+	docker build -t django-oscar-quiz:latest .
 ##################
 # Tests and checks
 ##################
@@ -87,6 +121,7 @@ lint: ## Run flake8 and isort checks
 
 test_migrations: install-migrations-testing-requirements ## Tests migrations
 	cd sandbox && ./test_migrations.sh
+	cd quiz && ./test_migrations.sh
 
 #######################
 # Translations Handling
