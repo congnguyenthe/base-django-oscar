@@ -25,6 +25,7 @@ from oscar.core.utils import slugify
 from oscar.core.validators import non_python_keyword
 from oscar.models.fields import AutoSlugField, NullCharField
 from oscar.models.fields.slugfield import SlugField
+from django.contrib.postgres.fields import ArrayField
 
 BrowsableProductManager = get_class('catalogue.managers', 'BrowsableProductManager')
 ProductQuerySet = get_class('catalogue.managers', 'ProductQuerySet')
@@ -249,15 +250,17 @@ class AbstractProduct(models.Model):
     - A child product. All child products have a parent product. They're a
       specific version of the parent.
     - A parent product. It essentially represents a set of products.
+    - A composite product. It contains a list of products and has a price for itself.
 
     An example could be a yoga course, which is a parent product. The different
     times/locations of the courses would be associated with the child products.
     """
-    STANDALONE, PARENT, CHILD = 'standalone', 'parent', 'child'
+    STANDALONE, PARENT, CHILD, COMPOSITE = 'standalone', 'parent', 'child', 'composite'
     STRUCTURE_CHOICES = (
         (STANDALONE, _('Stand-alone product')),
         (PARENT, _('Parent product')),
-        (CHILD, _('Child product'))
+        (CHILD, _('Child product')),
+        (COMPOSITE, _('Composite product'))
     )
     structure = models.CharField(
         _("Product structure"), max_length=10, choices=STRUCTURE_CHOICES,
@@ -286,6 +289,9 @@ class AbstractProduct(models.Model):
                     "4 of a particular t-shirt.  Leave blank if this is a "
                     "stand-alone product (i.e. there is only one version of"
                     " this product)."))
+
+    # Special field for COMPOSITE product only
+    item_list = ArrayField(models.IntegerField())
 
     # Title is mandatory for canonical products but optional for child products
     title = models.CharField(pgettext_lazy('Product title', 'Title'),
@@ -382,25 +388,27 @@ class AbstractProduct(models.Model):
         """
         Validate a product. Those are the rules:
 
-        +---------------+-------------+--------------+--------------+
-        |               | stand alone | parent       | child        |
-        +---------------+-------------+--------------+--------------+
-        | title         | required    | required     | optional     |
-        +---------------+-------------+--------------+--------------+
-        | product class | required    | required     | must be None |
-        +---------------+-------------+--------------+--------------+
-        | parent        | forbidden   | forbidden    | required     |
-        +---------------+-------------+--------------+--------------+
-        | stockrecords  | 0 or more   | forbidden    | 0 or more    |
-        +---------------+-------------+--------------+--------------+
-        | categories    | 1 or more   | 1 or more    | forbidden    |
-        +---------------+-------------+--------------+--------------+
-        | attributes    | optional    | optional     | optional     |
-        +---------------+-------------+--------------+--------------+
-        | rec. products | optional    | optional     | unsupported  |
-        +---------------+-------------+--------------+--------------+
-        | options       | optional    | optional     | forbidden    |
-        +---------------+-------------+--------------+--------------+
+        +---------------+-------------+--------------+--------------+--------------+
+        |               | stand alone | parent       | child        | composite    |
+        +---------------+-------------+--------------+--------------+--------------+
+        | title         | required    | required     | optional     | required     |
+        +---------------+-------------+--------------+--------------+--------------+
+        | product class | required    | required     | must be None | required     |
+        +---------------+-------------+--------------+--------------+--------------+
+        | parent        | forbidden   | forbidden    | required     | forbidden    |
+        +---------------+-------------+--------------+--------------+--------------+
+        | stockrecords  | 0 or more   | forbidden    | 0 or more    | 0 or more    |
+        +---------------+-------------+--------------+--------------+--------------+
+        | categories    | 1 or more   | 1 or more    | forbidden    | 1 or more    |
+        +---------------+-------------+--------------+--------------+--------------+
+        | attributes    | optional    | optional     | optional     | optional     |
+        +---------------+-------------+--------------+--------------+--------------+
+        | rec. products | optional    | optional     | unsupported  | optional     |
+        +---------------+-------------+--------------+--------------+--------------+
+        | options       | optional    | optional     | forbidden    | optional     |
+        +---------------+-------------+--------------+--------------+--------------+
+        | item_list     | forbidden   | forbidden    | forbidden    | required     |
+        +---------------+-------------+--------------+--------------+--------------+
 
         Because the validation logic is quite complex, validation is delegated
         to the sub method appropriate for the product's structure.
@@ -419,6 +427,9 @@ class AbstractProduct(models.Model):
             raise ValidationError(_("Your product must have a product class."))
         if self.parent_id:
             raise ValidationError(_("Only child products can have a parent."))
+        if self.item_list:
+            raise ValidationError(
+                _("A standalone product can't have item_list."))
 
     def _clean_child(self):
         """
@@ -439,6 +450,9 @@ class AbstractProduct(models.Model):
         if self.pk and self.product_options.exists():
             raise ValidationError(
                 _("A child product can't have options."))
+        if self.item_list:
+            raise ValidationError(
+                _("A child product can't have item_list."))
 
     def _clean_parent(self):
         """
@@ -448,6 +462,18 @@ class AbstractProduct(models.Model):
         if self.has_stockrecords:
             raise ValidationError(
                 _("A parent product can't have stockrecords."))
+        if self.item_list:
+            raise ValidationError(
+                _("A parent product can't have item_list."))
+
+    def _clean_composite(self):
+        """
+        Validates a composite product.
+        """
+        self._clean_standalone()
+        if not self.item_list:
+            raise ValidationError(
+                _("A composite product must have item_list."))
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -468,6 +494,10 @@ class AbstractProduct(models.Model):
     @property
     def is_child(self):
         return self.structure == self.CHILD
+
+    @property
+    def is_composite(self):
+        return self.structure == self.COMPOSITE
 
     def can_be_parent(self, give_reason=False):
         """
