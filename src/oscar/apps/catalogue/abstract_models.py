@@ -291,7 +291,7 @@ class AbstractProduct(models.Model):
                     " this product)."))
 
     # Special field for COMPOSITE product only
-    item_list = ArrayField(models.IntegerField())
+    item_list = ArrayField(models.IntegerField(), null=True, blank=True)
 
     # Title is mandatory for canonical products but optional for child products
     title = models.CharField(pgettext_lazy('Product title', 'Title'),
