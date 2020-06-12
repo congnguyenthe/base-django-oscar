@@ -300,7 +300,8 @@ class AbstractProduct(models.Model):
     description = models.TextField(_('Description'), blank=True)
 
     question = models.TextField(_('Description'), null=True, blank=True)
-    answer = models.TextField(_('Description'), null=True, blank=True)
+    answer = ArrayField(models.TextField(_('Description'), null=True, blank=True), null=True, blank=True)
+    correct_answer = models.CharField(_("Correct Answer"), max_length=10, blank=True)
 
     #: "Kind" of product, e.g. T-Shirt, Book, etc.
     #: None for child products, they inherit their parent's product class
