@@ -50,11 +50,11 @@ class AbstractProductClass(models.Model):
     #: Some product type don't require shipping (e.g. digital products) - we use
     #: this field to take some shortcuts in the checkout.
     requires_shipping = models.BooleanField(_("Requires shipping?"),
-                                            default=True)
+                                            default=False)
 
     #: Digital products generally don't require their stock levels to be
     #: tracked.
-    track_stock = models.BooleanField(_("Track stock levels?"), default=True)
+    track_stock = models.BooleanField(_("Track stock levels?"), default=False)
 
     #: These are the options (set by the user when they add to basket) for this
     #: item class.  For instance, a product class of "SMS message" would always
@@ -299,6 +299,9 @@ class AbstractProduct(models.Model):
     slug = models.SlugField(_('Slug'), max_length=255, unique=False)
     description = models.TextField(_('Description'), blank=True)
 
+    question = models.TextField(_('Description'), null=True, blank=True)
+    answer = models.TextField(_('Description'), null=True, blank=True)
+
     #: "Kind" of product, e.g. T-Shirt, Book, etc.
     #: None for child products, they inherit their parent's product class
     product_class = models.ForeignKey(
@@ -391,7 +394,7 @@ class AbstractProduct(models.Model):
         +---------------+-------------+--------------+--------------+--------------+
         |               | stand alone | parent       | child        | composite    |
         +---------------+-------------+--------------+--------------+--------------+
-        | title         | required    | required     | optional     | required     |
+        | title         | optional    | optional     | optional     | optional     |
         +---------------+-------------+--------------+--------------+--------------+
         | product class | required    | required     | must be None | required     |
         +---------------+-------------+--------------+--------------+--------------+
@@ -421,8 +424,8 @@ class AbstractProduct(models.Model):
         """
         Validates a stand-alone product
         """
-        if not self.title:
-            raise ValidationError(_("Your product must have a title."))
+        if not self.question:
+            raise ValidationError(_("Must have a question"))
         if not self.product_class:
             raise ValidationError(_("Your product must have a product class."))
         if self.parent_id:
