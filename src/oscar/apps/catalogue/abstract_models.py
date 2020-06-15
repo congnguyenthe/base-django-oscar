@@ -573,6 +573,30 @@ class AbstractProduct(models.Model):
         return title
     get_title.short_description = pgettext_lazy("Product title", "Title")
 
+    def get_question(self):
+        """
+        Return a product's question
+        """
+        question = self.question
+        return question
+    get_question.short_description = pgettext_lazy("Question", "Question")
+
+    def get_answers(self):
+        """
+        Return a product's answer
+        """
+        answers = self.answer
+        return answer
+    get_answers.short_description = pgettext_lazy("Answers", "Answer")
+
+    def get_correctanswers(self):
+        """
+        Return a product's correct answer
+        """
+        correct_answer = self.correct_answer
+        return correct_answer
+    get_correctanswer.short_description = pgettext_lazy("Correct Answer", "Correct Answer")
+
     def get_product_class(self):
         """
         Return a product's item class. Child products inherit their parent's.

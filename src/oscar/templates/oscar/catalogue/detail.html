@@ -28,7 +28,7 @@
             <a href="{{ c.get_absolute_url }}">{{ c.name }}</a>
         </li>
         {% endfor %}
-        <li class="active">{{ product.get_title }}</li>
+        <li class="active">{{ product.get_question }}</li>
 
         {% get_back_button as backbutton %}
         {% if backbutton %}
