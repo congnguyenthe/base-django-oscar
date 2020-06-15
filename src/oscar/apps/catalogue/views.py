@@ -140,7 +140,7 @@ class CatalogueView(TemplateView):
 
     def get_context_data(self, **kwargs):
         ctx = {}
-        ctx['summary'] = _("All products")
+        ctx['summary'] = _("All questions")
         search_context = self.search_handler.get_search_context_data(
             self.context_object_name)
         ctx.update(search_context)
@@ -151,7 +151,7 @@ class ProductCategoryView(TemplateView):
     """
     Browse products in a given category
     """
-    context_object_name = "products"
+    context_object_name = "questions"
     template_name = 'oscar/catalogue/category.html'
     enforce_paths = True
 

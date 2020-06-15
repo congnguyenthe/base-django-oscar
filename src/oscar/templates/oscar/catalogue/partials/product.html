@@ -5,11 +5,17 @@
 {% load staticfiles %}
 
 {% block product %}
-    <article class="product_pod">
-        {% block product_title %}
-	<h3><li><a href="{{ product.get_absolute_url }}" >{{ product.get_question }}</a></li></h3>
-	<li>{{ product.get_answers }}</h3>
-        {% endblock %}
+<article class="product_pod">
+    {% block product_title %}
+    <h3>
+        <li><a href="{{ product.get_absolute_url }}">{{ product.get_question }}</a></li>
+    </h3>
+        {% for answer in product.get_answers %}
+        <li>
+            {{ answer }}
+        </li>
+        {% endfor %}
+    {% endblock %}
 
-    </article>
+</article>
 {% endblock %}
