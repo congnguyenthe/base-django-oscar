@@ -586,7 +586,7 @@ class AbstractProduct(models.Model):
         Return a product's answer
         """
         answers = self.answer
-        return answer
+        return answers
     get_answers.short_description = pgettext_lazy("Answers", "Answer")
 
     def get_correctanswer(self):

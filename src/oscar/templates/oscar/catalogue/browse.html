@@ -58,7 +58,7 @@
 
 {% block content %}
 
-    <form method="get" class="form-horizontal">
+    <form method="get" class="form-vertical">
         {# Render other search params as hidden inputs #}
         {% for value in selected_facets %}
             <input type="hidden" name="selected_facets" value="{{ value }}" />
@@ -96,7 +96,7 @@
             <div>
                 <ol class="row">
                     {% for product in products %}
-                        <li class="col-xs-6 col-sm-4 col-md-3 col-lg-3">{% render_product product %}</li>
+                        <li>{% render_product product %}</li>
                     {% endfor %}
                 </ol>
                 {% include "oscar/partials/pagination.html" %}
