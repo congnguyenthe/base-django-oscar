@@ -47,8 +47,8 @@ INSTALLED_APPS = [
     'oscar.apps.checkout',
     'oscar.apps.address',
     'oscar.apps.shipping',
-    'quiz_maker.apps.catalogue',
-    'quiz_maker.apps.catalogue.reviews',
+    'oscar.apps.catalogue',
+    'oscar.apps.catalogue.reviews',
     'oscar.apps.partner',
     'oscar.apps.basket',
     'oscar.apps.payment',
@@ -162,13 +162,13 @@ HAYSTACK_CONNECTIONS = {
     },
 }
 
-HAYSTACK_CONNECTIONS = {
-    'default': {
-        'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
-        'URL': 'http://127.0.0.1:8983/solr',
-        'INCLUDE_SPELLING': True,
-    },
-}
+#HAYSTACK_CONNECTIONS = {
+#    'default': {
+#        'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
+#        'URL': 'http://127.0.0.1:8983/solr',
+#        'INCLUDE_SPELLING': True,
+#    },
+#}
 
 OSCAR_INITIAL_ORDER_STATUS = 'Pending'
 OSCAR_INITIAL_LINE_STATUS = 'Pending'

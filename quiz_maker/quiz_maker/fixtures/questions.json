@@ -36,7 +36,7 @@
     "model": "catalogue.productcategory", 
     "fields": {
         "category": 1, 
-        "product": 5
+        "product": 2
     }
 },
 {
@@ -44,7 +44,7 @@
     "model": "catalogue.productcategory", 
     "fields": {
         "category": 1, 
-        "product": 8
+        "product": 3
     }
 },
 {

@@ -1,1 +1,1 @@
-default_app_config = 'oscar.apps.catalogue.reviews.apps.CatalogueReviewsConfig'
+default_app_config = 'quiz_maker.apps.catalogue.reviews.apps.CatalogueReviewsConfig'
