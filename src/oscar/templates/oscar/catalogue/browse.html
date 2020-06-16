@@ -96,7 +96,7 @@
             <div>
                 <ol class="row">
                     {% for product in products %}
-                        <li>{% render_product product %}</li>
+		    {% render_product product forloop.counter %}
                     {% endfor %}
                 </ol>
                 {% include "oscar/partials/pagination.html" %}

@@ -5,7 +5,7 @@ register = template.Library()
 
 
 @register.simple_tag(takes_context=True)
-def render_product(context, product):
+def render_product(context, product, index):
     """
     Render a product snippet as you would see in a browsing display.
 
@@ -27,4 +27,5 @@ def render_product(context, product):
 
     # Ensure the passed product is in the context as 'product'
     context['product'] = product
+    context['index'] = index
     return template_.render(context)

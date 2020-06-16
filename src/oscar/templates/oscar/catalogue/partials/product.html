@@ -7,12 +7,21 @@
 {% block product %}
 <h3 class="product_pod">
     {% block product_title %}
-        <li><a href="{{ product.get_absolute_url }}">{{ product.get_question }}</a></li>
-        {% for answer in product.get_answers %}
-        <li>
-            {{ answer }}
-        </li>
-        {% endfor %}
+     <div class="row">
+	     <div class="col-sm-1">
+		     <form method="POST" action="?">
+			     <p><input type="checkbox" name="selected_ques" value=""><em></em></p>
+		     </form>
+	     </div>
+	     <div class="col-sm-11">
+		     {{ index }}. {{ product.get_question }}
+		     {% for answer in product.get_answers %}
+		     <li>
+			     {{ answer }}
+		     </li>
+		     {% endfor %}
+	     </div>
+     </div> 
     {% endblock %}
 
 </h3>
