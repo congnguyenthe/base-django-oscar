@@ -1,0 +1,14 @@
+Front-end:
+  + Replace Cart Total by Total Questions
+  + Add Done button to finish creating test
+  + Remove drop-down button in View Cart. Direct click to show created quiz in cart.
+  + Remove Browse Store dropdown button. Replace by list of available quiz categories: English, Japanese, IT
+  + Remove search box in the row of Browse Store
+  + Remove Home/All question, Show Result for in the left column, just show the sub-categories only
+  + Remove All question, xxx results in the main window, just display the list of questions
+  + Change the OSCAR to TEST MAKER
+
+Back-end:
+  + Change catalogue urls to create a new composite product (quiz)
+  + Add selected questions into the creating composite product
+  + Show creating test in the cart
