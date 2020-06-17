@@ -5,25 +5,17 @@
 {% load product_tags %}
 {% load i18n %}
 
-{% block title %}
-    {% if summary %}{{ summary }} |{% endif %} {{ block.super }}
-{% endblock %}
-
-{% block headertext %}{{ summary }}{% endblock %}
-
 {% block breadcrumbs %}
     <ul class="breadcrumb">
         <li>
             <a href="{{ homepage_url }}">{% trans "Home" %}</a>
         </li>
-        <li class="active">{{ summary }}</li>
     </ul>
 {% endblock breadcrumbs %}
 
 {% block column_left %}
     {% category_tree as tree_categories %}
     {% if tree_categories %}
-        <h4>{% trans "Show results for" %}</h4>
         <div class="side_categories">
             <ul class="nav nav-list">
                 {% for tree_category in tree_categories %}
@@ -45,7 +37,6 @@
         </div>
     {% endif %}
     {% if has_facets %}
-        <h4>{% trans "Refine by" %}</h4>
         <div class="side_categories">
             {% for field, data in facet_data.items %}
                 {% if data.results %}
@@ -66,19 +57,6 @@
         <input type="hidden" name="q" value="{{ search_form.q.value|default_if_none:"" }}" />
 
         {% if paginator.count %}
-            {% if paginator.num_pages > 1 %}
-                {% blocktrans with start=page_obj.start_index end=page_obj.end_index count num_results=paginator.count %}
-                    <strong>{{ num_results }}</strong> result - showing <strong>{{ start }}</strong> to <strong>{{ end }}</strong>.
-                {% plural %}
-                    <strong>{{ num_results }}</strong> results - showing <strong>{{ start }}</strong> to <strong>{{ end }}</strong>.
-                {% endblocktrans %}
-            {% else %}
-                {% blocktrans count num_results=paginator.count %}
-                    <strong>{{ num_results }}</strong> result.
-                {% plural %}
-                    <strong>{{ num_results }}</strong> results.
-                {% endblocktrans %}
-            {% endif %}
             {% if form %}
                 <div class="pull-right">
                     {% include "oscar/partials/form_field.html" with field=form.sort_by %}

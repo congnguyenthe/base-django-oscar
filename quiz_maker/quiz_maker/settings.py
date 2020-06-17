@@ -28,6 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+OSCAR_SHOP_NAME="Test Maker"
 
 # Application definition
 
