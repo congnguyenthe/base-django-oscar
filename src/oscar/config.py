@@ -24,6 +24,8 @@ class Shop(OscarConfig):
         self.dashboard_app = apps.get_app_config('dashboard')
         self.offer_app = apps.get_app_config('offer')
 
+        self.homepage_app = apps.get_app_config('homepage')
+
         self.password_reset_form = get_class('customer.forms', 'PasswordResetForm')
         self.set_password_form = SetPasswordForm
 
@@ -33,7 +35,7 @@ class Shop(OscarConfig):
         from oscar.views.decorators import login_forbidden
 
         urls = [
-            url(r'^$', RedirectView.as_view(url=reverse_lazy('catalogue:index')), name='home'),
+            url(r'^$', self.homepage_app.urls),
             url(r'^catalogue/', self.catalogue_app.urls),
             url(r'^basket/', self.basket_app.urls),
             url(r'^checkout/', self.checkout_app.urls),
