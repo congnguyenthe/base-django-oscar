@@ -13,6 +13,7 @@ Product = get_model('catalogue', 'product')
 Category = get_model('catalogue', 'category')
 ProductAlert = get_model('customer', 'ProductAlert')
 ProductAlertForm = get_class('customer.forms', 'ProductAlertForm')
+ProductClass = get_class('catalogue.models', 'ProductClass')
 get_product_search_handler_class = get_class(
     'catalogue.search_handlers', 'get_product_search_handler_class')
 
@@ -199,3 +200,41 @@ class ProductCategoryView(TemplateView):
             self.context_object_name)
         context.update(search_context)
         return context
+
+
+class ProductCreateView(TemplateView):
+    """
+    Create a composite product
+    """
+    context_object_name = "products"
+    template_name = 'oscar/catalogue/browse.html'
+
+    def get(self, request, *args, **kwargs):
+        try:
+            self.search_handler = self.get_search_handler(
+                self.request.GET, request.get_full_path(), [])
+        except InvalidPage:
+            # Redirect to page one.
+            messages.error(request, _('The given page number was invalid.'))
+            return redirect('catalogue:index')
+        return super().get(request, *args, **kwargs)
+
+    def get_search_handler(self, *args, **kwargs):
+        return get_product_search_handler_class()(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        ctx = {}
+        pc, __ = ProductClass.objects.get_or_create(name="temp")
+        composite_product = Product()
+        composite_product.upc = ""
+        composite_product.title = ""
+        composite_product.description = ""
+        composite_product.product_class = pc
+        composite_product.slug = ""
+        composite_product.structure = "composite"
+        composite_product.save()
+        ctx['composite_product'] = composite_product
+        search_context = self.search_handler.get_search_context_data(
+            self.context_object_name)
+        ctx.update(search_context)
+        return ctx
