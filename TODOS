@@ -1,14 +1,25 @@
 Front-end:
+  + New view for catalogue
+    --> Show view for creating a new composite product
+    --> Refer to views.py in checkout
   + Replace Cart Total by Total Questions
-  + Add Done button to finish creating test
-  + Remove drop-down button in View Cart. Direct click to show created quiz in cart.
   + Remove Browse Store dropdown button. Replace by list of available quiz categories: English, Japanese, IT
-  + Remove search box in the row of Browse Store
-  + Remove Home/All question, Show Result for in the left column, just show the sub-categories only
-  + Remove All question, xxx results in the main window, just display the list of questions
-  + Change the OSCAR to TEST MAKER
+  + Remove drop-down button in View Cart. Direct click to show created quiz in cart.
+
+
+
+  + Remove search box in the row of Browse Store --> Done
+  + Remove Home/All question, Show Result for in the left column, just show the sub-categories only --> Done
+  + Add Done button to finish creating test --> Done
+  + Remove All question, xxx results in the main window, just display the list of questions --> Done
+  + Change the OSCAR to TEST MAKER --> Done
 
 Back-end:
-  + Change catalogue urls to create a new composite product (quiz)
   + Add selected questions into the creating composite product
+    --> Create new empty composite product
+    --> Checked boxes means corresponding questions should be added to the composite product
   + Show creating test in the cart
+
+
+
+  + Change catalogue urls to create a new composite product (quiz) --> Done
