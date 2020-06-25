@@ -2,7 +2,7 @@
 {% load i18n %}
 
 <div class="create_test pull-right hidden-xs">
-    <strong>{% trans "Total:" %}</strong>
-    <a class="btn btn-default" href="{{ product.get_absolute_url }}">{% trans "Done" %}</a>
-    <a class="btn btn-default" href="">{% trans "Cancel" %}</a>
+	<strong>{% trans "Total:" %} {{ product.get_itemlist|length }}</strong>
+	<a class="btn btn-default" href="">{% trans "Done" %}</a>
+	<a class="btn btn-default" href="">{% trans "Cancel" %}</a>
 </div>

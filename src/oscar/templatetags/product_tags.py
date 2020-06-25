@@ -29,3 +29,25 @@ def render_product(context, product, index):
     context['product'] = product
     context['index'] = index
     return template_.render(context)
+
+@register.simple_tag(takes_context=True)
+def render_product_composite(context, product):
+    """
+    Render a product snippet as you would see in a browsing display.
+
+    This templatetag looks for different templates depending on the UPC and
+    product class of the passed product.  This allows alternative templates to
+    be used for different product classes.
+    """
+    if not product:
+        # Search index is returning products that don't exist in the
+        # database...
+        return ''
+
+    names = ['oscar/partials/create_test.html']
+    template_ = select_template(names)
+    context = context.flatten()
+
+    # Ensure the passed product is in the context as 'product'
+    context['product'] = product
+    return template_.render(context)

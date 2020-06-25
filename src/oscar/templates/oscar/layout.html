@@ -24,7 +24,7 @@
             <div class="row">
                 {% include "oscar/partials/brand.html" %}
                 {# Mini-basket wrapped in a block so some templates can now display it #}
-                {% block create_test %}{% include "oscar/partials/create_test.html" %}{% endblock %}
+		{% block mini_basket %}{% include "oscar/partials/mini_basket.html" %}{% endblock %}
             </div>
         </div>
         {% block navigation %}
