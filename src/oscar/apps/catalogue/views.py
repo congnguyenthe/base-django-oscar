@@ -142,8 +142,11 @@ class CatalogueView(TemplateView):
     def get_context_data(self, **kwargs):
         ctx = {}
         ctx['summary'] = _("All questions")
+        data = self.search_handler.get_queryset()
+        data = data.filter(structure='standalone')
         search_context = self.search_handler.get_search_context_data(
             self.context_object_name)
+        search_context[self.context_object_name] = data
         ctx.update(search_context)
         return ctx
 
@@ -196,8 +199,11 @@ class ProductCategoryView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['category'] = self.category
+        data = self.search_handler.get_queryset()
+        data = data.filter(structure='standalone')
         search_context = self.search_handler.get_search_context_data(
             self.context_object_name)
+        search_context[self.context_object_name] = data
         context.update(search_context)
         return context
 
@@ -234,7 +240,10 @@ class ProductCreateView(TemplateView):
         composite_product.structure = "composite"
         composite_product.save()
         ctx['composite_product'] = composite_product
+        data = self.search_handler.get_queryset()
+        data = data.filter(structure='standalone')
         search_context = self.search_handler.get_search_context_data(
             self.context_object_name)
+        search_context[self.context_object_name] = data
         ctx.update(search_context)
         return ctx
