@@ -4,9 +4,9 @@ from django.http import Http404, HttpResponsePermanentRedirect
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.http import urlquote
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import DetailView, TemplateView
+from django.views.generic import DetailView, TemplateView, View
 
-from oscar.apps.catalogue.signals import product_viewed
+from oscar.apps.catalogue.signals import product_viewed, product_updated
 from oscar.core.loading import get_class, get_model
 
 Product = get_model('catalogue', 'product')
@@ -213,7 +213,7 @@ class ProductCreateView(TemplateView):
     Create a composite product
     """
     context_object_name = "products"
-    template_name = 'oscar/catalogue/create.html'
+    template_name = 'oscar/catalogue/create2.html'
 
     def get(self, request, *args, **kwargs):
         try:
@@ -247,3 +247,11 @@ class ProductCreateView(TemplateView):
         search_context[self.context_object_name] = data
         ctx.update(search_context)
         return ctx
+
+class ProductUpdateView(View):
+    product_model = get_model('catalogue', 'product')
+    update_signal = product_updated
+    http_method_names = ['post']
+
+    def post(self, request, *args, **kwargs):
+        print("DEOGIIIIIIIIIIIIIIIIII")

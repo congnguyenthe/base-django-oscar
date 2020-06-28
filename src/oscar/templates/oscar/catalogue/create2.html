@@ -1,6 +1,9 @@
 {% extends "oscar/base.html" %}
 {% load staticfiles %}
-
+{% load basket_tags %}
+{% load category_tags %}
+{% load product_tags %}
+{% load i18n %}
 {% block styles %}
     {% comment %}
         If you are developing Oscar's CSS, or overriding Oscar's CSS
@@ -52,7 +55,7 @@
                                 <div>
                                     <ol class="row">
                                         {% for product in products %}
-                                {% render_product product forloop.counter %}
+                		                {% render_product product forloop.counter %}
                                         {% endfor %}
                                     </ol>
                                     {% include "oscar/partials/pagination.html" %}
@@ -97,4 +100,9 @@
 {% block onbodyload %}
     {{ block.super }}
     oscar.init();
+    oscar.search.init();
+    var options = {
+        'catalogueURL': '{% url 'catalogue:index' %}'
+    };
+    oscar.catalogue.init(options);
 {% endblock %}

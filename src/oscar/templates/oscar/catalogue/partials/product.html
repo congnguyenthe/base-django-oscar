@@ -9,9 +9,7 @@
     {% block product_title %}
      <div class="row">
 	     <div class="col-sm-1">
-		     <form method="POST" action="?">
-			     <p><input type="checkbox" name="selected_ques" value=""><em></em></p>
-		     </form>
+		     <input class="checked_ques" id="selected_question" type="checkbox" name="selected_ques" value=""><em></em>
 	     </div>
 	     <div class="col-sm-11">
 		     {{ index }}. {{ product.get_question }}

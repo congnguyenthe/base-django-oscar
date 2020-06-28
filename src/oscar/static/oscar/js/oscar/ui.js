@@ -58,6 +58,22 @@ var oscar = (function(o, $) {
         }
     };
 
+    // Trigger adding new question when boxes are checked
+    o.catalogue = {
+        init: function(options) {
+		if (typeof options == 'undefined') {
+			options = {'catalogueURL': document.URL};
+		}
+		o.catalogue.url = options.catalogueURL || document.URL;
+		$('.checked_ques').click(function() {
+			//console.log("DKMMMMMMMMMMMMMMMMM");
+			if(this.checked) {
+				console.log("DKMMMMMMMMMMMMMMMMM ");
+			}
+		});
+	}
+    };
+
     // Site-wide forms events
     o.forms = {
         init: function() {
