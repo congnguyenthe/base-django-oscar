@@ -1,13 +1,25 @@
++ Features:
+  + Provide sample layout
+
 Front-end:
-  + New view for catalogue
-    --> Show view for creating a new composite product
-    --> Refer to views.py in checkout
+  + Change the template to create submit form
   + Replace Cart Total by Total Questions
+    --> Should not use partial/create_test.html in the layout.html
+      --> Use partial/create_test.html in the browse.html --> Done
+        --> Override the block layout in the layout.html
+          --> Fix left-col
+      --> Add question to quiz when the box is checked
+        --> js is implemented in ui.js
+          --> Add js code to trigger url when clicked
+        --> Provide new url to add selected question to the item_list
+        --> Trigger the update of total question after adding a new question
   + Remove Browse Store dropdown button. Replace by list of available quiz categories: English, Japanese, IT
   + Remove drop-down button in View Cart. Direct click to show created quiz in cart.
 
 
-
+  + New view for catalogue --> Done
+    --> Show view for creating a new composite product --> Done
+    --> Refer to views.py in checkout --> Done
   + Remove search box in the row of Browse Store --> Done
   + Remove Home/All question, Show Result for in the left column, just show the sub-categories only --> Done
   + Add Done button to finish creating test --> Done
