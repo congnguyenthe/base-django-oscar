@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.utils.http import urlquote
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView, TemplateView, View
+from django.http import JsonResponse
 
 from oscar.apps.catalogue.signals import product_viewed, product_updated
 from oscar.core.loading import get_class, get_model
@@ -248,10 +249,10 @@ class ProductCreateView(TemplateView):
         ctx.update(search_context)
         return ctx
 
-class ProductUpdateView(View):
+class ProductUpdateView(DetailView):
     product_model = get_model('catalogue', 'product')
     update_signal = product_updated
     http_method_names = ['post']
 
     def post(self, request, *args, **kwargs):
-        print("DEOGIIIIIIIIIIIIIIIIII")
+        return JsonResponse({'result':'ok'})

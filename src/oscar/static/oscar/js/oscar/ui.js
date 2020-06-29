@@ -58,6 +58,23 @@ var oscar = (function(o, $) {
         }
     };
 
+    o.getCsrfToken = function() {
+        // Extract CSRF token from cookies
+        var cookies = document.cookie.split(';');
+        var csrf_token = null;
+        $.each(cookies, function(index, cookie) {
+            var cookieParts = $.trim(cookie).split('=');
+            if (cookieParts[0] == 'csrftoken') {
+                csrf_token = cookieParts[1];
+            }
+        });
+        // Extract from cookies fails for HTML-Only cookies
+        if (! csrf_token) {
+            csrf_token = $(document.forms.valueOf()).find('[name="csrfmiddlewaretoken"]')[0].value;
+        }
+        return csrf_token;
+    };
+
     // Trigger adding new question when boxes are checked
     o.catalogue = {
         init: function(options) {
@@ -66,9 +83,27 @@ var oscar = (function(o, $) {
 		}
 		o.catalogue.url = options.catalogueURL || document.URL;
 		$('.checked_ques').click(function() {
-			//console.log("DKMMMMMMMMMMMMMMMMM");
 			if(this.checked) {
-				console.log("DKMMMMMMMMMMMMMMMMM ");
+                // console.log($(this).val());
+                console.log(o.catalogue.url)
+                var csrf = o.getCsrfToken();
+                    $.ajax({
+                        type: 'POST',
+                        data: JSON.stringify($(this).val()),
+                        dataType: "json",
+                        contentType : 'application/json',
+                        url: o.catalogue.url,
+                        beforeSend: function(xhr) {
+                            xhr.setRequestHeader("X-CSRFToken", csrf);
+                        },
+                        success: function (data) {
+                            console.log(data, 'SUCCESS');
+                            // location.reload();
+                        },
+                        error: function (data) {
+                            console.log('ERROR', data);
+                        }
+                    });
 			}
 		});
 	}

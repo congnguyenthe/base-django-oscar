@@ -30,10 +30,10 @@ class CatalogueOnlyConfig(OscarConfig):
         urls = super().get_urls()
         urls += [
             url(r'^$', self.catalogue_view.as_view(), name='index'),
-            url(r'^category/create$',
+            url(r'^category/create/$',
                 self.product_create_view.as_view(), name='create'),
-            url(r'^category/update$',
-                self.product_create_view.as_view(), name='update'),
+            url(r'^category/update/$',
+                self.product_update_view.as_view(), name='update'),
             url(r'^(?P<product_slug>[\w-]*)_(?P<pk>\d+)/$',
                 self.detail_view.as_view(), name='detail'),
             url(r'^category/(?P<category_slug>[\w-]+(/[\w-]+)*)_(?P<pk>\d+)/$',
