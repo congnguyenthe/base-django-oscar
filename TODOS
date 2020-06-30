@@ -1,22 +1,36 @@
-+ Features:
-  + Provide sample layout
+* REQ01: Add more questions with dynamic category structure
+* REQ02: Show checkboxes next to categories to enable/disable questions belongs to that category
+* REQ03: Replace Done/Cancel by Next button to indicate the process of creating test/quiz
+* REQ04: Show questions in docx/pdf template
+* REQ05: Create docx/pdf file and send link back to client to download test/quiz
+
+Features:
+  + Provide sample layout for test/quiz
+    --> At least with predefined template for title/date...
+    --> Otherwise have to export to word so users can modify
+  + Users can create questions of their own and can determine to share it or not
 
 Front-end:
-  + Change the template to create submit form
-  + Replace Cart Total by Total Questions
+  + Change the Done/Cancel button to Next/Back
+  + Add checkboxes to select questions based on categories
+  + Remove Browse Store dropdown button. Replace by list of available quiz categories: English, Japanese, IT
+  + Remove drop-down button in View Cart. Direct click to show created quiz in cart.
+  + List functions which required login
+  + Homepage for each user???
+
+  + Replace Cart Total by Total Questions --> Done
     --> Should not use partial/create_test.html in the layout.html
       --> Use partial/create_test.html in the browse.html --> Done
         --> Override the block layout in the layout.html
           --> Fix left-col
-      --> Add question to quiz when the box is checked
-        --> js is implemented in ui.js
-          --> Add js code to trigger url when clicked
+      --> Add question to quiz when the box is checked --> Done
         --> Provide new url to add selected question to the item_list
         --> Trigger the update of total question after adding a new question
-  + Remove Browse Store dropdown button. Replace by list of available quiz categories: English, Japanese, IT
-  + Remove drop-down button in View Cart. Direct click to show created quiz in cart.
-
-
+          --> Change the template to create submit form
+          --> Use csrf to trigger without form
+            --> Get data from the template
+        --> js is implemented in ui.js --> Done
+          --> Add js code to trigger url when clicked
   + New view for catalogue --> Done
     --> Show view for creating a new composite product --> Done
     --> Refer to views.py in checkout --> Done
@@ -27,11 +41,19 @@ Front-end:
   + Change the OSCAR to TEST MAKER --> Done
 
 Back-end:
-  + Add selected questions into the creating composite product
+  + Query question based on categories
+  + Tracking total questions/test/quiz created by users
+  + URL to remove the composite question
+  + URL to export the composite question
+    --> https://github.com/elapouya/python-docx-template
+    --> https://stackoverflow.com/questions/54928806/python-populate-a-docx-table-with-docxtemplate
+    --> https://stackoverflow.com/questions/30701631/how-to-use-jinja2-as-a-templating-engine-in-django-1-8
+    --> https://niwinz.github.io/django-jinja/latest/
+  + Show creating test in the cart
+  + Generate data and import to the database
+
+
+  + Add selected questions into the creating composite product --> Done
     --> Create new empty composite product
     --> Checked boxes means corresponding questions should be added to the composite product
-  + Show creating test in the cart
-
-
-
   + Change catalogue urls to create a new composite product (quiz) --> Done
