@@ -1,0 +1,43 @@
+=======================================================================
+DATABASE
+=======================================================================
+* Login to database
+$ sudo -u postgres psql
+
+* Drop database
+postgres=# drop database oscar;
+
+* Create database
+postgres=# create database oscar;
+
+* Grant all permission
+postgres=# grant all privileges on database oscar to eastman;
+
+* Connect to oscar database
+postgres=# \c oscar
+
+* Show database relations
+oscar=# \dt
+
+* Select from table
+oscar=# select * from catalogue_product;
+
+
+=======================================================================
+BACK END
+=======================================================================
+* Make migrations if model changed
+$ ./manage.py makemigrations
+
+* Migrate after make migration to create tables
+$ ./manage.py migrate
+
+* Load data from fixture
+$ ./manage.py loaddata quiz_maker/fixtures/questions.json
+
+* Run server with listen on 0.0.0.0
+$ ./manage.py runserver 0.0.0.0:8000
+
+=======================================================================
+FRONT END
+=======================================================================
