@@ -7,6 +7,8 @@ from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView, TemplateView, View
 from django.http import JsonResponse
 
+import json
+
 from oscar.apps.catalogue.signals import product_viewed, product_updated
 from oscar.core.loading import get_class, get_model
 
@@ -238,6 +240,7 @@ class ProductCreateView(TemplateView):
         composite_product.description = ""
         composite_product.product_class = pc
         composite_product.slug = ""
+        composite_product.item_list = []
         composite_product.structure = "composite"
         composite_product.save()
         ctx['composite_product'] = composite_product
@@ -250,9 +253,10 @@ class ProductCreateView(TemplateView):
         return ctx
 
 class ProductUpdateView(DetailView):
-    product_model = get_model('catalogue', 'product')
-    update_signal = product_updated
-    http_method_names = ['post']
 
     def post(self, request, *args, **kwargs):
+        payload = json.loads(request.body)
+        cp, __ = Product.objects.get_or_create(pk=payload["composite_pk"])
+        cp.update_itemlist([payload["pk"]], payload["action"])
+        cp.save()
         return JsonResponse({'result':'ok'})

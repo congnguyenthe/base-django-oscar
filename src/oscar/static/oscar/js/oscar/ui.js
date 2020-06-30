@@ -82,28 +82,67 @@ var oscar = (function(o, $) {
 			options = {'catalogueURL': document.URL};
 		}
 		o.catalogue.url = options.catalogueURL || document.URL;
+		o.catalogue.pk = options.composite || document.URL;
 		$('.checked_ques').click(function() {
 			if(this.checked) {
-                // console.log($(this).val());
-                console.log(o.catalogue.url)
-                var csrf = o.getCsrfToken();
-                    $.ajax({
-                        type: 'POST',
-                        data: JSON.stringify($(this).val()),
-                        dataType: "json",
-                        contentType : 'application/json',
-                        url: o.catalogue.url,
-                        beforeSend: function(xhr) {
-                            xhr.setRequestHeader("X-CSRFToken", csrf);
-                        },
-                        success: function (data) {
-                            console.log(data, 'SUCCESS');
-                            // location.reload();
-                        },
-                        error: function (data) {
-                            console.log('ERROR', data);
-                        }
-                    });
+		                // console.log($(this).val());
+				var obj = {}
+				obj['action'] = "add"
+				obj['pk'] = $(this).val()
+				obj['composite_pk'] = o.catalogue.pk
+		                var csrf = o.getCsrfToken();
+                		    $.ajax({
+		                        type: 'POST',
+                		        data: JSON.stringify(obj),
+		                        dataType: "json",
+                		        contentType : 'application/json',
+		                        url: o.catalogue.url,
+                		        beforeSend: function(xhr) {
+		                            xhr.setRequestHeader("X-CSRFToken", csrf);
+                		        },
+		                        success: function (data) {
+	        	     		        // console.log(data, 'SUCCESS');
+		        	                // location.reload();
+						var text = $('.totalQues').text()
+						console.log(text)
+						var number = parseInt(text, 10) + 1
+						console.log(number)
+						document.getElementById("totalQuesNum").textContent = number
+		                        },
+                        		error: function (data) {
+		                            console.log('ERROR', data);
+                		        }
+		                    });
+			}
+			else {
+				var obj = {}
+				obj['action'] = "remove"
+				obj['pk'] = $(this).val()
+				obj['composite_pk'] = o.catalogue.pk
+		                var csrf = o.getCsrfToken();
+                		    $.ajax({
+		                        type: 'POST',
+					// data: JSON.stringify($(this).val()),
+                		        data: JSON.stringify(obj),
+		                        dataType: "json",
+                		        contentType : 'application/json',
+		                        url: o.catalogue.url,
+                		        beforeSend: function(xhr) {
+		                            xhr.setRequestHeader("X-CSRFToken", csrf);
+                		        },
+		                        success: function (data) {
+	        	     		        // console.log(data, 'SUCCESS');
+		        	                // location.reload();
+						var text = $('.totalQues').text()
+						console.log(text)
+						var number = parseInt(text, 10) - 1
+						console.log(number)
+						document.getElementById("totalQuesNum").textContent = number
+		                        },
+                        		error: function (data) {
+		                            console.log('ERROR', data);
+                		        }
+		                    });
 			}
 		});
 	}

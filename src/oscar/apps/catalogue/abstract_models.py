@@ -595,6 +595,19 @@ class AbstractProduct(models.Model):
         return itemlist
     get_itemlist.short_description = pgettext_lazy("ItemList", "ItemList")
 
+    def update_itemlist(self, items, action):
+        """
+        Update item list of the composite product
+        """
+        if action == "add":
+            if not self.item_list:
+                self.item_list = []
+            for item in items:
+                self.item_list.append(item)
+        else:
+            self.item_list = [x for x in self.item_list if x not in items]
+    update_itemlist.short_description = pgettext_lazy("UpdateItemList", "UpdateItemList")
+
     def get_correctanswer(self):
         """
         Return a product's correct answer
