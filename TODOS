@@ -42,6 +42,26 @@ Front-end:
 
 Back-end:
   + Query question based on categories
+    --> Grammar only
+      --> English -> Grade            -> 8      | -> Word Order
+                                      -> 9      | -> Articles
+                                      -> 10     | -> Present Tense
+                                      -> 11     | -> Past Tense
+                                      -> 12     | -> Future Tense
+                  -> Level            -> A2     | -> Passive Voice
+                                      -> A1     | -> Verbs
+                                      -> B2     | -> Nouns
+                                      -> B1     | -> Pronouns
+                                      -> C2     | -> Adjectives
+                                      -> C1     | -> Adverbs
+                  -> Certificate      -> IELTS  | -> Relative Clauses
+                                      -> TOEIC  | -> Conditional
+                                      -> TOEFL  | -> Reported Speech
+    --> English will be ProductClass
+    --> Grade, Level, Testing System will be ProductCategory
+      --> 8,9,10,11,12 will be child of Grade
+      --> A2, A1, B2, B1, C2, C1 will be child of Level
+      --> IELTS, TOEIC, TOEFL will be child of Certificate
   + Tracking total questions/test/quiz created by users
   + URL to remove the composite question
   + URL to export the composite question
