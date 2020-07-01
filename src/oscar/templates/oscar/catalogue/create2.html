@@ -43,7 +43,37 @@
             <div class="row">
 
                 <aside class="sidebar col-sm-4 col-md-3">
-                    {% block column_left %}{% endblock %}
+                    {% category_tree as tree_categories %}
+                    {% if tree_categories %}
+                        <div class="side_categories">
+                            <ul class="nav nav-list">
+                                {% for tree_category in tree_categories %}
+                                    <li>
+                                        <a href="{{ tree_category.url }}">
+                                            {% if tree_category.pk == category.pk %}
+                                                <strong>{{ tree_category.name }}</strong>
+                                            {% else %}
+                                                {{ tree_category.name }}
+                                            {% endif %}
+                                        </a>
+
+                                        {% if tree_category.has_children %}<ul>{% else %}</li>{% endif %}
+                                        {% for n in tree_category.num_to_close %}
+                                            </ul></li>
+                                        {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                    {% if has_facets %}
+                        <div class="side_categories">
+                            {% for field, data in facet_data.items %}
+                                {% if data.results %}
+                                    {% include 'oscar/search/partials/facet.html' with name=data.name items=data.results %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </aside>
 
                 <div class="col-sm-8 col-md-9">
