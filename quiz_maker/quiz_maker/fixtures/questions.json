@@ -6,23 +6,276 @@
         "track_stock": false,
         "options": [],
         "requires_shipping": false,
-        "name": "Grammar",
-        "slug": "grammar"
+        "name": "English",
+        "slug": "english"
+    }
+},
+{
+    "pk": 2,
+    "model": "catalogue.productclass",
+    "fields": {
+        "track_stock": false,
+        "options": [],
+        "requires_shipping": false,
+        "name": "Japanese",
+        "slug": "japanese"
+    }
+},
+{
+    "pk": 3,
+    "model": "catalogue.productclass",
+    "fields": {
+        "track_stock": false,
+        "options": [],
+        "requires_shipping": false,
+        "name": "IT",
+        "slug": "it"
     }
 },
 {
     "pk": 1,
     "model": "catalogue.category",
     "fields": {
-        "description": "", 
+        "description": "Grade",
         "numchild": 0,
-        "slug": "english",
+        "slug": "grade",
         "depth": 1,
         "path": "0001",
         "image": "",
-        "name": "English"
+        "name": "Grade"
     }
 },
+{
+    "pk": 2,
+    "model": "catalogue.category",
+    "fields": {
+        "description": "Level", 
+        "numchild": 0,
+        "slug": "level",
+        "depth": 1,
+        "path": "0002",
+        "image": "",
+        "name": "Level"
+    }
+},
+{
+    "pk": 3,
+    "model": "catalogue.category",
+    "fields": {
+        "description": "Certificate", 
+        "numchild": 0,
+        "slug": "certificate",
+        "depth": 1,
+        "path": "0003",
+        "image": "",
+        "name": "Certificate"
+    }
+},
+
+
+{
+    "pk": 1,
+    "model": "catalogue.attributeoptiongroup",
+    "fields": {
+        "name": "Word Order"
+    }
+},
+{
+    "pk": 2,
+    "model": "catalogue.attributeoptiongroup",
+    "fields": {
+        "name": "Articles"
+    }
+},
+{
+    "pk": 3,
+    "model": "catalogue.attributeoptiongroup",
+    "fields": {
+        "name": "Tenses"
+    }
+},
+{
+    "pk": 4,
+    "model": "catalogue.attributeoptiongroup",
+    "fields": {
+        "name": "Passive Voice"
+    }
+},
+{
+    "pk": 5,
+    "model": "catalogue.attributeoptiongroup",
+    "fields": {
+        "name": "Verbs"
+    }
+},
+{
+    "pk": 6,
+    "model": "catalogue.attributeoptiongroup",
+    "fields": {
+        "name": "Nouns"
+    }
+},
+{
+    "pk": 7,
+    "model": "catalogue.attributeoptiongroup",
+    "fields": {
+        "name": "Adjectives"
+    }
+},
+{
+    "pk": 8,
+    "model": "catalogue.attributeoptiongroup",
+    "fields": {
+        "name": "Adverbs"
+    }
+},
+{
+    "pk": 9,
+    "model": "catalogue.attributeoptiongroup",
+    "fields": {
+        "name": "Relative Clauses"
+    }
+},
+{
+    "pk": 10,
+    "model": "catalogue.attributeoptiongroup",
+    "fields": {
+        "name": "Conditional"
+    }
+},
+{
+    "pk": 11,
+    "model": "catalogue.attributeoptiongroup",
+    "fields": {
+        "name": "Reported Speech"
+    }
+},
+
+
+{
+    "pk": 1,
+    "model": "catalogue.productattribute",
+    "fields": {
+        "product_class": 1,
+        "name": "Word Order",
+        "code": "wordorder",
+        "type": "option",
+        "option_group": 1
+    }
+},
+{
+    "pk": 2,
+    "model": "catalogue.productattribute",
+    "fields": {
+        "product_class": 1,
+        "name": "Articles",
+        "code": "articles",
+        "type": "option",
+        "option_group": 2
+    }
+},
+{
+    "pk": 3,
+    "model": "catalogue.productattribute",
+    "fields": {
+        "product_class": 1,
+        "name": "Tenses",
+        "code": "tense",
+        "type": "option",
+        "option_group": 3
+    }
+},
+{
+    "pk": 4,
+    "model": "catalogue.productattribute",
+    "fields": {
+        "product_class": 1,
+        "name": "Passive Voice",
+        "code": "passivevoice",
+        "type": "option",
+        "option_group": 4
+    }
+},
+{
+    "pk": 5,
+    "model": "catalogue.productattribute",
+    "fields": {
+        "product_class": 1,
+        "name": "Verbs",
+        "code": "verbs",
+        "type": "option",
+        "option_group": 5
+    }
+},
+{
+    "pk": 6,
+    "model": "catalogue.productattribute",
+    "fields": {
+        "product_class": 1,
+        "name": "Nouns",
+        "code": "nouns",
+        "type": "option",
+        "option_group": 6
+    }
+},
+{
+    "pk": 7,
+    "model": "catalogue.productattribute",
+    "fields": {
+        "product_class": 1,
+        "name": "Adjectives",
+        "code": "adjectives",
+        "type": "option",
+        "option_group": 7
+    }
+},
+{
+    "pk": 8,
+    "model": "catalogue.productattribute",
+    "fields": {
+        "product_class": 1,
+        "name": "Adverbs",
+        "code": "adverbs",
+        "type": "option",
+        "option_group": 8
+    }
+},
+{
+    "pk": 9,
+    "model": "catalogue.productattribute",
+    "fields": {
+        "product_class": 1,
+        "name": "Relative Clauses",
+        "code": "relativeclauses",
+        "type": "option",
+        "option_group": 9
+    }
+},
+{
+    "pk": 10,
+    "model": "catalogue.productattribute",
+    "fields": {
+        "product_class": 1,
+        "name": "Conditional",
+        "code": "conditional",
+        "type": "option",
+        "option_group": 10
+    }
+},
+{
+    "pk": 11,
+    "model": "catalogue.productattribute",
+    "fields": {
+        "product_class": 1,
+        "name": "Reported Speech",
+        "code": "reportedspeech",
+        "type": "option",
+        "option_group": 11
+    }
+},
+
+
+
 {
     "pk": 1, 
     "model": "catalogue.productcategory", 
@@ -35,7 +288,7 @@
     "pk": 2, 
     "model": "catalogue.productcategory", 
     "fields": {
-        "category": 1, 
+        "category": 2, 
         "product": 2
     }
 },
@@ -43,10 +296,76 @@
     "pk": 3, 
     "model": "catalogue.productcategory", 
     "fields": {
-        "category": 1, 
+        "category": 3, 
         "product": 3
     }
 },
+{
+    "pk": 4, 
+    "model": "catalogue.productcategory", 
+    "fields": {
+        "category": 1, 
+        "product": 4
+    }
+},
+{
+    "pk": 5, 
+    "model": "catalogue.productcategory", 
+    "fields": {
+        "category": 2,
+        "product": 5
+    }
+},
+{
+    "pk": 6,
+    "model": "catalogue.productcategory", 
+    "fields": {
+        "category": 3, 
+        "product": 6
+    }
+},
+{
+    "pk": 7,
+    "model": "catalogue.productcategory", 
+    "fields": {
+        "category": 1, 
+        "product": 7
+    }
+},
+{
+    "pk": 8,
+    "model": "catalogue.productcategory", 
+    "fields": {
+        "category": 2,
+        "product": 8
+    }
+},
+{
+    "pk": 9,
+    "model": "catalogue.productcategory", 
+    "fields": {
+        "category": 3,
+        "product": 9
+    }
+},
+{
+    "pk": 10,
+    "model": "catalogue.productcategory", 
+    "fields": {
+        "category": 1,
+        "product": 10
+    }
+},
+{
+    "pk": 11,
+    "model": "catalogue.productcategory", 
+    "fields": {
+        "category": 2,
+        "product": 11
+    }
+},
+
+
 {
     "pk": 1, 
     "model": "catalogue.product", 
@@ -58,7 +377,8 @@
         "date_updated": "2013-12-12T16:33:57.426Z", 
         "upc": "", 
         "is_discountable": true, 
-        "date_created": "2013-12-12T16:33:57.426Z", 
+        "date_created": "2013-12-12T16:33:57.426Z",
+        "attributes": [1],
         "product_options": [], 
         "slug": "question", 
         "product_class": 1,
@@ -80,10 +400,11 @@
         "date_updated": "2013-12-12T16:34:14.023Z", 
         "upc": "", 
         "is_discountable": true, 
-        "date_created": "2013-12-12T16:34:14.023Z", 
+        "date_created": "2013-12-12T16:34:14.023Z",
+        "attributes": [2],
         "product_options": [], 
         "slug": "question", 
-        "product_class": 1,
+        "product_class": 2,
         "structure": "standalone",
         "question": "The woman, who has been missing for 10 days, is believed _____.",
         "answer": ["A.to be abducted", "B.to be abducting", "C.to have been abducted", "D.to have been abducting"],
@@ -102,11 +423,188 @@
         "upc": "", 
         "is_discountable": true, 
         "date_created": "2013-12-12T16:34:32.170Z", 
+        "attributes": [3],
+        "product_options": [], 
+        "slug": "question", 
+        "product_class": 3,
+        "structure": "standalone",
+        "question": "I wish I _____ those words. But now it's too late.",
+        "answer": ["A.not having said", "B.have never said", "C.never said", "D.had never said"],
+        "correct_answer": "B"
+    }
+},
+{
+    "pk": 4, 
+    "model": "catalogue.product", 
+    "fields": {
+        "rating": null, 
+        "description": "", 
+        "parent": null, 
+        "title": "Question", 
+        "date_updated": "2013-12-12T16:34:32.170Z", 
+        "upc": "", 
+        "is_discountable": true, 
+        "date_created": "2013-12-12T16:34:32.170Z", 
+        "attributes": [4],
         "product_options": [], 
         "slug": "question", 
         "product_class": 1,
         "structure": "standalone",
-        "question": "I wish I _____ those words. But now it's too late.",
+        "question": "Whiskey gets better and better as it ______.",
+        "answer": ["A.not having said", "B.have never said", "C.never said", "D.had never said"],
+        "correct_answer": "B"
+    }
+},
+{
+    "pk": 5,
+    "model": "catalogue.product", 
+    "fields": {
+        "rating": null, 
+        "description": "", 
+        "parent": null, 
+        "title": "Question", 
+        "date_updated": "2013-12-12T16:34:32.170Z", 
+        "upc": "", 
+        "is_discountable": true, 
+        "date_created": "2013-12-12T16:34:32.170Z", 
+        "attributes": [5],
+        "product_options": [], 
+        "slug": "question", 
+        "product_class": 2,
+        "structure": "standalone",
+        "question": "______? There is just a little.",
+        "answer": ["A.not having said", "B.have never said", "C.never said", "D.had never said"],
+        "correct_answer": "B"
+    }
+},
+{
+    "pk": 6,
+    "model": "catalogue.product", 
+    "fields": {
+        "rating": null, 
+        "description": "", 
+        "parent": null, 
+        "title": "Question", 
+        "date_updated": "2013-12-12T16:34:32.170Z", 
+        "upc": "", 
+        "is_discountable": true, 
+        "date_created": "2013-12-12T16:34:32.170Z", 
+        "attributes": [6],
+        "product_options": [], 
+        "slug": "question", 
+        "product_class": 3,
+        "structure": "standalone",
+        "question": " ______ my wife sleeps, I watch TV late at night.",
+        "answer": ["A.not having said", "B.have never said", "C.never said", "D.had never said"],
+        "correct_answer": "B"
+    }
+},
+{
+    "pk": 7,
+    "model": "catalogue.product", 
+    "fields": {
+        "rating": null, 
+        "description": "", 
+        "parent": null, 
+        "title": "Question", 
+        "date_updated": "2013-12-12T16:34:32.170Z", 
+        "upc": "", 
+        "is_discountable": true, 
+        "date_created": "2013-12-12T16:34:32.170Z", 
+        "attributes": [7],
+        "product_options": [], 
+        "slug": "question", 
+        "product_class": 1,
+        "structure": "standalone",
+        "question": "Can you swim?",
+        "answer": ["A.not having said", "B.have never said", "C.never said", "D.had never said"],
+        "correct_answer": "B"
+    }
+},
+{
+    "pk": 8,
+    "model": "catalogue.product", 
+    "fields": {
+        "rating": null, 
+        "description": "", 
+        "parent": null, 
+        "title": "Question", 
+        "date_updated": "2013-12-12T16:34:32.170Z", 
+        "upc": "", 
+        "is_discountable": true, 
+        "date_created": "2013-12-12T16:34:32.170Z", 
+        "attributes": [8],
+        "product_options": [], 
+        "slug": "question", 
+        "product_class": 2,
+        "structure": "standalone",
+        "question": "Did he go to work or to school?",
+        "answer": ["A.not having said", "B.have never said", "C.never said", "D.had never said"],
+        "correct_answer": "B"
+    }
+},
+{
+    "pk": 9,
+    "model": "catalogue.product", 
+    "fields": {
+        "rating": null, 
+        "description": "", 
+        "parent": null, 
+        "title": "Question", 
+        "date_updated": "2013-12-12T16:34:32.170Z", 
+        "upc": "", 
+        "is_discountable": true, 
+        "date_created": "2013-12-12T16:34:32.170Z", 
+        "attributes": [9],
+        "product_options": [], 
+        "slug": "question", 
+        "product_class": 3,
+        "structure": "standalone",
+        "question": "Has your class finished?",
+        "answer": ["A.not having said", "B.have never said", "C.never said", "D.had never said"],
+        "correct_answer": "B"
+    }
+},
+{
+    "pk": 10,
+    "model": "catalogue.product", 
+    "fields": {
+        "rating": null, 
+        "description": "", 
+        "parent": null, 
+        "title": "Question", 
+        "date_updated": "2013-12-12T16:34:32.170Z", 
+        "upc": "", 
+        "is_discountable": true, 
+        "date_created": "2013-12-12T16:34:32.170Z", 
+        "attributes": [10],
+        "product_options": [], 
+        "slug": "question", 
+        "product_class": 1,
+        "structure": "standalone",
+        "question": "Where is my pen?",
+        "answer": ["A.not having said", "B.have never said", "C.never said", "D.had never said"],
+        "correct_answer": "B"
+    }
+},
+{
+    "pk": 11,
+    "model": "catalogue.product", 
+    "fields": {
+        "rating": null, 
+        "description": "", 
+        "parent": null, 
+        "title": "Question", 
+        "date_updated": "2013-12-12T16:34:32.170Z", 
+        "upc": "", 
+        "is_discountable": true, 
+        "date_created": "2013-12-12T16:34:32.170Z", 
+        "attributes": [11],
+        "product_options": [], 
+        "slug": "question", 
+        "product_class": 2,
+        "structure": "standalone",
+        "question": "Who did you visit?",
         "answer": ["A.not having said", "B.have never said", "C.never said", "D.had never said"],
         "correct_answer": "B"
     }
