@@ -32,45 +32,6 @@
         "slug": "it"
     }
 },
-{
-    "pk": 1,
-    "model": "catalogue.category",
-    "fields": {
-        "description": "Grade",
-        "numchild": 0,
-        "slug": "grade",
-        "depth": 1,
-        "path": "0001",
-        "image": "",
-        "name": "Grade"
-    }
-},
-{
-    "pk": 2,
-    "model": "catalogue.category",
-    "fields": {
-        "description": "Level", 
-        "numchild": 0,
-        "slug": "level",
-        "depth": 1,
-        "path": "0002",
-        "image": "",
-        "name": "Level"
-    }
-},
-{
-    "pk": 3,
-    "model": "catalogue.category",
-    "fields": {
-        "description": "Certificate", 
-        "numchild": 0,
-        "slug": "certificate",
-        "depth": 1,
-        "path": "0003",
-        "image": "",
-        "name": "Certificate"
-    }
-},
 
 
 {

@@ -3,6 +3,7 @@
 {% load basket_tags %}
 {% load category_tags %}
 {% load product_tags %}
+{% load attribute_tags %}
 {% load i18n %}
 {% block styles %}
     {% comment %}
@@ -23,13 +24,6 @@
 
     {# Site logo/title, mini-basket, browse dropdown and searchbox #}
     <header class="header container-fluid">
-        <div class="page_inner">
-            <div class="row">
-                {% include "oscar/partials/brand.html" %}
-                {# Mini-basket wrapped in a block so some templates can now display it #}
-                {% block create_test %}{% render_product_composite composite_product %}{% endblock %}
-            </div>
-        </div>
         {% block navigation %}
             {% include "oscar/partials/nav_primary.html" %}
         {% endblock %}
@@ -41,11 +35,11 @@
         <div class="page_inner">
             {% block breadcrumbs %}{% endblock %}
             <div class="row">
-
                 <aside class="sidebar col-sm-4 col-md-3">
                     {% category_tree as tree_categories %}
                     {% if tree_categories %}
                         <div class="side_categories">
+                            <h4> Question Types </h4>
                             <ul class="nav nav-list">
                                 {% for tree_category in tree_categories %}
                                     <li>
@@ -57,10 +51,27 @@
                                             {% endif %}
                                         </a>
 
-                                        {% if tree_category.has_children %}<ul>{% else %}</li>{% endif %}
+                                        {% if tree_category.has_children %}
+                                            <ul>
+                                        {% else %}
+                                            </li>
+                                        {% endif %}
                                         {% for n in tree_category.num_to_close %}
                                             </ul></li>
                                         {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                    {% attributes as attributes_list %}
+                    {% if attributes_list %}
+                        <div class="side_categories">
+                            <h4> Question Topics </h4>
+                            <ul class="nav nav-list">
+                                {% for attribute in attributes_list%}
+                                    <li>
+                                        {{ attribute.name }}
+                                    </li>
                                 {% endfor %}
                             </ul>
                         </div>
