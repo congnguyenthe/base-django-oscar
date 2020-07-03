@@ -40,7 +40,23 @@
                     {% if tree_categories %}
                         <div class="side_categories">
                             <h4> Question Types </h4>
-                            <ul class="nav nav-list">
+                            <div id="theTree"></div>
+                                <button id="btnCheckAll" class="btn btn-default">
+                                  Check All
+                                </button>
+                                <button id="btnUncheckAll" class="btn btn-default">
+                                  Uncheck All
+                                </button>
+                                &nbsp;&nbsp;&nbsp;&nbsp;
+                                <button id="btnSaveState" class="btn btn-default">
+                                  Save State
+                                </button>
+                                <button id="btnRestoreState" class="btn btn-default">
+                                  Restore State
+                                </button>
+                                  
+                                <div id="tvChkStatus"></div>
+                            <!-- <ul class="nav nav-list">
                                 {% for tree_category in tree_categories %}
                                     <li>
                                         <a href="{{ tree_category.url }}">
@@ -60,7 +76,7 @@
                                             </ul></li>
                                         {% endfor %}
                                 {% endfor %}
-                            </ul>
+                            </ul> -->
                         </div>
                     {% endif %}
                     {% attributes as attributes_list %}
@@ -147,4 +163,5 @@
 	'composite': '{{ composite_product.pk }}'
     };
     oscar.catalogue.init(options);
+    oscar.treeview.init();
 {% endblock %}
