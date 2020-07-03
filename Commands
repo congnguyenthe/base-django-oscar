@@ -35,6 +35,9 @@ $ ./manage.py migrate
 * Load data from fixture
 $ ./manage.py loaddata quiz_maker/fixtures/questions.json
 
+* Create categories from breadcrumbs
+$ ./manage.py oscar_create_categories
+
 * Run server with listen on 0.0.0.0
 $ ./manage.py runserver 0.0.0.0:8000
 
