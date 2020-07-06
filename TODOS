@@ -1,8 +1,15 @@
-* REQ01: Add more questions with dynamic category structure
+* REQ01: Add more questions with dynamic category structure --> Done
 * REQ02: Show checkboxes next to categories to enable/disable questions belongs to that category
 * REQ03: Replace Done/Cancel by Next button to indicate the process of creating test/quiz
 * REQ04: Show questions in docx/pdf template
 * REQ05: Create docx/pdf file and send link back to client to download test/quiz
+
+July/06/2020 - July/12/2020:
+  + Create page:
+    --> url: create/english/{pk}
+    --> Left side tree view
+    --> Two columns to show questions
+    --> Next/Prev button to move to next stage
 
 Features:
   + Provide sample layout for test/quiz
@@ -13,6 +20,9 @@ Features:
 Front-end:
   + Change the Done/Cancel button to Next/Back
   + Add checkboxes to select questions based on categories
+    --> Arrange Question Type/Question Topic positions
+    --> Click at arrow to open detail info
+    --> Check the box to select all the child items
   + Remove Browse Store dropdown button. Replace by list of available quiz categories: English, Japanese, IT
   + Remove drop-down button in View Cart. Direct click to show created quiz in cart.
   + List functions which required login

@@ -1,5 +1,6 @@
 {% load currency_filters %}
 {% load category_tags %}
+{% load product_tags %}
 {% load i18n %}
 
 <div class="navbar primary navbar-static-top navbar-inverse">
@@ -14,8 +15,8 @@
                 </span>
             </a>
         </div>
-
-        <a class="btn btn-default navbar-btn btn-cart navbar-right visible-xs-inline-block" href="{% url 'basket:summary' %}">
+        {% block create_test %}{% render_product_composite composite_product %}{% endblock %}
+        <!-- <a class="btn btn-default navbar-btn btn-cart navbar-right visible-xs-inline-block" href="{% url 'basket:summary' %}">
             <i class="icon-shopping-cart"></i>
             {% trans "Basket" %}
             {% if not request.basket.is_empty %}
@@ -29,10 +30,10 @@
                     {% endblocktrans %}
                 {% endif %}
             {% endif %}
-        </a>
+        </a> -->
 
 
-        <div class="navbar-collapse primary-collapse collapse">
+        <!-- <div class="navbar-collapse primary-collapse collapse">
             {% block nav_dropdown %}
                 <ul id="browse" class="nav navbar-nav">
                     <li class="dropdown active {% if expand_dropdown %}open{% endif %}">
@@ -70,6 +71,6 @@
                 </ul>
             {% endblock %}
             {% include "oscar/partials/search.html" %}
-        </div><!-- /navbar-collapse -->
+        </div>/navbar-collapse -->
     </div>
 </div><!-- /navbar -->

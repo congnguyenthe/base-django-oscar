@@ -103,6 +103,20 @@ samp {
   font-family: monospace, monospace;
   font-size: 1em;
 }
+
+#homepage {
+  background-color: #00b3b3;
+  color: white;
+  padding: 14px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+#homepage {
+  background-color: #00ff99;
+}
+
 button,
 input,
 optgroup,
@@ -1585,12 +1599,12 @@ pre code {
     width: 1170px;
   }
 }
-.container-fluid {
+/* .container-fluid {
   padding-right: 15px;
   padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
-}
+} */
 .row {
   margin-right: -15px;
   margin-left: -15px;
@@ -4221,6 +4235,22 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   margin-bottom: 20px;
   border: 1px solid transparent;
 }
+
+.navbar-topage {
+  position: relative;
+  min-height: 100px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+}
+
+#totalQuesText {
+  color: #ffffff;
+}
+
+#totalQuesNum {
+  color: #ffffff;
+}
+
 @media (min-width: 768px) {
   .navbar {
     border-radius: 4px;
@@ -7965,9 +7995,9 @@ a .icon-flip-vertical:before {
 body {
   background-color: #eeeeee;
 }
-.container-fluid {
+/* .container-fluid {
   max-width: 1280px;
-}
+} */
 .row {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -9029,6 +9059,42 @@ input[type="number"][id*="quantity"] {
   .hidden-print {
     display: none !important;
   }
+}
+
+ul, #treeviewCategories {
+  list-style-type: none;
+}
+
+#treeviewCategories {
+  margin: 0;
+  padding: 0;
+}
+
+/* Style the caret/arrow */
+.caretTreeView {
+  cursor: pointer;
+  user-select: none; /* Prevent text selection */
+}
+
+/* Create the caret/arrow with a unicode, and style it */
+.caretTreeView::before {
+  content: "\25B6";
+  color: black;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+/* Rotate the caret/arrow icon when clicked on (using JavaScript) */
+.caretTreeView-down::before {
+  transform: rotate(90deg);
+}
+
+.nested {
+  display: none;
+}
+
+.activeTreeView {
+  display: block;
 }
 
 /*# sourceMappingURL=styles.css.map */

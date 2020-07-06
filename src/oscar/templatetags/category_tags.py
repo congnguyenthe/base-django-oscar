@@ -121,7 +121,8 @@ def get_annotated_list(depth=None, parent=None):
             num_to_close=[],
             level=node_depth - start_depth,
         )
-        annotated_categories.append(info)
+        if info['level'] > 0:
+            annotated_categories.append(info)
 
         prev_depth = node_depth
 
