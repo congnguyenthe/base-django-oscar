@@ -149,77 +149,7 @@ var oscar = (function(o, $) {
     };
 
     o.treeview = {
-        init: function() {
-            // create the tree
-            var tree = new wijmo.nav.TreeView('#theTree', {
-              itemsSource: getData(),
-                  displayMemberPath: 'header',
-              childItemsPath: 'items',
-                  showCheckboxes: true,
-              
-              // show checked items below the tree
-                  checkedItemsChanged: function(s, e) {
-                      var items = s.checkedItems,
-                      msg = '';
-                      if (items.length) {
-                  msg = '<p><b>Checked Items:</b></p><ol>\r\n';
-                  for (var i = 0; i < items.length; i++) {
-                      msg += '<li>' + items[i].header + '</li>\r\n';
-                          }
-                  msg += '</ol>';
-                      }
-                document.getElementById('tvChkStatus').innerHTML = msg;    
-                  }
-              });
-            
-            // handle buttons
-            document.getElementById('btnCheckAll').addEventListener('click', function(e) {
-              tree.checkAllItems(true);
-            });
-            document.getElementById('btnUncheckAll').addEventListener('click', function(e) {
-              tree.checkAllItems(false);
-            });
-            document.getElementById('btnSaveState').addEventListener('click', function(e) {
-              checkedItems = tree.checkedItems || [];
-            });
-            document.getElementById('btnRestoreState').addEventListener('click', function(e) {
-              tree.checkedItems = checkedItems;
-            });
-            
-            // get the tree data
-            function getData() {
-                  return [
-                  { header: 'Electronics', items: 
-                  [
-                          { header: 'Trimmers/Shavers' },
-                    { header: 'Tablets' },
-                    { header: 'Phones', items: [
-                              { header: 'Apple' },
-                      { header: 'Motorola', newItem: true },
-                      { header: 'Nokia' },
-                      { header: 'Samsung' }]
-                          },
-                    { header: 'Speakers', newItem: true },
-                    { header: 'Monitors' }
-                  ]
-                      },
-                { header: 'Toys', items: [
-                  { header: 'Shopkins' },
-                  { header: 'Train Sets' },
-                  { header: 'Science Kit', newItem: true },
-                  { header: 'Play-Doh' },
-                  { header: 'Crayola' } ]
-                      },
-                      { header: 'Home', items: [
-                  { header: 'Coffee Maker' },
-                  { header: 'Breadmaker', newItem: true },
-                  { header: 'Solar Panel', newItem: true },
-                  { header: 'Work Table' },
-                  { header: 'Propane Grill' }]
-                      }
-                  ];
-              }
-
+        init: function() {}
     };
 
     // Site-wide forms events

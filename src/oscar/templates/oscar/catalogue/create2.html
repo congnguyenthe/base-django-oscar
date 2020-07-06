@@ -40,35 +40,18 @@
                     {% if tree_categories %}
                         <div class="side_categories">
                             <h4> Question Types </h4>
-                            <div id="theTree"></div>
-                                <button id="btnCheckAll" class="btn btn-default">
-                                  Check All
-                                </button>
-                                <button id="btnUncheckAll" class="btn btn-default">
-                                  Uncheck All
-                                </button>
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-                                <button id="btnSaveState" class="btn btn-default">
-                                  Save State
-                                </button>
-                                <button id="btnRestoreState" class="btn btn-default">
-                                  Restore State
-                                </button>
-                                  
-                                <div id="tvChkStatus"></div>
-                            <!-- <ul class="nav nav-list">
+                            <ul class="nav nav-list" style="list-style-type:none;">
                                 {% for tree_category in tree_categories %}
-                                    <li>
-                                        <a href="{{ tree_category.url }}">
-                                            {% if tree_category.pk == category.pk %}
-                                                <strong>{{ tree_category.name }}</strong>
-                                            {% else %}
-                                                {{ tree_category.name }}
-                                            {% endif %}
-                                        </a>
+                                    <li style="list-style-type:none;">
+					                    <input class="checked_type" id="selected_type" type="checkbox" name="selected_type" value=" {{ tree_category  }}">
+                                        {% if tree_category.pk == category.pk %}
+                                            <strong>{{ tree_category.name }}</strong>
+                                        {% else %}
+                                            {{ tree_category.name }}
+                                        {% endif %}
 
                                         {% if tree_category.has_children %}
-                                            <ul>
+                                            <ul style="list-style-type:none;">
                                         {% else %}
                                             </li>
                                         {% endif %}
@@ -76,7 +59,7 @@
                                             </ul></li>
                                         {% endfor %}
                                 {% endfor %}
-                            </ul> -->
+                            </ul>
                         </div>
                     {% endif %}
                     {% attributes as attributes_list %}
