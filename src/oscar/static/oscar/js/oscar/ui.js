@@ -158,8 +158,18 @@ var oscar = (function(o, $) {
 				this.parentElement.querySelector(".nested").classList.toggle("activeTreeView");
 				this.classList.toggle("caretTreeView-down");
 			});
-		}
-	}
+        }
+        $('.checked_parent_type').click(function() {
+            $(this.parentElement.querySelector(".nested")).find("input[type='checkbox']").prop('checked', this.checked);
+            this.parentElement.querySelector(".nested").classList.toggle("activeTreeView");
+			this.parentElement.querySelector(".nested").parentElement.querySelector(".caretTreeView").classList.toggle("caretTreeView-down");
+            // console.log(children)
+            // for (j = 0; j < children.length; j++) {
+            //     // console.log(children[j])
+            //     children[j].find("input[type='checkbox']").prop('checked', this.checked);
+            // }
+		});
+    }
     };
 
     // Site-wide forms events
