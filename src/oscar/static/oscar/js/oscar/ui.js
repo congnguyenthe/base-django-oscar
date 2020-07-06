@@ -134,9 +134,9 @@ var oscar = (function(o, $) {
 	        	     		        // console.log(data, 'SUCCESS');
 		        	                // location.reload();
 						var text = $('.totalQues').text()
-						console.log(text)
+						// console.log(text)
 						var number = parseInt(text, 10) - 1
-						console.log(number)
+						// console.log(number)
 						document.getElementById("totalQuesNum").textContent = number
 		                        },
                         		error: function (data) {
@@ -149,7 +149,17 @@ var oscar = (function(o, $) {
     };
 
     o.treeview = {
-        init: function() {}
+        init: function() {
+		var toggler = document.getElementsByClassName("caretTreeView");
+		var i;
+
+		for (i = 0; i < toggler.length; i++) {
+			toggler[i].addEventListener("click", function() {
+				this.parentElement.querySelector(".nested").classList.toggle("activeTreeView");
+				this.classList.toggle("caretTreeView-down");
+			});
+		}
+	}
     };
 
     // Site-wide forms events

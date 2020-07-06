@@ -36,45 +36,43 @@
             {% block breadcrumbs %}{% endblock %}
             <div class="row">
                 <aside class="sidebar col-sm-4 col-md-3">
-                    {% category_tree as tree_categories %}
-                    {% if tree_categories %}
-                        <div class="side_categories">
-                            <h4> Question Types </h4>
-                            <ul class="nav nav-list" style="list-style-type:none;">
+                    <div class="side_categories">
+                        <h4> Question Types </h4>
+			{% category_tree as tree_categories %}
+		        {% if tree_categories %}
+                            <ul id="treeviewCategories">
                                 {% for tree_category in tree_categories %}
-                                    <li style="list-style-type:none;">
-					                    <input class="checked_type" id="selected_type" type="checkbox" name="selected_type" value=" {{ tree_category  }}">
-                                        {% if tree_category.pk == category.pk %}
-                                            <strong>{{ tree_category.name }}</strong>
-                                        {% else %}
-                                            {{ tree_category.name }}
-                                        {% endif %}
-
-                                        {% if tree_category.has_children %}
-                                            <ul style="list-style-type:none;">
-                                        {% else %}
-                                            </li>
-                                        {% endif %}
-                                        {% for n in tree_category.num_to_close %}
-                                            </ul></li>
-                                        {% endfor %}
+                                    {% if tree_category.has_children %}
+					<li> <span class="caretTreeView">
+					<input class="checked_type" id="selected_type" type="checkbox" name="selected_type" value=" {{ tree_category  }}">
+                                        {{ tree_category.name }}
+					</span>
+                                        <ul class="nested">
+                                    {% else %}
+				       <li>
+					    <input class="checked_type" id="selected_type" type="checkbox" name="selected_type" value=" {{ tree_category  }}">
+					    {{ tree_category.name }}
+				       </li>
+                                    {% endif %}
+				    {% for n in tree_category.num_to_close %}
+				        </ul></li>
+				    {% endfor %}
                                 {% endfor %}
                             </ul>
-                        </div>
-                    {% endif %}
-                    {% attributes as attributes_list %}
-                    {% if attributes_list %}
-                        <div class="side_categories">
-                            <h4> Question Topics </h4>
+			{% endif %}
+			<h4> Question Topics </h4>
+			{% attributes as attributes_list %}
+	                {% if attributes_list %}
                             <ul class="nav nav-list">
                                 {% for attribute in attributes_list%}
                                     <li>
+					<input class="checked_type" id="selected_type" type="checkbox" name="selected_type" value=" {{ attribute.name }}">
                                         {{ attribute.name }}
                                     </li>
                                 {% endfor %}
                             </ul>
-                        </div>
-                    {% endif %}
+			{% endif %}
+                    </div>
                     {% if has_facets %}
                         <div class="side_categories">
                             {% for field, data in facet_data.items %}
