@@ -36,7 +36,7 @@ class Shop(OscarConfig):
 
         urls = [
             url(r'^$', self.homepage_app.urls),
-            url(r'^catalogue/', self.catalogue_app.urls),
+            url(r'^', self.catalogue_app.urls),
             url(r'^basket/', self.basket_app.urls),
             url(r'^checkout/', self.checkout_app.urls),
             url(r'^accounts/', self.customer_app.urls),
