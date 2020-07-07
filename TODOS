@@ -51,6 +51,16 @@ Front-end:
   + Change the OSCAR to TEST MAKER --> Done
 
 Back-end:
+  + Update url: create/?cat=english
+    --> Do no create composite quiz when creating
+    --> ?cat=english: query all product with productclass is English
+    --> Check the checkboxes to filter question topic by productattribute
+    --> Check the checkboxes to filter question type by productcategory
+    --> Add Update Questions button to get new list of questions instead of making changes everytime the box is checked
+      --> Click Update Questions List
+        --> Get all status of checkboxes
+          --> construct querystring
+            --> send get request
   + Query question based on categories
     --> Grammar only
       --> English -> Grade            -> 8      | -> Word Order
