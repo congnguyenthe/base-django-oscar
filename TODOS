@@ -57,10 +57,13 @@ Back-end:
     --> Check the checkboxes to filter question topic by productattribute
     --> Check the checkboxes to filter question type by productcategory
     --> Add Update Questions button to get new list of questions instead of making changes everytime the box is checked
+      --> Separate list of question view
       --> Click Update Questions List
         --> Get all status of checkboxes
           --> construct querystring
-            --> send get request
+            --> send get request to updateView
+              --> Back-end return renderred html with filter data
+            <-- Replace the whole element or load or new one
   + Query question based on categories
     --> Grammar only
       --> English -> Grade            -> 8      | -> Word Order
