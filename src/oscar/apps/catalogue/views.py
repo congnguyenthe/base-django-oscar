@@ -6,6 +6,8 @@ from django.utils.http import urlquote
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView, TemplateView, View
 from django.http import JsonResponse
+from django.db.models import Q
+from django.core import serializers
 
 import json
 
@@ -13,6 +15,9 @@ from oscar.apps.catalogue.signals import product_viewed, product_updated
 from oscar.core.loading import get_class, get_model
 
 Product = get_model('catalogue', 'product')
+ProductAttributeValue = get_model('catalogue', 'productattributevalue')
+ProductAttribute = get_model('catalogue', 'productattribute')
+ProductCategory = get_model('catalogue', 'productcategory')
 Category = get_model('catalogue', 'category')
 ProductAlert = get_model('customer', 'ProductAlert')
 ProductAlertForm = get_class('customer.forms', 'ProductAlertForm')
@@ -217,9 +222,11 @@ class ProductCreateView(TemplateView):
     """
     context_object_name = "products"
     template_name = 'oscar/catalogue/create2.html'
+    category_slug = ""
 
     def get(self, request, *args, **kwargs):
         try:
+            self.category_slug = self.request.GET.get('cat')
             self.search_handler = self.get_search_handler(
                 self.request.GET, request.get_full_path(), [])
         except InvalidPage:
@@ -233,7 +240,7 @@ class ProductCreateView(TemplateView):
 
     def get_context_data(self, **kwargs):
         ctx = {}
-        pc, __ = ProductClass.objects.get_or_create(name="temp")
+        pc = ProductClass.objects.get(slug=self.category_slug)
         composite_product = Product()
         composite_product.upc = ""
         composite_product.title = ""
@@ -245,14 +252,67 @@ class ProductCreateView(TemplateView):
         composite_product.save()
         ctx['composite_product'] = composite_product
         data = self.search_handler.get_queryset()
-        data = data.filter(structure='standalone')
+        data = data.filter(structure='standalone', product_class_id=pc.pk)
         search_context = self.search_handler.get_search_context_data(
             self.context_object_name)
         search_context[self.context_object_name] = data
         ctx.update(search_context)
         return ctx
 
-class ProductUpdateView(DetailView):
+class ProductUpdateView(TemplateView):
+    context_object_name = "products"
+    template_name = 'oscar/catalogue/partials/products.html'
+
+    def get(self, request, *args, **kwargs):
+        # print(self.request.GET)
+
+        # payload = dict(request.GET.lists())
+        ques_type = self.request.GET.getlist("type")
+        ques_topic = self.request.GET.getlist("topic")
+        # print(ques_type)
+        # print(ques_topic)
+        # payload = json.loads(request.body)
+        # print(payload)
+        ques_type_id = []
+        ques_topic_id = []
+        # print(Category.objects.all())
+        # print(Category.objects.get(name='8'))
+        # print(ques_type[0])
+        # print(type(ques_type[0]))
+        # print(Category.objects.get(name=ques_type[0].strip()))
+        for qt in ques_type:
+            #print(qt)
+            try:
+                type_name = Category.objects.get(name=qt.strip())
+                ques_type_id.append(type_name.pk)
+                #print(type_name)
+            except Category.DoesNotExist:
+                print("not found " + qt)
+
+        for qt in ques_topic:
+            try:
+                topic_name = ProductAttribute.objects.get(name=qt.strip())
+                ques_topic_id.append(topic_name.pk)
+                #print(topic_name)
+            except ProductAttribute.DoesNotExist:
+                print("not found " + qt)
+        filter_type = list(ProductAttributeValue.objects.filter(attribute_id__in=ques_type_id))
+        filter_topic = list(ProductCategory.objects.filter(category_id__in=ques_topic_id))
+        type_data = []
+        topic_data = []
+        for i in filter_type:
+            type_data.append(i.product_id)
+            #print("product_id " + str(i.product_id) + " category_id " + str(i.attribute_id))
+        for i in filter_topic:
+            topic_data.append(i.product_id)
+            #print("product_id " + str(i.product_id) + " attribute_id " + str(i.category_id))
+        list_id = list(set(type_data).intersection(topic_data))
+        print(list_id)
+        data = serializers.serialize('json', Product.objects.filter(pk__in=list_id))
+        #for x in final_data:
+        #    print(x.question)
+        return JsonResponse({'result':'ok', 'data':data})
+        #return JsonResponse({'result':'ok'})
 
     def post(self, request, *args, **kwargs):
         payload = json.loads(request.body)

@@ -1,0 +1,18 @@
+{% extends "oscar/catalogue/create2.html" %}
+
+{% block content %}
+	{% if products %}
+		<section>
+			<div>
+				<ol class="row">
+					{% for product in products %}
+					{% render_product product forloop.counter %}
+					{% endfor %}
+				</ol>
+				{% include "oscar/partials/pagination.html" %}
+			</div>
+		</section>
+	{% else %}
+		<p class="nonefound">{% trans "No products found." %}</p>
+	{% endif %}
+{% endblock %}

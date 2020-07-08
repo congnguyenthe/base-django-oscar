@@ -37,6 +37,7 @@
             <div class="row">
                 <aside class="sidebar col-sm-4 col-md-3">
                     <div class="side_categories">
+		            <a class="btn btn-default" id="update_ques_list">{% trans "Update Question List" %}</a>
                         <p class="question_type">
                             <strong id="type"> Question Types </strong>
                             {% category_tree as tree_categories %}
@@ -44,14 +45,14 @@
                                 <ul id="treeviewCategories">
                                     {% for tree_category in tree_categories %}
                                         {% if tree_category.has_children %}
-                                            <li> <input class="checked_parent_type" id="selected_type" type="checkbox" name="selected_type" value=" {{ tree_category  }}" checked="true">
+                                            <li> <input class="checked_parent_type" id="selected_type" type="checkbox" name="selected_type" value=" {{ tree_category.name  }}" checked="true">
                                             <span class="caretTreeView">
                                             {{ tree_category.name }}
                                             </span>
                                             <ul class="nested">
                                         {% else %}
                                             <li>
-                                            <input class="checked_child_type" id="selected_type" type="checkbox" name="selected_type" value=" {{ tree_category  }}" checked="true">
+                                            <input class="checked_child_type" id="selected_child_topic" type="checkbox" name="selected_type" value=" {{ tree_category.name  }}" checked="true">
                                             {{ tree_category.name }}
                                             </li>
                                         {% endif %}
@@ -67,7 +68,7 @@
                             <strong id="topic"> Question Topics </strong>
                             {% attributes as attributes_list %}
                                 {% if attributes_list %}
-                                    <ul class="nav nav-list">
+                                    <ul class="nav nav-list" id="topicList">
                                     {% for attribute in attributes_list%}
                                         <li>
                                         <input class="checked_topic" id="selected_topic" type="checkbox" name="selected_topic" value=" {{ attribute.name }}" checked="true">

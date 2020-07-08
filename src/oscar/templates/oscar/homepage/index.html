@@ -18,7 +18,7 @@
     {# Top-horizontal bar with account, notifictions, dashboard links #}
     {% include "oscar/partials/nav_accounts.html" %}
 {% block content %}
-    <a class="btn btn-default" href="{% url 'catalogue:create' %}">{% trans "Create" %}</a>
+    <a class="btn btn-default" href="{% url 'catalogue:create' %}?cat=english">{% trans "Create" %}</a>
     <a class="btn btn-default" href="">{% trans "Exit" %}</a>
 {% endblock content %}
 
