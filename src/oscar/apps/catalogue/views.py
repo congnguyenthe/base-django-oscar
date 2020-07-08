@@ -251,6 +251,7 @@ class ProductCreateView(TemplateView):
         composite_product.structure = "composite"
         composite_product.save()
         ctx['composite_product'] = composite_product
+        ctx['category'] = Category.objects.get(slug=self.category_slug)
         data = self.search_handler.get_queryset()
         data = data.filter(structure='standalone', product_class_id=pc.pk)
         search_context = self.search_handler.get_search_context_data(
@@ -262,9 +263,11 @@ class ProductCreateView(TemplateView):
 class ProductUpdateView(TemplateView):
     context_object_name = "products"
     template_name = 'oscar/catalogue/partials/products.html'
+    pk_list = []
 
     def get(self, request, *args, **kwargs):
         # print(self.request.GET)
+        self.search_handler = self.get_search_handler(self.request.GET, request.get_full_path(), [])
 
         # payload = dict(request.GET.lists())
         ques_type = self.request.GET.getlist("type")
@@ -306,13 +309,14 @@ class ProductUpdateView(TemplateView):
         for i in filter_topic:
             topic_data.append(i.product_id)
             #print("product_id " + str(i.product_id) + " attribute_id " + str(i.category_id))
-        list_id = list(set(type_data).intersection(topic_data))
-        print(list_id)
-        data = serializers.serialize('json', Product.objects.filter(pk__in=list_id))
-        #for x in final_data:
-        #    print(x.question)
-        return JsonResponse({'result':'ok', 'data':data})
-        #return JsonResponse({'result':'ok'})
+        self.pk_list = list(set(type_data).intersection(topic_data))
+        #print(list_id)
+        #data = serializers.serialize('json', Product.objects.filter(pk__in=list_id))
+
+        return super().get(request, *args, **kwargs)
+
+    def get_search_handler(self, *args, **kwargs):
+        return get_product_search_handler_class()(*args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         payload = json.loads(request.body)
@@ -320,3 +324,13 @@ class ProductUpdateView(TemplateView):
         cp.update_itemlist([payload["pk"]], payload["action"])
         cp.save()
         return JsonResponse({'result':'ok'})
+
+    def get_context_data(self, **kwargs):
+        ctx = {}
+        search_context = self.search_handler.get_search_context_data(
+                            self.context_object_name)
+        data = Product.objects.filter(pk__in=self.pk_list)
+        search_context[self.context_object_name] = data
+        ctx.update(search_context)
+        return ctx
+

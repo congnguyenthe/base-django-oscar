@@ -163,7 +163,16 @@ var oscar = (function(o, $) {
             $(this.parentElement.querySelector(".nested")).find("input[type='checkbox']").prop('checked', this.checked);
             this.parentElement.querySelector(".nested").classList.toggle("activeTreeView");
 			this.parentElement.querySelector(".nested").parentElement.querySelector(".caretTreeView").classList.toggle("caretTreeView-down");
-		});
+        });
+        $('.quiz').click(function(){
+            var url = "?cat=" + $(this).val();
+
+            var id = $(this).val();
+            console.log(url)
+
+            // Construct the full URL with "id"
+            document.location.href = url;
+        });
         $('#update_ques_list').click(function() {
             // Construct a list of filter
             var ques_type = [];
@@ -196,6 +205,7 @@ var oscar = (function(o, $) {
                 },
 		        success: function (data) {
 	                console.log(data, 'SUCCESS');
+			        $('#list_product').html(data);
 		            // location.reload();
 			    },
             	error: function (data) {

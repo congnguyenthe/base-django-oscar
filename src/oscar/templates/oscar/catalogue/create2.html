@@ -4,6 +4,7 @@
 {% load category_tags %}
 {% load product_tags %}
 {% load attribute_tags %}
+{% load class_tags %}
 {% load i18n %}
 {% block styles %}
     {% comment %}
@@ -37,6 +38,19 @@
             <div class="row">
                 <aside class="sidebar col-sm-4 col-md-3">
                     <div class="side_categories">
+                    <p id="quiz_type">
+                        {% quiz_tree as tree_quizes %}
+                        {% if tree_quizes %}
+                            <select name="quiz_type">
+                                <option value="{{ category.slug }}">{{ category.name }}</option>
+                                {% for quiz_type in tree_quizes%}
+                                    {% if quiz_type.name != category.name %}
+                                        <option class="quiz" value="{{ quiz_type.slug }}"> {{ quiz_type.name }} </option>
+                                    {% endif %}
+                                {% endfor %}
+                            </select>
+                        {% endif %}
+                    </p>
 		            <a class="btn btn-default" id="update_ques_list">{% trans "Update Question List" %}</a>
                         <p class="question_type">
                             <strong id="type"> Question Types </strong>
@@ -90,7 +104,7 @@
                     {% endif %}
                 </aside>
 
-                <div class="col-sm-8 col-md-9">
+                <div class="col-sm-8 col-md-9" id="list_product">
                     {% include "oscar/partials/alert_messages.html" %}
 
                     {% block content %}

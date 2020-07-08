@@ -8,6 +8,8 @@ from oscar.apps.catalogue.categories import create_from_breadcrumbs
 class Command(BaseCommand):
     def handle(self, *args, **options):
         categories = (
+                'IT',
+                'Japanese',
                 'English > Grade > 8',
                 'English > Grade > 9',
                 'English > Grade > 10',
