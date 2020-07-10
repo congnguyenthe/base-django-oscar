@@ -19,7 +19,9 @@ Features:
   + Users can create questions of their own and can determine to share it or not
 
 Back-end:
+  + Consider creating a different type of model for product: product and quiz
   + Layout page:
+    --> Assign default layout/template when create a composite product
     --> django-template to doc/pdf and vice versa
       --> Solution 1: 
         --> Create .docx/latex template with fix position of headers, footers
