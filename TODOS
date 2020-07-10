@@ -8,6 +8,7 @@ July/06/2020 - July/12/2020:
   + Create page:
     --> url: create/english/{pk}
     --> Left side tree view
+      --> Add drop-down button to 
     --> Two columns to show questions
     --> Next/Prev button to move to next stage
 
@@ -17,7 +18,104 @@ Features:
     --> Otherwise have to export to word so users can modify
   + Users can create questions of their own and can determine to share it or not
 
+Back-end:
+  + Layout page:
+    --> django-template to doc/pdf and vice versa
+      --> Solution 1: 
+        --> Create .docx/latex template with fix position of headers, footers
+          --> Get headers, footers info from the UI
+          --> Return the .docx/pdf file to user
+        --> Present .docx/latex template in html/css
+      --> Solution 2: --> Use. Create normal django template --> 
+        --> Create the html/css template
+        --> Set the context
+        --> Render the html data into pdf/doc
+    --> Quiz Template model in the database to save the headers, footers
+      --> QuizTemplate
+        --> pk
+        --> path/name: text
+        --> headers: object/dict/json
+          --> 'top-left': text
+          --> 'top-right': text
+        --> title: text
+        --> footers: object/dict/json
+          --> 'bottom-left': text
+          --> 'bottom-right': text
+        --> page_show: boolean
+    --> Mapping 1 composite product (quiz) with template_id/name
+    --> https://stackoverflow.com/questions/22356496/django-create-odt-or-docx-documents-to-download
+    --> https://stackoverflow.com/questions/3521727/how-to-create-doc-files-using-templates-with-django-python
+  + Tracking total questions/test/quiz created by users
+  + URL to remove the composite question
+  + URL to export the composite question
+    --> https://github.com/elapouya/python-docx-template
+    --> https://stackoverflow.com/questions/54928806/python-populate-a-docx-table-with-docxtemplate
+    --> https://stackoverflow.com/questions/30701631/how-to-use-jinja2-as-a-templating-engine-in-django-1-8
+    --> https://niwinz.github.io/django-jinja/latest/
+  + Generate data and import to the database
+
+
+  + Update url: create/?cat=english --> Done
+    --> Do not create composite quiz when creating
+    --> ?cat=english: query all product with productclass is English
+    --> Check the checkboxes to filter question topic by productattribute
+    --> Check the checkboxes to filter question type by productcategory
+    --> Add Update Questions button to get new list of questions instead of making changes everytime the box is checked
+      --> Separate list of question view
+      --> Click Update Questions List
+        --> Get all status of checkboxes
+          --> construct querystring
+            --> send get request to updateView
+              --> Back-end return renderred html with filter data
+                --> Use template with context data
+            <-- Replace the whole element or load or new one
+  + Add selected questions into the creating composite product --> Done
+    --> Create new empty composite product
+    --> Checked boxes means corresponding questions should be added to the composite product
+  + Change catalogue urls to create a new composite product (quiz) --> Done
+  + Query question based on categories --> Done
+    --> Grammar only
+      --> English -> Grade            -> 8      | -> Word Order
+                                      -> 9      | -> Articles
+                                      -> 10     | -> Present Tense
+                                      -> 11     | -> Past Tense
+                                      -> 12     | -> Future Tense
+                  -> Level            -> A2     | -> Passive Voice
+                                      -> A1     | -> Verbs
+                                      -> B2     | -> Nouns
+                                      -> B1     | -> Pronouns
+                                      -> C2     | -> Adjectives
+                                      -> C1     | -> Adverbs
+                  -> Certificate      -> IELTS  | -> Relative Clauses
+                                      -> TOEIC  | -> Conditional
+                                      -> TOEFL  | -> Reported Speech
+    --> English will be ProductClass
+    --> Grade, Level, Testing System will be ProductCategory
+      --> 8,9,10,11,12 will be child of Grade
+      --> A2, A1, B2, B1, C2, C1 will be child of Level
+      --> IELTS, TOEIC, TOEFL will be child of Certificate
+
 Front-end:
+  + Layout page:
+    --> Done button to show quiz summarize/download button
+      --> Dummy download button to test pdf/doc
+    --> A4 panel with
+      --> Top right header: text
+      --> Top left header: text
+      --> Title: text
+      --> Bottom left footer: text
+      --> Bottom right footer: text
+      --> Page number: boolean
+    --> Template list in the database
+      --> Left side form
+        --> Label: Template Editor
+        --> Forms:
+          --> Top-left Header
+          --> Top-right Header
+          --> Title
+          --> Bottom-right Footer
+          --> Bottom-left Footer
+          --> Show page num
   + Change the Done/Cancel button to Next/Back
   + Add checkboxes to select questions based on categories
     --> Arrange Question Type/Question Topic positions
@@ -49,54 +147,3 @@ Front-end:
   + Add Done button to finish creating test --> Done
   + Remove All question, xxx results in the main window, just display the list of questions --> Done
   + Change the OSCAR to TEST MAKER --> Done
-
-Back-end:
-  + Update url: create/?cat=english
-    --> Do no create composite quiz when creating
-    --> ?cat=english: query all product with productclass is English
-    --> Check the checkboxes to filter question topic by productattribute
-    --> Check the checkboxes to filter question type by productcategory
-    --> Add Update Questions button to get new list of questions instead of making changes everytime the box is checked
-      --> Separate list of question view
-      --> Click Update Questions List
-        --> Get all status of checkboxes
-          --> construct querystring
-            --> send get request to updateView
-              --> Back-end return renderred html with filter data
-            <-- Replace the whole element or load or new one
-  + Query question based on categories
-    --> Grammar only
-      --> English -> Grade            -> 8      | -> Word Order
-                                      -> 9      | -> Articles
-                                      -> 10     | -> Present Tense
-                                      -> 11     | -> Past Tense
-                                      -> 12     | -> Future Tense
-                  -> Level            -> A2     | -> Passive Voice
-                                      -> A1     | -> Verbs
-                                      -> B2     | -> Nouns
-                                      -> B1     | -> Pronouns
-                                      -> C2     | -> Adjectives
-                                      -> C1     | -> Adverbs
-                  -> Certificate      -> IELTS  | -> Relative Clauses
-                                      -> TOEIC  | -> Conditional
-                                      -> TOEFL  | -> Reported Speech
-    --> English will be ProductClass
-    --> Grade, Level, Testing System will be ProductCategory
-      --> 8,9,10,11,12 will be child of Grade
-      --> A2, A1, B2, B1, C2, C1 will be child of Level
-      --> IELTS, TOEIC, TOEFL will be child of Certificate
-  + Tracking total questions/test/quiz created by users
-  + URL to remove the composite question
-  + URL to export the composite question
-    --> https://github.com/elapouya/python-docx-template
-    --> https://stackoverflow.com/questions/54928806/python-populate-a-docx-table-with-docxtemplate
-    --> https://stackoverflow.com/questions/30701631/how-to-use-jinja2-as-a-templating-engine-in-django-1-8
-    --> https://niwinz.github.io/django-jinja/latest/
-  + Show creating test in the cart
-  + Generate data and import to the database
-
-
-  + Add selected questions into the creating composite product --> Done
-    --> Create new empty composite product
-    --> Checked boxes means corresponding questions should be added to the composite product
-  + Change catalogue urls to create a new composite product (quiz) --> Done
