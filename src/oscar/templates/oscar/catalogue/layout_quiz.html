@@ -1,0 +1,39 @@
+{% extends "oscar/layout_main.html" %}
+{% load staticfiles %}
+{% load basket_tags %}
+{% load category_tags %}
+{% load product_tags %}
+{% load attribute_tags %}
+{% load class_tags %}
+{% load i18n %}
+{# Site logo/title, mini-basket, browse dropdown and searchbox #}
+<header class="header container-fluid">
+    {% block navigation %}
+    {% endblock %}
+</header>
+{# Main content of page - other layout templates may override this block #}
+{% block content_wrapper %}
+<div class="container-fluid page">
+	<div class="page_inner">
+		{% block breadcrumbs %}{% endblock %}
+		<div class="row">
+			<aside class="sidebar col-sm-4 col-md-3">
+				<div class="side_categories">
+				</div>
+				{% if has_facets %}
+				<div class="side_categories">
+					{% for field, data in facet_data.items %}
+						{% if data.results %}
+							{% include 'oscar/search/partials/facet.html' with name=data.name items=data.results %}
+						{% endif %}
+					{% endfor %}
+				</div>
+				{% endif %}
+			</aside>
+			<div class="col-sm-8 col-md-9" id="list_product">
+				{% include "oscar/partials/alert_messages.html" %}
+			</div>
+		</div><!-- /row -->
+	</div><!-- /page_inner -->
+</div><!-- /container-fluid -->
+{% endblock %}

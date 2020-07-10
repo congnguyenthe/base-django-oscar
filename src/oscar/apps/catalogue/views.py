@@ -22,6 +22,8 @@ Category = get_model('catalogue', 'category')
 ProductAlert = get_model('customer', 'ProductAlert')
 ProductAlertForm = get_class('customer.forms', 'ProductAlertForm')
 ProductClass = get_class('catalogue.models', 'ProductClass')
+Quiz = get_class('catalogue.models', 'Quiz')
+QuizTemplate = get_class('catalogue.models', 'QuizTemplate')
 get_product_search_handler_class = get_class(
     'catalogue.search_handlers', 'get_product_search_handler_class')
 
@@ -241,16 +243,11 @@ class ProductCreateView(TemplateView):
     def get_context_data(self, **kwargs):
         ctx = {}
         pc = ProductClass.objects.get(slug=self.category_slug)
-        composite_product = Product()
-        composite_product.upc = ""
-        composite_product.title = ""
-        composite_product.description = ""
-        composite_product.product_class = pc
-        composite_product.slug = ""
-        composite_product.item_list = []
-        composite_product.structure = "composite"
-        composite_product.save()
-        ctx['composite_product'] = composite_product
+        quiz = Quiz()
+        quiz.product_class = pc
+        quiz.item_list = []
+        quiz.save()
+        ctx['quiz'] = quiz
         ctx['category'] = Category.objects.get(slug=self.category_slug)
         data = self.search_handler.get_queryset()
         data = data.filter(structure='standalone', product_class_id=pc.pk)
@@ -320,7 +317,7 @@ class ProductUpdateView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         payload = json.loads(request.body)
-        cp, __ = Product.objects.get_or_create(pk=payload["composite_pk"])
+        cp, __ = Quiz.objects.get_or_create(pk=payload["composite_pk"])
         cp.update_itemlist([payload["pk"]], payload["action"])
         cp.save()
         return JsonResponse({'result':'ok'})
@@ -334,3 +331,24 @@ class ProductUpdateView(TemplateView):
         ctx.update(search_context)
         return ctx
 
+class ProductLayoutView(TemplateView):
+    context_object_name = "quiz"
+    template_name = 'oscar/catalogue/layout_quiz.html'
+    pk = ""
+
+    def get(self, request, *args, **kwargs):
+        self.pk = self.request.GET.get('pk')
+        self.search_handler = self.get_search_handler(self.request.GET, request.get_full_path(), [])
+        return super().get(request, *args, **kwargs)
+
+    def get_search_handler(self, *args, **kwargs):
+        return get_product_search_handler_class()(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        ctx = {}
+        search_context = self.search_handler.get_search_context_data(
+                            self.context_object_name)
+        data = Product.objects.filter(pk=self.pk)
+        search_context[self.context_object_name] = data
+        ctx.update(search_context)
+        return ctx

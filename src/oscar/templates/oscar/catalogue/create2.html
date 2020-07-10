@@ -1,4 +1,4 @@
-{% extends "oscar/base.html" %}
+{% extends "oscar/layout_main.html" %}
 {% load staticfiles %}
 {% load basket_tags %}
 {% load category_tags %}
@@ -6,163 +6,100 @@
 {% load attribute_tags %}
 {% load class_tags %}
 {% load i18n %}
-{% block styles %}
-    {% comment %}
-        If you are developing Oscar's CSS, or overriding Oscar's CSS
-        files in your project, then set OSCAR_USE_LESS = True in your
-        settings file. This will enable the on-the-fly less compiler.
-    {% endcomment %}
-    {% if use_less %}
-        <link rel="stylesheet/less" type="text/css" href="{% static "oscar/less/styles.less" %}" />
-    {% else %}
-        <link rel="stylesheet" type="text/css" href="{% static "oscar/css/styles.css" %}" />
-    {% endif %}
-{% endblock %}
 
-{% block layout %}
-    {# Top-horizontal bar with account, notifictions, dashboard links #}
-    {% include "oscar/partials/nav_accounts.html" %}
-
-    {# Site logo/title, mini-basket, browse dropdown and searchbox #}
-    <header class="header container-fluid">
-        {% block navigation %}
-            {% include "oscar/partials/nav_primary.html" %}
-        {% endblock %}
-    </header>
-
-    {# Main content of page - other layout templates may override this block #}
-    {% block content_wrapper %}
-    <div class="container-fluid page">
-        <div class="page_inner">
-            {% block breadcrumbs %}{% endblock %}
-            <div class="row">
-                <aside class="sidebar col-sm-4 col-md-3">
-                    <div class="side_categories">
-                    <p id="quiz_type">
-                        {% quiz_tree as tree_quizes %}
-                        {% if tree_quizes %}
-                            <select name="quiz_type">
-                                <option value="{{ category.slug }}">{{ category.name }}</option>
-                                {% for quiz_type in tree_quizes%}
-                                    {% if quiz_type.name != category.name %}
-                                        <option class="quiz" value="{{ quiz_type.slug }}"> {{ quiz_type.name }} </option>
-                                    {% endif %}
-                                {% endfor %}
-                            </select>
-                        {% endif %}
-                    </p>
-		            <a class="btn btn-default" id="update_ques_list">{% trans "Update Question List" %}</a>
-                        <p class="question_type">
-                            <strong id="type"> Question Types </strong>
-                            {% category_tree as tree_categories %}
-                            {% if tree_categories %}
-                                <ul id="treeviewCategories">
-                                    {% for tree_category in tree_categories %}
-                                        {% if tree_category.has_children %}
-                                            <li> <input class="checked_parent_type" id="selected_type" type="checkbox" name="selected_type" value=" {{ tree_category.name  }}" checked="true">
-                                            <span class="caretTreeView">
-                                            {{ tree_category.name }}
-                                            </span>
-                                            <ul class="nested">
-                                        {% else %}
-                                            <li>
-                                            <input class="checked_child_type" id="selected_child_topic" type="checkbox" name="selected_type" value=" {{ tree_category.name  }}" checked="true">
-                                            {{ tree_category.name }}
-                                            </li>
-                                        {% endif %}
-                                        {% for n in tree_category.num_to_close %}
-                                            </ul></li>
-                                        {% endfor %}
-                                    {% endfor %}
-                                </ul>
-                            {% endif %}
-                        </p>
-                        &nbsp;
-                        <p class="question_topic">
-                            <strong id="topic"> Question Topics </strong>
-                            {% attributes as attributes_list %}
-                                {% if attributes_list %}
-                                    <ul class="nav nav-list" id="topicList">
-                                    {% for attribute in attributes_list%}
-                                        <li>
-                                        <input class="checked_topic" id="selected_topic" type="checkbox" name="selected_topic" value=" {{ attribute.name }}" checked="true">
-                                        {{ attribute.name }}
-                                        </li>
-                                    {% endfor %}
-                                    </ul>
-                            {% endif %}
-                        </p>
-                    </div>
-                    {% if has_facets %}
-                        <div class="side_categories">
-                            {% for field, data in facet_data.items %}
-                                {% if data.results %}
-                                    {% include 'oscar/search/partials/facet.html' with name=data.name items=data.results %}
+{# Main content of page - other layout templates may override this block #}
+{% block content_wrapper %}
+<div class="container-fluid page">
+    <div class="page_inner">
+        {% block breadcrumbs %}{% endblock %}
+        <div class="row">
+            <aside class="sidebar col-sm-4 col-md-3">
+                <div class="side_categories">
+                <p id="quiz_type">
+                    {% quiz_tree as tree_quizes %}
+                    {% if tree_quizes %}
+                        <select name="quiz_type">
+                            <option value="{{ category.slug }}">{{ category.name }}</option>
+                            {% for quiz_type in tree_quizes%}
+                                {% if quiz_type.name != category.name %}
+                                    <option class="quiz" value="{{ quiz_type.slug }}"> {{ quiz_type.name }} </option>
                                 {% endif %}
                             {% endfor %}
-                        </div>
+                        </select>
                     {% endif %}
-                </aside>
-
-                <div class="col-sm-8 col-md-9" id="list_product">
-                    {% include "oscar/partials/alert_messages.html" %}
-
-                    {% block content %}
-                        {% if products %}
-                            <section>
-                                <div>
-                                    <ol class="row">
-                                        {% for product in products %}
-                		                {% render_product product forloop.counter %}
-                                        {% endfor %}
-                                    </ol>
-                                    {% include "oscar/partials/pagination.html" %}
-                                </div>
-                            </section>
-                        {% else %}
-                            <p class="nonefound">{% trans "No products found." %}</p>
+                </p>
+	            <a class="btn btn-default" id="update_ques_list">{% trans "Update Question List" %}</a>
+                    <p class="question_type">
+                        <strong id="type"> Question Types </strong>
+                        {% category_tree as tree_categories %}
+                        {% if tree_categories %}
+                            <ul id="treeviewCategories">
+                                {% for tree_category in tree_categories %}
+                                    {% if tree_category.has_children %}
+                                        <li> <input class="checked_parent_type" id="selected_type" type="checkbox" name="selected_type" value=" {{ tree_category.name  }}" checked="true">
+                                        <span class="caretTreeView">
+                                        {{ tree_category.name }}
+                                        </span>
+                                        <ul class="nested">
+                                    {% else %}
+                                        <li>
+                                        <input class="checked_child_type" id="selected_child_topic" type="checkbox" name="selected_type" value=" {{ tree_category.name  }}" checked="true">
+                                        {{ tree_category.name }}
+                                        </li>
+                                    {% endif %}
+                                    {% for n in tree_category.num_to_close %}
+                                        </ul></li>
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
                         {% endif %}
-                    {% endblock %}
+                    </p>
+                    &nbsp;
+                    <p class="question_topic">
+                        <strong id="topic"> Question Topics </strong>
+                        {% attributes as attributes_list %}
+                            {% if attributes_list %}
+                                <ul class="nav nav-list" id="topicList">
+                                {% for attribute in attributes_list%}
+                                    <li>
+                                    <input class="checked_topic" id="selected_topic" type="checkbox" name="selected_topic" value=" {{ attribute.name }}" checked="true">
+                                    {{ attribute.name }}
+                                    </li>
+                                {% endfor %}
+                                </ul>
+                        {% endif %}
+                    </p>
                 </div>
-
-            </div><!-- /row -->
-        </div><!-- /page_inner -->
-    </div><!-- /container-fluid -->
-    {% endblock %}
-
-    {% include "oscar/partials/footer.html" %}
-{% endblock %}
-
-{% block cdn_scripts %}
-  {{ block.super }}
-  {% if use_less and debug %}
-    {# Load the on-the-fly less compiler. Never do this in production. #}
-    <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.9.0/less.min.js"></script>
-  {% endif %}
-{% endblock %}
-
-{# Local scripts #}
-{% block scripts %}
-    {{ block.super }}
-    <!-- Twitter Bootstrap -->
-    <script src="{% static "oscar/js/bootstrap3/bootstrap.min.js" %}"></script>
-    <!-- Oscar -->
-    <script src="{% static "oscar/js/oscar/ui.js" %}"></script>
-{% endblock %}
-
-{% block extrascripts %}
-    {% include "oscar/partials/extrascripts.html" %}
-    {{ block.super }}
-{% endblock %}
-
-{% block onbodyload %}
-    {{ block.super }}
-    oscar.init();
-    oscar.search.init();
-    var options = {
-        'catalogueURL': '{% url 'catalogue:update' %}',
-	'composite': '{{ composite_product.pk }}'
-    };
-    oscar.catalogue.init(options);
-    oscar.treeview.init();
+                {% if has_facets %}
+                    <div class="side_categories">
+                        {% for field, data in facet_data.items %}
+                            {% if data.results %}
+                                {% include 'oscar/search/partials/facet.html' with name=data.name items=data.results %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </aside>
+            <div class="col-sm-8 col-md-9" id="list_product">
+                {% include "oscar/partials/alert_messages.html" %}
+                {% block content %}
+                    {% if products %}
+                        <section>
+                            <div>
+                                <ol class="row">
+                                    {% for product in products %}
+            		                {% render_product product forloop.counter %}
+                                    {% endfor %}
+                                </ol>
+                                {% include "oscar/partials/pagination.html" %}
+                            </div>
+                        </section>
+                    {% else %}
+                        <p class="nonefound">{% trans "No products found." %}</p>
+                    {% endif %}
+                {% endblock %}
+            </div>
+        </div><!-- /row -->
+    </div><!-- /page_inner -->
+</div><!-- /container-fluid -->
 {% endblock %}

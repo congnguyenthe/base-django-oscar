@@ -82,3 +82,15 @@ if not is_model_registered('catalogue', 'ProductImage'):
         pass
 
     __all__.append('ProductImage')
+
+if not is_model_registered('catalogue', 'Quiz'):
+    class Quiz(AbstractQuiz):
+        pass
+
+    __all__.append('Quiz')
+
+if not is_model_registered('catalogue', 'QuizTemplate'):
+    class QuizTemplate(AbstractQuizTemplate):
+        pass
+
+    __all__.append('QuizTemplate')

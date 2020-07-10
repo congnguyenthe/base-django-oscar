@@ -31,7 +31,7 @@ def render_product(context, product, index):
     return template_.render(context)
 
 @register.simple_tag(takes_context=True)
-def render_product_composite(context, product):
+def render_questions(context, product):
     """
     Render a product snippet as you would see in a browsing display.
 
@@ -49,5 +49,5 @@ def render_product_composite(context, product):
     context = context.flatten()
 
     # Ensure the passed product is in the context as 'product'
-    context['product'] = product
+    # context['product'] = product
     return template_.render(context)

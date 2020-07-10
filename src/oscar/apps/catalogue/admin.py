@@ -15,6 +15,8 @@ ProductCategory = get_model('catalogue', 'ProductCategory')
 ProductClass = get_model('catalogue', 'ProductClass')
 ProductImage = get_model('catalogue', 'ProductImage')
 ProductRecommendation = get_model('catalogue', 'ProductRecommendation')
+Quiz = get_model('catalogue', 'Quiz')
+QuizTemplate = get_model('catalogue', 'QuizTemplate')
 
 
 class AttributeInline(admin.TabularInline):
@@ -98,3 +100,5 @@ admin.site.register(Option, OptionAdmin)
 admin.site.register(ProductImage)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(ProductCategory)
+admin.site.register(Quiz)
+admin.site.register(QuizTemplate)

@@ -250,17 +250,15 @@ class AbstractProduct(models.Model):
     - A child product. All child products have a parent product. They're a
       specific version of the parent.
     - A parent product. It essentially represents a set of products.
-    - A composite product. It contains a list of products and has a price for itself.
 
     An example could be a yoga course, which is a parent product. The different
     times/locations of the courses would be associated with the child products.
     """
-    STANDALONE, PARENT, CHILD, COMPOSITE = 'standalone', 'parent', 'child', 'composite'
+    STANDALONE, PARENT, CHILD = 'standalone', 'parent', 'child'
     STRUCTURE_CHOICES = (
         (STANDALONE, _('Stand-alone product')),
         (PARENT, _('Parent product')),
-        (CHILD, _('Child product')),
-        (COMPOSITE, _('Composite product'))
+        (CHILD, _('Child product'))
     )
     structure = models.CharField(
         _("Product structure"), max_length=10, choices=STRUCTURE_CHOICES,
@@ -289,9 +287,6 @@ class AbstractProduct(models.Model):
                     "4 of a particular t-shirt.  Leave blank if this is a "
                     "stand-alone product (i.e. there is only one version of"
                     " this product)."))
-
-    # Special field for COMPOSITE product only
-    item_list = ArrayField(models.IntegerField(), null=True, blank=True)
 
     # Title is mandatory for canonical products but optional for child products
     title = models.CharField(pgettext_lazy('Product title', 'Title'),
@@ -392,27 +387,27 @@ class AbstractProduct(models.Model):
         """
         Validate a product. Those are the rules:
 
-        +---------------+-------------+--------------+--------------+--------------+
-        |               | stand alone | parent       | child        | composite    |
-        +---------------+-------------+--------------+--------------+--------------+
-        | title         | optional    | optional     | optional     | optional     |
-        +---------------+-------------+--------------+--------------+--------------+
-        | product class | required    | required     | must be None | required     |
-        +---------------+-------------+--------------+--------------+--------------+
-        | parent        | forbidden   | forbidden    | required     | forbidden    |
-        +---------------+-------------+--------------+--------------+--------------+
-        | stockrecords  | 0 or more   | forbidden    | 0 or more    | 0 or more    |
-        +---------------+-------------+--------------+--------------+--------------+
-        | categories    | 1 or more   | 1 or more    | forbidden    | 1 or more    |
-        +---------------+-------------+--------------+--------------+--------------+
-        | attributes    | optional    | optional     | optional     | optional     |
-        +---------------+-------------+--------------+--------------+--------------+
-        | rec. products | optional    | optional     | unsupported  | optional     |
-        +---------------+-------------+--------------+--------------+--------------+
-        | options       | optional    | optional     | forbidden    | optional     |
-        +---------------+-------------+--------------+--------------+--------------+
-        | item_list     | forbidden   | forbidden    | forbidden    | required     |
-        +---------------+-------------+--------------+--------------+--------------+
+        +---------------+-------------+--------------+--------------+
+        |               | stand alone | parent       | child        |
+        +---------------+-------------+--------------+--------------+
+        | title         | optional    | optional     | optional     |
+        +---------------+-------------+--------------+--------------+
+        | product class | required    | required     | must be None |
+        +---------------+-------------+--------------+--------------+
+        | parent        | forbidden   | forbidden    | required     |
+        +---------------+-------------+--------------+--------------+
+        | stockrecords  | 0 or more   | forbidden    | 0 or more    |
+        +---------------+-------------+--------------+--------------+
+        | categories    | 1 or more   | 1 or more    | forbidden    |
+        +---------------+-------------+--------------+--------------+
+        | attributes    | optional    | optional     | optional     |
+        +---------------+-------------+--------------+--------------+
+        | rec. products | optional    | optional     | unsupported  |
+        +---------------+-------------+--------------+--------------+
+        | options       | optional    | optional     | forbidden    |
+        +---------------+-------------+--------------+--------------+
+        | item_list     | forbidden   | forbidden    | forbidden    |
+        +---------------+-------------+--------------+--------------+
 
         Because the validation logic is quite complex, validation is delegated
         to the sub method appropriate for the product's structure.
@@ -470,15 +465,6 @@ class AbstractProduct(models.Model):
             raise ValidationError(
                 _("A parent product can't have item_list."))
 
-    def _clean_composite(self):
-        """
-        Validates a composite product.
-        """
-        self._clean_standalone()
-        if not self.item_list:
-            raise ValidationError(
-                _("A composite product must have item_list."))
-
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.get_title())
@@ -498,10 +484,6 @@ class AbstractProduct(models.Model):
     @property
     def is_child(self):
         return self.structure == self.CHILD
-
-    @property
-    def is_composite(self):
-        return self.structure == self.COMPOSITE
 
     def can_be_parent(self, give_reason=False):
         """
@@ -587,26 +569,6 @@ class AbstractProduct(models.Model):
         """
         answers = self.answer
         return answers
-    def get_itemlist(self):
-        """
-        Return a product's answer
-        """
-        itemlist = self.item_list
-        return itemlist
-    get_itemlist.short_description = pgettext_lazy("ItemList", "ItemList")
-
-    def update_itemlist(self, items, action):
-        """
-        Update item list of the composite product
-        """
-        if action == "add":
-            if not self.item_list:
-                self.item_list = []
-            for item in items:
-                self.item_list.append(item)
-        else:
-            self.item_list = [x for x in self.item_list if x not in items]
-    update_itemlist.short_description = pgettext_lazy("UpdateItemList", "UpdateItemList")
 
     def get_correctanswer(self):
         """
@@ -1297,3 +1259,70 @@ class AbstractProductImage(models.Model):
         for idx, image in enumerate(self.product.images.all()):
             image.display_order = idx
             image.save()
+
+class AbstractQuizTemplate(models.Model):
+    name = models.TextField(_('Name'), null=True, blank=True)
+
+    top_left = models.TextField(_('Top Left'), null=True, blank=True)
+    top_right = models.TextField(_('Top Right'), null=True, blank=True)
+
+    title = models.TextField(_('Title'), null=True, blank=True)
+    
+    bottom_left = models.TextField(_('Name'), null=True, blank=True)
+    bottom_right = models.TextField(_('Name'), null=True, blank=True)
+
+    page_num = models.BooleanField(
+        _('Show Page Num'),
+        default=True,
+        help_text=_("Show page number in the document"))
+
+    class Meta:
+        abstract = True
+        app_label = 'catalogue'
+        ordering = ['name']
+        verbose_name = _("Quiz Template")
+        verbose_name_plural = _("Quiz Templates")
+
+    def __str__(self):
+        return self.name
+
+class AbstractQuiz(models.Model):
+    name = models.TextField(_('Name'), null=True, blank=True)
+
+    item_list = ArrayField(models.IntegerField(), null=True, blank=True)
+
+    product_class = models.OneToOneField(
+        'catalogue.ProductClass',
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT,
+        verbose_name=_('Quiz type'), related_name="quiz",
+        help_text=_("Choose what type of quiz this is"))
+
+    class Meta:
+        abstract = True
+        app_label = 'catalogue'
+        ordering = ['name']
+        verbose_name = _("Quiz")
+        verbose_name_plural = _("Quizzes")
+
+    def __str__(self):
+        return self.name
+    
+    def get_itemlist(self):
+        """
+        Return a product's answer
+        """
+        itemlist = self.item_list
+        return itemlist
+    get_itemlist.short_description = pgettext_lazy("ItemList", "ItemList")
+
+    def update_itemlist(self, items, action):
+        if action == "add":
+            if not self.item_list:
+                self.item_list = []
+            for item in items:
+                self.item_list.append(item)
+        else:
+            self.item_list = [x for x in self.item_list if x not in items]
+    update_itemlist.short_description = pgettext_lazy("UpdateItemList", "UpdateItemList")

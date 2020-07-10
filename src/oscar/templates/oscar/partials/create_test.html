@@ -4,6 +4,5 @@
 <div class="create_test pull-right hidden-xs">
 	<strong id="totalQuesText">{% trans "Total: " %}</strong>
 	<strong id="totalQuesNum" class="totalQues"> 0 </strong>
-	<a class="btn btn-default" href="">{% trans "Done" %}</a>
-	<a class="btn btn-default" href="">{% trans "Cancel" %}</a>
+	<a class="btn btn-default" href="{% url 'catalogue:layout' %}?pk={{ quiz.pk }}">{% trans "Next" %}</a>
 </div>
