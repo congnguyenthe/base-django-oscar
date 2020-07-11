@@ -24,43 +24,45 @@
 					<p id="quiz_template_">
 						<form action="">
 							<label for="tlheader">Top Left Header:</label><br>
-							<input type="text" id="tlheader" name="tlheader" value="Top Left Header"><br>
+							<input type="text" id="side_tlheader" name="tlheader" value="Top Left Header"><br>
 							<label for="trheader">Top Right Header:</label><br>
-							<input type="text" id="trheader" name="trheader" value="Top Right Header"><br><br>
+							<input type="text" id="side_trheader" name="trheader" value="Top Right Header"><br><br>
 							<label for="title">Title:</label><br>
-							<input type="text" id="title" name="title" value="Title"><br><br>
+							<input type="text" id="side_title" name="title" value="Title"><br><br>
 							<label for="blheader">Bottom Left Header:</label><br>
-							<input type="text" id="blheader" name="blheader" value="Bottom Left Header"><br>
+							<input type="text" id="side_blheader" name="blheader" value="Bottom Left Header"><br>
 							<label for="brheader">Bottom Right Header:</label><br>
-							<input type="text" id="brheader" name="brheader" value="Bottom Right Header"><br><br>
+							<input type="text" id="side_brheader" name="brheader" value="Bottom Right Header"><br><br>
 							<input type="submit" value="Submit">
 						  </form> 
 					</p>
 				</div>
 			</aside>
 			<div class="col-sm-8 col-md-9" id="list_product">
-				{% include "oscar/partials/alert_messages.html" %}
-				<label id="tlheader">QuizMaker</label>
-				<label id="trheader">Sample Test</label><br>
-				<label id="title">English Sample Test</label><br>
-                {% block content %}
-                    {% if questions %}
-                        <section>
-                            <div>
-                                <ol class="row">
-                                    {% for question in questions %}
-            		                	{% render_product question forloop.counter %}
-                                    {% endfor %}
-                                </ol>
-                                {% include "oscar/partials/pagination.html" %}
-                            </div>
-                        </section>
-                    {% else %}
-                        <p class="nonefound">{% trans "No products found." %}</p>
-                    {% endif %}
-				{% endblock %}
-				<label id="blheader">QuizMaker</label>
-				<label id="brheader">Sample Test</label><br>
+				<div class="printable_a4_page">
+					{% include "oscar/partials/alert_messages.html" %}
+					<label id="tlheader">QuizMaker</label>
+					<label id="trheader">Sample Test</label><br>
+					<label id="title">English Sample Test</label><br>
+					{% block content %}
+						{% if questions %}
+							<section>
+								<div>
+									<ol class="row">
+										{% for question in questions %}
+											{% render_product question forloop.counter %}
+										{% endfor %}
+									</ol>
+									{% include "oscar/partials/pagination.html" %}
+								</div>
+							</section>
+						{% else %}
+							<p class="nonefound">{% trans "No products found." %}</p>
+						{% endif %}
+					{% endblock %}
+					<label id="blheader">QuizMaker</label>
+					<label id="brheader">Sample Test</label><br>
+				</div>
 			</div>
 		</div><!-- /row -->
 	</div><!-- /page_inner -->

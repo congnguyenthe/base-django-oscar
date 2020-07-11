@@ -9102,6 +9102,58 @@ ul, #treeviewCategories {
   font-size: large;
 }
 
+#printable_a4 {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #FAFAFA;
+  font: 12pt "Tahoma";
+}
+* {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+.printable_a4_page {
+  position: relative;
+  width: 210mm;
+  min-height: 297mm;
+  padding: 20mm;
+  margin: 10mm auto;
+  border: 1px #D3D3D3 solid;
+  border-radius: 5px;
+  background: white;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
 
+#tlheader {
+  position: absolute;
+  top: 20px;
+  left: 50px;
+}
+
+#trheader {
+  position: absolute;
+  top: 20px;
+  right: 50px;
+}
+
+#title {
+  position: absolute;
+  top: 50px;
+  right: 300px;
+}
+
+#blheader {
+  position: absolute;
+  bottom: 20px;
+  left: 50px;
+}
+
+#brheader {
+  position: absolute;
+  bottom: 20px;
+  right: 50px;
+}
 
 /*# sourceMappingURL=styles.css.map */
