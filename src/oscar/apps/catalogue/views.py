@@ -243,7 +243,16 @@ class ProductCreateView(TemplateView):
     def get_context_data(self, **kwargs):
         ctx = {}
         pc = ProductClass.objects.get(slug=self.category_slug)
-        qt = QuizTemplate.objects.get(pk=1)
+
+        qt = QuizTemplate()
+        qt.top_left = "Quiz Maker"
+        qt.top_right = "Sample Test"
+        qt.title = "Quiz Maker Sample Test"
+        qt.bottom_left = "Quiz Maker"
+        qt.bottom_right = "Sample Test"
+        qt.page_num = True
+        qt.save()
+
         quiz = Quiz()
         quiz.product_class = pc
         quiz.quiz_template = qt
@@ -303,7 +312,7 @@ class ProductUpdateView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         payload = json.loads(request.body)
-        cp, __ = Quiz.objects.get_or_create(pk=payload["composite_pk"])
+        cp, __ = Quiz.objects.get_or_create(pk=payload["quiz_pk"])
         cp.update_itemlist([payload["pk"]], payload["action"])
         cp.save()
         return JsonResponse({'result':'ok'})
@@ -335,7 +344,53 @@ class ProductLayoutView(TemplateView):
         search_context = self.search_handler.get_search_context_data(
                             self.context_object_name)
         quiz = Quiz.objects.get(pk=self.pk)
+        template = QuizTemplate.objects.get(pk=quiz.quiz_template_id)
         questions = Product.objects.filter(pk__in=quiz.item_list)
+        ctx['template'] = template
+        ctx['quiz'] = quiz
         search_context[self.context_object_name] = questions
         ctx.update(search_context)
         return ctx
+
+    def post(self, request, *args, **kwargs):
+        payload = json.loads(request.body)
+        template = QuizTemplate.objects.get(pk=payload["pk"])
+        if payload["pn"] == "True":
+            show_pn = True
+        else:
+            show_pn = False
+        template.updateTemplateContent(payload["tl"], payload["tr"], payload["title"], payload["bl"], payload["br"], show_pn)
+        template.save()
+        return JsonResponse({'result':'ok'})
+
+class ProductDownloadView(TemplateView):
+    context_object_name = "questions"
+    template_name = 'oscar/catalogue/layout_quiz.html'
+    pk = ""
+
+    def get(self, request, *args, **kwargs):
+        self.pk = self.request.GET.get('pk')
+        self.search_handler = self.get_search_handler(self.request.GET, request.get_full_path(), [])
+        return super().get(request, *args, **kwargs)
+
+    def get_search_handler(self, *args, **kwargs):
+        return get_product_search_handler_class()(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        ctx = {}
+        search_context = self.search_handler.get_search_context_data(
+                            self.context_object_name)
+        quiz = Quiz.objects.get(pk=self.pk)
+        template = QuizTemplate.objects.get(pk=quiz.quiz_template_id)
+        questions = Product.objects.filter(pk__in=quiz.item_list)
+        ctx['template'] = template
+        search_context[self.context_object_name] = questions
+        ctx.update(search_context)
+        return ctx
+
+    def post(self, request, *args, **kwargs):
+        payload = json.loads(request.body)
+        template = QuizTemplate.objects.get(pk=payload["pk"])
+        template.updateTemplateContent(payload["tl"], payload["tr"], payload["title"], payload["bl"], payload["br"], payload["pn"])
+        template.save()
+        return JsonResponse({'result':'ok'})

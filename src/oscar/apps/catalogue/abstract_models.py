@@ -1285,6 +1285,14 @@ class AbstractQuizTemplate(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def updateTemplateContent(self, tl, tr, title, bl, br, pn):
+        self.top_left = tl
+        self.top_right = tr
+        self.title = title
+        self.bottom_left = bl
+        self.bottom_right = br
+        self.page_num = pn
 
 class AbstractQuiz(models.Model):
     name = models.TextField(_('Name'), null=True, blank=True)

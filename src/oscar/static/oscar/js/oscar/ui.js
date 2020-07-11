@@ -85,11 +85,11 @@ var oscar = (function(o, $) {
 		o.catalogue.pk = options.composite || document.URL;
 		$('.checked_ques').click(function() {
 			if(this.checked) {
-		                // console.log($(this).val());
+		        console.log($(this).val());
 				var obj = {}
 				obj['action'] = "add"
 				obj['pk'] = $(this).val()
-				obj['composite_pk'] = o.catalogue.pk
+				obj['quiz_pk'] = o.catalogue.pk
 		                var csrf = o.getCsrfToken();
                 		    $.ajax({
 		                        type: 'POST',
@@ -118,7 +118,7 @@ var oscar = (function(o, $) {
 				var obj = {}
 				obj['action'] = "remove"
 				obj['pk'] = $(this).val()
-				obj['composite_pk'] = o.catalogue.pk
+				obj['quiz_pk'] = o.catalogue.pk
 		                var csrf = o.getCsrfToken();
                 		    $.ajax({
 		                        type: 'POST',
@@ -146,6 +146,46 @@ var oscar = (function(o, $) {
 			}
 		});
 	}
+    };
+
+    o.layout = {
+        init: function(options) {
+            if (typeof options == 'undefined') {
+                options = {'layoutURL': document.URL};
+            }
+            o.layout.url = options.layoutURL || document.URL;
+            o.layout.pk = options.template || document.URL;
+            $('#update_template').click(function() {
+                console.log(o.layout.url)
+                console.log(o.layout.pk)
+                var obj = {}
+                obj['pk'] = o.layout.pk
+                obj['tl'] = document.getElementById('side_tlheader').value
+                obj['tr'] = document.getElementById('side_trheader').value
+                obj['title'] = document.getElementById('side_title').value
+                obj['bl'] = document.getElementById('side_blheader').value
+                obj['br'] = document.getElementById('side_brheader').value
+                obj['pn'] = document.getElementById('side_pn').value
+                var csrf = o.getCsrfToken();
+                    $.ajax({
+                        type: 'POST',
+                        data: JSON.stringify(obj),
+                        dataType: "json",
+                        contentType : 'application/json',
+                        url: o.layout.url,
+                        beforeSend: function(xhr) {
+                            xhr.setRequestHeader("X-CSRFToken", csrf);
+                        },
+                        success: function (data) {
+                             console.log(data, 'SUCCESS');
+                            // location.reload();
+                        },
+                        error: function (data) {
+                            console.log('ERROR', data);
+                        }
+                    });
+            });
+    }
     };
 
     o.treeview = {

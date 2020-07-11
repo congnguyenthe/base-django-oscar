@@ -15,6 +15,14 @@ from oscar.apps.catalogue.exceptions import (
     IdenticalImageError, ImageImportError, InvalidImageArchive)
 from oscar.core.loading import get_model
 
+# import cStringIO as StringIO
+# from xhtml2pdf import pisa
+# from django.template.loader import get_template
+# from django.template import Context
+# from django.http import HttpResponse
+# from cgi import escape
+
+
 Product = get_model('catalogue', 'product')
 ProductImage = get_model('catalogue', 'productimage')
 
@@ -148,3 +156,19 @@ class Importer(object):
 
     def _get_lookup_value_from_filename(self, filename):
         return os.path.splitext(filename)[0]
+
+# class Exporter(object):
+#     def __init__(self, template_src, context_dict):
+#         self.template_src = template_src
+#         self.context_dict = context_dict
+
+#     def render_to_pdf():
+#         template = get_template(self.template_src)
+#         context = Context(self.context_dict)
+#         html  = template.render(context)
+#         result = io.BytesIO()
+
+#         pdf = pisa.pisaDocument(StringIO.StringIO(html.encode("ISO-8859-1")), result)
+#         if not pdf.err:
+#             return HttpResponse(result.getvalue(), content_type='application/pdf')
+#         return HttpResponse('We had some errors<pre>%s</pre>' % escape(html))

@@ -38,7 +38,7 @@ $ ./manage.py oscar_create_categories
 * Load data from fixture
 $ ./manage.py loaddata quiz_maker/fixtures/questions.json
 
-* Load default template
+* Load sample template --> No need in production
 $ ./manage.py loaddata quiz_maker/fixtures/templates.json
 
 * Run server with listen on 0.0.0.0

@@ -9,7 +9,7 @@
 {# Site logo/title, mini-basket, browse dropdown and searchbox #}
 {% block navigation %}
 	<div class="download pull-right hidden-xs">
-		<a class="btn btn-default" href="">{% trans "Download" %}</a>
+		<a class="btn btn-default" href="{% url 'catalogue:download' %}?pk={{ quiz.pk }}">{% trans "Download" %}</a>
 	</div>
 {% endblock %}
 {# Main content of page - other layout templates may override this block #}
@@ -22,19 +22,22 @@
 				<div class="side_categories">
 					<label> Format Builder </label>
 					<p id="quiz_template_">
-						<form action="">
-							<label for="tlheader">Top Left Header:</label><br>
-							<input type="text" id="side_tlheader" name="tlheader" value="Top Left Header"><br>
-							<label for="trheader">Top Right Header:</label><br>
-							<input type="text" id="side_trheader" name="trheader" value="Top Right Header"><br><br>
-							<label for="title">Title:</label><br>
-							<input type="text" id="side_title" name="title" value="Title"><br><br>
-							<label for="blheader">Bottom Left Header:</label><br>
-							<input type="text" id="side_blheader" name="blheader" value="Bottom Left Header"><br>
-							<label for="brheader">Bottom Right Header:</label><br>
-							<input type="text" id="side_brheader" name="brheader" value="Bottom Right Header"><br><br>
-							<input type="submit" value="Submit">
-						  </form> 
+						<label for="tlheader">Top Left Header:</label><br><br>
+						<input type="text" id="side_tlheader" name="tlheader" value="{{ template.top_left }}"><br><br>
+						<label for="trheader">Top Right Header:</label><br><br>
+						<input type="text" id="side_trheader" name="trheader" value="{{ template.top_right }}"><br><br>
+						<label for="title">Title:</label><br><br>
+						<input type="text" id="side_title" name="title" value="{{ template.title }}"><br><br>
+						<label for="blheader">Bottom Left Header:</label><br><br>
+						<input type="text" id="side_blheader" name="blheader" value="{{ template.bottom_left }}"><br><br>
+						<label for="brheader">Bottom Right Header:</label><br><br>
+						<input type="text" id="side_brheader" name="brheader" value="{{ template.bottom_right }}"><br><br>
+						<label for="page_num">Show/Hide Page Number:</label><br><br>
+						<select name="page_num" id="side_pn">
+							<option value="True">Show</option>
+							<option value="False">Hide</option>
+						</select><br><br>
+						<input type="button" id="update_template" value="Submit">
 					</p>
 				</div>
 			</aside>
@@ -67,4 +70,12 @@
 		</div><!-- /row -->
 	</div><!-- /page_inner -->
 </div><!-- /container-fluid -->
+{% endblock %}
+{% block onbodyload %}
+    {{ block.super }}
+	var layout_info = {
+		'layoutURL': '{% url 'catalogue:layout' %}',
+		'template': '{{ template.pk }}'
+	};
+	oscar.layout.init(layout_info);
 {% endblock %}
