@@ -8,7 +8,7 @@ July/06/2020 - July/12/2020:
   + Create page:
     --> url: create/english/{pk}
     --> Left side tree view
-      --> Add drop-down button to 
+      --> Add drop-down button to
     --> Two columns to show questions
     --> Next/Prev button to move to next stage
 
@@ -20,8 +20,13 @@ Features:
 
 Back-end:
   + Consider creating a different type of model for product: product and quiz
+    --> Quiz
+      --> pk
+      --> item_list
+      --> product_class: type
+      --> quiz_template
   + Layout page:
-    --> Assign default layout/template when create a composite product
+    --> Assign default layout/template when create a quiz --> done
     --> django-template to doc/pdf and vice versa
       --> Solution 1: 
         --> Create .docx/latex template with fix position of headers, footers
@@ -32,17 +37,16 @@ Back-end:
         --> Create the html/css template
         --> Set the context
         --> Render the html data into pdf/doc
-    --> Quiz Template model in the database to save the headers, footers
+          --> https://stackoverflow.com/questions/1377446/render-html-to-pdf-in-django-site
+    --> Quiz Template model in the database to save the headers, footers --> Done
       --> QuizTemplate
         --> pk
         --> path/name: text
-        --> headers: object/dict/json
-          --> 'top-left': text
-          --> 'top-right': text
+        --> top-left: text
+        --> top-right: text
         --> title: text
-        --> footers: object/dict/json
-          --> 'bottom-left': text
-          --> 'bottom-right': text
+        --> bottom-left: text
+        --> bottom-right: text
         --> page_show: boolean
     --> Mapping 1 composite product (quiz) with template_id/name
     --> https://stackoverflow.com/questions/22356496/django-create-odt-or-docx-documents-to-download
