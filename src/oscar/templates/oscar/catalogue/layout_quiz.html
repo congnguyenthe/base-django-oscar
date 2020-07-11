@@ -7,10 +7,11 @@
 {% load class_tags %}
 {% load i18n %}
 {# Site logo/title, mini-basket, browse dropdown and searchbox #}
-<header class="header container-fluid">
-    {% block navigation %}
-    {% endblock %}
-</header>
+{% block navigation %}
+	<div class="download pull-right hidden-xs">
+		<a class="btn btn-default" href="">{% trans "Download" %}</a>
+	</div>
+{% endblock %}
 {# Main content of page - other layout templates may override this block #}
 {% block content_wrapper %}
 <div class="container-fluid page">
@@ -19,19 +20,47 @@
 		<div class="row">
 			<aside class="sidebar col-sm-4 col-md-3">
 				<div class="side_categories">
+					<label> Format Builder </label>
+					<p id="quiz_template_">
+						<form action="">
+							<label for="tlheader">Top Left Header:</label><br>
+							<input type="text" id="tlheader" name="tlheader" value="Top Left Header"><br>
+							<label for="trheader">Top Right Header:</label><br>
+							<input type="text" id="trheader" name="trheader" value="Top Right Header"><br><br>
+							<label for="title">Title:</label><br>
+							<input type="text" id="title" name="title" value="Title"><br><br>
+							<label for="blheader">Bottom Left Header:</label><br>
+							<input type="text" id="blheader" name="blheader" value="Bottom Left Header"><br>
+							<label for="brheader">Bottom Right Header:</label><br>
+							<input type="text" id="brheader" name="brheader" value="Bottom Right Header"><br><br>
+							<input type="submit" value="Submit">
+						  </form> 
+					</p>
 				</div>
-				{% if has_facets %}
-				<div class="side_categories">
-					{% for field, data in facet_data.items %}
-						{% if data.results %}
-							{% include 'oscar/search/partials/facet.html' with name=data.name items=data.results %}
-						{% endif %}
-					{% endfor %}
-				</div>
-				{% endif %}
 			</aside>
 			<div class="col-sm-8 col-md-9" id="list_product">
 				{% include "oscar/partials/alert_messages.html" %}
+				<label id="tlheader">QuizMaker</label>
+				<label id="trheader">Sample Test</label><br>
+				<label id="title">English Sample Test</label><br>
+                {% block content %}
+                    {% if questions %}
+                        <section>
+                            <div>
+                                <ol class="row">
+                                    {% for question in questions %}
+            		                	{% render_product question forloop.counter %}
+                                    {% endfor %}
+                                </ol>
+                                {% include "oscar/partials/pagination.html" %}
+                            </div>
+                        </section>
+                    {% else %}
+                        <p class="nonefound">{% trans "No products found." %}</p>
+                    {% endif %}
+				{% endblock %}
+				<label id="blheader">QuizMaker</label>
+				<label id="brheader">Sample Test</label><br>
 			</div>
 		</div><!-- /row -->
 	</div><!-- /page_inner -->

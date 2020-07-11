@@ -243,8 +243,10 @@ class ProductCreateView(TemplateView):
     def get_context_data(self, **kwargs):
         ctx = {}
         pc = ProductClass.objects.get(slug=self.category_slug)
+        qt = QuizTemplate.objects.get(pk=1)
         quiz = Quiz()
         quiz.product_class = pc
+        quiz.quiz_template = qt
         quiz.item_list = []
         quiz.save()
         ctx['quiz'] = quiz
@@ -269,23 +271,12 @@ class ProductUpdateView(TemplateView):
         # payload = dict(request.GET.lists())
         ques_type = self.request.GET.getlist("type")
         ques_topic = self.request.GET.getlist("topic")
-        # print(ques_type)
-        # print(ques_topic)
-        # payload = json.loads(request.body)
-        # print(payload)
         ques_type_id = []
         ques_topic_id = []
-        # print(Category.objects.all())
-        # print(Category.objects.get(name='8'))
-        # print(ques_type[0])
-        # print(type(ques_type[0]))
-        # print(Category.objects.get(name=ques_type[0].strip()))
         for qt in ques_type:
-            #print(qt)
             try:
                 type_name = Category.objects.get(name=qt.strip())
                 ques_type_id.append(type_name.pk)
-                #print(type_name)
             except Category.DoesNotExist:
                 print("not found " + qt)
 
@@ -293,7 +284,6 @@ class ProductUpdateView(TemplateView):
             try:
                 topic_name = ProductAttribute.objects.get(name=qt.strip())
                 ques_topic_id.append(topic_name.pk)
-                #print(topic_name)
             except ProductAttribute.DoesNotExist:
                 print("not found " + qt)
         filter_type = list(ProductAttributeValue.objects.filter(attribute_id__in=ques_type_id))
@@ -302,13 +292,9 @@ class ProductUpdateView(TemplateView):
         topic_data = []
         for i in filter_type:
             type_data.append(i.product_id)
-            #print("product_id " + str(i.product_id) + " category_id " + str(i.attribute_id))
         for i in filter_topic:
             topic_data.append(i.product_id)
-            #print("product_id " + str(i.product_id) + " attribute_id " + str(i.category_id))
         self.pk_list = list(set(type_data).intersection(topic_data))
-        #print(list_id)
-        #data = serializers.serialize('json', Product.objects.filter(pk__in=list_id))
 
         return super().get(request, *args, **kwargs)
 
@@ -332,7 +318,7 @@ class ProductUpdateView(TemplateView):
         return ctx
 
 class ProductLayoutView(TemplateView):
-    context_object_name = "quiz"
+    context_object_name = "questions"
     template_name = 'oscar/catalogue/layout_quiz.html'
     pk = ""
 
@@ -348,7 +334,8 @@ class ProductLayoutView(TemplateView):
         ctx = {}
         search_context = self.search_handler.get_search_context_data(
                             self.context_object_name)
-        data = Product.objects.filter(pk=self.pk)
-        search_context[self.context_object_name] = data
+        quiz = Quiz.objects.get(pk=self.pk)
+        questions = Product.objects.filter(pk__in=quiz.item_list)
+        search_context[self.context_object_name] = questions
         ctx.update(search_context)
         return ctx

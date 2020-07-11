@@ -15,7 +15,11 @@
                 </span>
             </a>
         </div>
-        {% block create_test %}{% render_questions quiz %}{% endblock %}
+        <div class="create_test pull-right hidden-xs">
+            <strong id="totalQuesText">{% trans "Total: " %}</strong>
+            <strong id="totalQuesNum" class="totalQues"> 0 </strong>
+            <a class="btn btn-default" href="{% url 'catalogue:layout' %}?pk={{ quiz.pk }}">{% trans "Next" %}</a>
+        </div>
         <!-- <a class="btn btn-default navbar-btn btn-cart navbar-right visible-xs-inline-block" href="{% url 'basket:summary' %}">
             <i class="icon-shopping-cart"></i>
             {% trans "Basket" %}

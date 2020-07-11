@@ -1291,13 +1291,21 @@ class AbstractQuiz(models.Model):
 
     item_list = ArrayField(models.IntegerField(), null=True, blank=True)
 
-    product_class = models.OneToOneField(
+    product_class = models.ForeignKey(
         'catalogue.ProductClass',
         null=True,
         blank=True,
         on_delete=models.PROTECT,
         verbose_name=_('Quiz type'), related_name="quiz",
         help_text=_("Choose what type of quiz this is"))
+    
+    quiz_template = models.ForeignKey(
+        'catalogue.QuizTemplate',
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT,
+        verbose_name=_('Quiz type'), related_name="quiz_template",
+        help_text=_("Choose what template of quiz this is"))
 
     class Meta:
         abstract = True
