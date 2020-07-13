@@ -1,0 +1,61 @@
+{% load staticfiles %}
+{% load basket_tags %}
+{% load category_tags %}
+{% load product_tags %}
+{% load attribute_tags %}
+{% load class_tags %}
+{% load i18n %}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+	<head>
+		<title>My Title</title>
+		<style type="text/css">
+@page {
+	size: A4;
+	margin: 1cm;
+	@frame footer {
+		-pdf-frame-content: footerContent;
+		bottom: 0cm;
+		margin-left: 9cm;
+		margin-right: 9cm;
+		height: 1cm;
+	}
+}
+li{
+  list-style-type: none;
+}
+		</style>
+	</head>
+	<body>
+		<div>
+			{% if questions %}
+				<section>
+					<div>
+						<ol class="row">
+							{% for question in questions %}
+								<div class="row">
+									<div class="col-sm-11">
+										{{ forloop.counter }}. {{ question.get_question }}
+										{% for answer in question.get_answers %}
+											<li >
+												{{ answer }}
+											</li>
+										{% endfor %}
+									</div>
+								</div> 
+							{% endfor %}
+						</ol>
+						{% include "oscar/partials/pagination.html" %}
+					</div>
+				</section>
+			{% else %}
+				<p class="nonefound">{% trans "No products found." %}</p>
+			{% endif %}
+		</div>
+		<div id="footerContent">
+			{%block page_foot%}
+			Page <pdf:pagenumber>
+			{%endblock%}
+		</div>
+	</body>
+</html>

@@ -9,6 +9,13 @@ from django.http import JsonResponse
 from django.db.models import Q
 from django.core import serializers
 
+
+import io
+from xhtml2pdf import pisa
+from django.template.loader import get_template
+from django.template import Context
+from django.http import HttpResponse
+
 import json
 
 from oscar.apps.catalogue.signals import product_viewed, product_updated
@@ -364,33 +371,44 @@ class ProductLayoutView(TemplateView):
         return JsonResponse({'result':'ok'})
 
 class ProductDownloadView(TemplateView):
-    context_object_name = "questions"
-    template_name = 'oscar/catalogue/layout_quiz.html'
+    template_name = 'oscar/printable/a4_pdf.html'
     pk = ""
+    print_format = ""
 
     def get(self, request, *args, **kwargs):
         self.pk = self.request.GET.get('pk')
-        self.search_handler = self.get_search_handler(self.request.GET, request.get_full_path(), [])
-        return super().get(request, *args, **kwargs)
-
-    def get_search_handler(self, *args, **kwargs):
-        return get_product_search_handler_class()(*args, **kwargs)
-
-    def get_context_data(self, **kwargs):
+        self.print_format = self.request.GET.get('format')
         ctx = {}
-        search_context = self.search_handler.get_search_context_data(
-                            self.context_object_name)
         quiz = Quiz.objects.get(pk=self.pk)
         template = QuizTemplate.objects.get(pk=quiz.quiz_template_id)
         questions = Product.objects.filter(pk__in=quiz.item_list)
-        ctx['template'] = template
-        search_context[self.context_object_name] = questions
-        ctx.update(search_context)
-        return ctx
+        template = get_template(self.template_name)
+        ctx['questions'] = questions
+        html  = template.render(ctx)
+        result = io.BytesIO()
 
-    def post(self, request, *args, **kwargs):
-        payload = json.loads(request.body)
-        template = QuizTemplate.objects.get(pk=payload["pk"])
-        template.updateTemplateContent(payload["tl"], payload["tr"], payload["title"], payload["bl"], payload["br"], payload["pn"])
-        template.save()
-        return JsonResponse({'result':'ok'})
+        pdf = pisa.pisaDocument(io.BytesIO(html.encode("UTF-8")), result)
+        if not pdf.err:
+            return HttpResponse(result.getvalue(), content_type='application/pdf')
+        return HttpResponse('We had some errors<pre>%s</pre>' % escape(html))
+        # self.search_handler = self.get_search_handler(self.request.GET, request.get_full_path(), [])
+        # return super().get(request, *args, **kwargs)
+
+    # def get_search_handler(self, *args, **kwargs):
+    #     return get_product_search_handler_class()(*args, **kwargs)
+
+    # def get_context_data(self, **kwargs):
+    #     ctx = {}
+    #     quiz = Quiz.objects.get(pk=self.pk)
+    #     template = QuizTemplate.objects.get(pk=quiz.quiz_template_id)
+    #     questions = Product.objects.filter(pk__in=quiz.item_list)
+    #     template = get_template(template_name)
+    #     ctx['questions'] = questions
+    #     html  = template.render(ctx)
+    #     result = StringIO.StringIO()
+
+    #     pdf = pisa.pisaDocument(StringIO.StringIO(html.encode("ISO-8859-1")), result)
+    #     if not pdf.err:
+    #         return HttpResponse(result.getvalue(), content_type='application/pdf')
+    #     return HttpResponse('We had some errors<pre>%s</pre>' % escape(html))
+        # return ctx
