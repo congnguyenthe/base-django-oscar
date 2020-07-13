@@ -26,7 +26,20 @@
             {% if user.is_staff %}
                 <a class="pull-right hidden-xs" href="{% url 'dashboard:catalogue-product' pk=product.id %}"><small><i class="icon-edit"></i> {% trans "Edit this product" %}</small></a>
             {% endif %}
-            <h1>{{ template.get_title }}</h1>
+            <h1>{{ template.title }}</h1>
+            <h4>Sort by topics</h4>
+            {% for key, value in topics.items %}
+		    <li>
+			    {{ key }}: {{ value }}
+		    </li>
+            {% endfor %}
+
+            <h4>Sort by types</h4>
+            {% for key1, value1 in types.items %}
+		    <li>
+			    {{ key1 }}: {{ value1 }}
+		    </li>
+		    {% endfor %}
             <div class="download pull-right hidden-xs">
                 <a class="btn btn-default" href="{% url 'catalogue:download' %}?pk={{ quiz.pk }}&format=pdf">{% trans "Download" %}</a>
             </div>

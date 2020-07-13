@@ -8,7 +8,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
-		<title>My Title</title>
+		<title>{{ template.title }}</title>
 		<style type="text/css">
 @page {
 	size: A4;
@@ -24,7 +24,40 @@
 li{
   list-style-type: none;
 }
+
+#tlheader {
+  position: absolute;
+  top: 20px;
+  left: 50px;
+}
+
+#trheader {
+  position: absolute;
+  top: 20px;
+  right: 50px;
+}
+
+#title {
+  position: absolute;
+  top: 50px;
+  right: 300px;
+}
+
+#blheader {
+  position: absolute;
+  bottom: 20px;
+  left: 50px;
+}
+
+#brheader {
+  position: absolute;
+  bottom: 20px;
+  right: 50px;
+}
 		</style>
+		<label id="tlheader">{{ template.top_left }}</label>
+		<label id="trheader">{{ template.top_right }}</label><br>
+		<label id="title">{{ template.title }}</label><br>
 	</head>
 	<body>
 		<div>
@@ -54,7 +87,11 @@ li{
 		</div>
 		<div id="footerContent">
 			{%block page_foot%}
-			Page <pdf:pagenumber>
+				<label id="blheader"> {{ template.bottom_left }} </label>
+				<label id="brheader"> {{ template.bottom_right }} </label><br>
+				{% if template.pn %}
+					Page <pdf:pagenumber>
+				{% endif %}
 			{%endblock%}
 		</div>
 	</body>

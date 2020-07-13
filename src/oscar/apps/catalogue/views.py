@@ -52,11 +52,30 @@ class ProductDetailView(TemplateView):
         ctx = {}
         search_context = self.search_handler.get_search_context_data(
                             self.context_object_name)
+        topics = dict()
+        types = dict()
+        quiz = Quiz.objects.get(pk=self.pk)
+        for question_id in quiz.item_list:
+            topic_id = ProductCategory.objects.get(product_id=question_id).category_id
+            topic_name = Category.objects.get(pk=topic_id).name
+            if topic_name in topics:
+                topics[topic_name] = topics[topic_name] + 1
+            else:
+                topics[topic_name] = 1
+
+            type_id = ProductAttributeValue.objects.get(product_id=question_id).attribute_id
+            type_name = ProductAttribute.objects.get(pk=type_id).name
+            if type_name in topics:
+                types[type_name] = types[type_name] + 1
+            else:
+                types[type_name] = 1
         quiz = Quiz.objects.get(pk=self.pk)
         template = QuizTemplate.objects.get(pk=quiz.quiz_template_id)
         questions = Product.objects.filter(pk__in=quiz.item_list)
         ctx['template'] = template
         ctx['quiz'] = quiz
+        ctx['topics'] = topics
+        ctx['types'] = types
         search_context[self.context_object_name] = questions
         ctx.update(search_context)
         return ctx
@@ -230,10 +249,12 @@ class ProductUpdateView(TemplateView):
                 ques_topic_id.append(topic_name.pk)
             except ProductAttribute.DoesNotExist:
                 print("not found " + qt)
+
         filter_type = list(ProductAttributeValue.objects.filter(attribute_id__in=ques_type_id))
         filter_topic = list(ProductCategory.objects.filter(category_id__in=ques_topic_id))
         type_data = []
         topic_data = []
+
         for i in filter_type:
             type_data.append(i.product_id)
         for i in filter_topic:
@@ -309,11 +330,12 @@ class ProductDownloadView(TemplateView):
         self.pk = self.request.GET.get('pk')
         self.print_format = self.request.GET.get('format')
         ctx = {}
-        quiz = Quiz.objects.get(pk=self.pk)
-        template = QuizTemplate.objects.get(pk=quiz.quiz_template_id)
+
+        templateData = QuizTemplate.objects.get(pk=quiz.quiz_template_id)
         questions = Product.objects.filter(pk__in=quiz.item_list)
         template = get_template(self.template_name)
         ctx['questions'] = questions
+        ctx['template'] = templateData
         html  = template.render(ctx)
         result = io.BytesIO()
 
