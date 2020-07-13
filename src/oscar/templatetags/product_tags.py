@@ -5,7 +5,7 @@ register = template.Library()
 
 
 @register.simple_tag(takes_context=True)
-def render_product(context, product, index):
+def render_product(context, product, index, show_checkboxes="enable"):
     """
     Render a product snippet as you would see in a browsing display.
 
@@ -28,6 +28,8 @@ def render_product(context, product, index):
     # Ensure the passed product is in the context as 'product'
     context['product'] = product
     context['index'] = index
+    if show_checkboxes == "enable":
+        context['show_checkboxes'] = show_checkboxes
     return template_.render(context)
 
 # @register.simple_tag(takes_context=True)

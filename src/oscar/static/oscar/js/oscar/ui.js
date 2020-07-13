@@ -103,11 +103,11 @@ var oscar = (function(o, $) {
 		                        success: function (data) {
 	        	     		        // console.log(data, 'SUCCESS');
 		        	                // location.reload();
-						var text = $('.totalQues').text()
-						console.log(text)
-						var number = parseInt(text, 10) + 1
-						console.log(number)
-						document.getElementById("totalQuesNum").textContent = number
+                                    var text = $('.totalQues').text()
+                                    console.log(text)
+                                    var number = parseInt(text, 10) + 1
+                                    console.log(number)
+                                    document.getElementById("totalQuesNum").textContent = number
 		                        },
                         		error: function (data) {
 		                            console.log('ERROR', data);
@@ -133,11 +133,11 @@ var oscar = (function(o, $) {
 		                        success: function (data) {
 	        	     		        // console.log(data, 'SUCCESS');
 		        	                // location.reload();
-						var text = $('.totalQues').text()
-						// console.log(text)
-						var number = parseInt(text, 10) - 1
-						// console.log(number)
-						document.getElementById("totalQuesNum").textContent = number
+                                    var text = $('.totalQues').text()
+                                    // console.log(text)
+                                    var number = parseInt(text, 10) - 1
+                                    // console.log(number)
+                                    document.getElementById("totalQuesNum").textContent = number
 		                        },
                         		error: function (data) {
 		                            console.log('ERROR', data);
@@ -194,72 +194,77 @@ var oscar = (function(o, $) {
     };
 
     o.treeview = {
-        init: function() {
-		var toggler = document.getElementsByClassName("caretTreeView");
-		var i;
-
-		for (i = 0; i < toggler.length; i++) {
-			toggler[i].addEventListener("click", function() {
-				this.parentElement.querySelector(".nested").classList.toggle("activeTreeView");
-				this.classList.toggle("caretTreeView-down");
-			});
-        }
-        $('.checked_parent_type').click(function() {
-            $(this.parentElement.querySelector(".nested")).find("input[type='checkbox']").prop('checked', this.checked);
-            this.parentElement.querySelector(".nested").classList.toggle("activeTreeView");
-			this.parentElement.querySelector(".nested").parentElement.querySelector(".caretTreeView").classList.toggle("caretTreeView-down");
-        });
-        $('.quiz').click(function(){
-            var url = "?cat=" + $(this).val();
-
-            var id = $(this).val();
-            // console.log(url)
-
-            // Construct the full URL with "id"
-            document.location.href = url;
-        });
-        $('#update_ques_list').click(function() {
-            // Construct a list of filter
-            var ques_type = [];
-            var ques_topic = [];
-            // Get all the checked boxes in the side_categories div
-            $('.nested input:checked').each(function() {
-                ques_type.push($(this).val());
-            });
-            $('#topicList input:checked').each(function() {
-                ques_topic.push($(this).val());
-            });
-            console.log(ques_topic)
-            console.log(ques_type)
-
-            // Query data from the backend
-            var obj = {
-                type: ques_type,
-                topic: ques_topic
+        init: function(options) {
+            if (typeof options == 'undefined') {
+                options = {'catalogueURL': document.URL};
             }
-			// obj['type'] = ques_type
-			// obj['topic'] = ques_topic
-		    var csrf = o.getCsrfToken();
-            $.ajax({
-		        type: 'GET',
-                data: obj,
-                traditional: true,
-		        url: o.catalogue.url,
-                beforeSend: function(xhr) {
-		            xhr.setRequestHeader("X-CSRFToken", csrf);
-                },
-		        success: function (data) {
-	                console.log(data, 'SUCCESS');
-			        $('#list_product').html(data);
-		            // location.reload();
-			    },
-            	error: function (data) {
-		            console.log('ERROR', data);
+            o.treeview.url = options.catalogueURL || document.URL;
+            o.treeview.pk = options.composite || document.URL;
+            var toggler = document.getElementsByClassName("caretTreeView");
+            var i;
+
+            for (i = 0; i < toggler.length; i++) {
+                toggler[i].addEventListener("click", function() {
+                    this.parentElement.querySelector(".nested").classList.toggle("activeTreeView");
+                    this.classList.toggle("caretTreeView-down");
+                });
+            }
+            $('.checked_parent_type').click(function() {
+                $(this.parentElement.querySelector(".nested")).find("input[type='checkbox']").prop('checked', this.checked);
+                this.parentElement.querySelector(".nested").classList.toggle("activeTreeView");
+                this.parentElement.querySelector(".nested").parentElement.querySelector(".caretTreeView").classList.toggle("caretTreeView-down");
+            });
+            $('.quiz').click(function(){
+                var url = "?cat=" + $(this).val();
+
+                var id = $(this).val();
+                // console.log(url)
+
+                // Construct the full URL with "id"
+                document.location.href = url;
+            });
+            $('#update_ques_list').click(function() {
+                // Construct a list of filter
+                var ques_type = [];
+                var ques_topic = [];
+                // Get all the checked boxes in the side_categories div
+                $('.nested input:checked').each(function() {
+                    ques_type.push($(this).val());
+                });
+                $('#topicList input:checked').each(function() {
+                    ques_topic.push($(this).val());
+                });
+                console.log(ques_topic)
+                console.log(ques_type)
+
+                // Query data from the backend
+                var obj = {
+                    pk: o.treeview.pk,
+                    type: ques_type,
+                    topic: ques_topic
                 }
-		    });
-            // Load data into the template tags
-		});
-    }
+                // obj['type'] = ques_type
+                // obj['topic'] = ques_topic
+                var csrf = o.getCsrfToken();
+                $.ajax({
+                    type: 'GET',
+                    data: obj,
+                    traditional: true,
+                    url: o.catalogue.url,
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader("X-CSRFToken", csrf);
+                    },
+                    success: function (data) {
+                        console.log(data, 'SUCCESS');
+                        $('#list_product').html(data);
+                    },
+                    error: function (data) {
+                        console.log('ERROR', data);
+                    }
+                });
+                // Load data into the template tags
+            });
+        }
     };
 
     // Site-wide forms events

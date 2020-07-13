@@ -37,8 +37,7 @@ class CatalogueOnlyConfig(OscarConfig):
             url(r'^layout/$', self.product_layout_view.as_view(), name='layout'),
             url(r'^download/$', self.product_download_view.as_view(), name='download'),
 
-            url(r'^(?P<product_slug>[\w-]*)_(?P<pk>\d+)/$',
-                self.detail_view.as_view(), name='detail'),
+            url(r'^detail/$', self.detail_view.as_view(), name='detail'),
             url(r'^(?P<category_slug>[\w-]+(/[\w-]+)*)_(?P<pk>\d+)/$',
                 self.category_view.as_view(), name='category'),
             url(r'^ranges/(?P<slug>[\w-]+)/$',

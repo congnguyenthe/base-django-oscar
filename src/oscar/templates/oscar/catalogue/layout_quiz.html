@@ -9,7 +9,7 @@
 {# Site logo/title, mini-basket, browse dropdown and searchbox #}
 {% block navigation %}
 	<div class="download pull-right hidden-xs">
-		<a class="btn btn-default" href="{% url 'catalogue:download' %}?pk={{ quiz.pk }}&format=pdf">{% trans "Download" %}</a>
+		<a class="btn btn-default" href="{% url 'catalogue:detail' %}?pk={{ quiz.pk }}">{% trans "Done" %}</a>
 	</div>
 {% endblock %}
 {# Main content of page - other layout templates may override this block #}
@@ -53,7 +53,7 @@
 								<div>
 									<ol class="row">
 										{% for question in questions %}
-											{% render_product question forloop.counter %}
+											{% render_product question forloop.counter disable %}
 										{% endfor %}
 									</ol>
 									{% include "oscar/partials/pagination.html" %}

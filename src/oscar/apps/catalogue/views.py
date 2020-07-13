@@ -35,105 +35,31 @@ get_product_search_handler_class = get_class(
     'catalogue.search_handlers', 'get_product_search_handler_class')
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(TemplateView):
     context_object_name = 'product'
-    model = Product
-    view_signal = product_viewed
-    template_folder = "catalogue"
+    template_name = "oscar/catalogue/detail.html"
+    pk = ""
 
-    # Whether to redirect to the URL with the right path
-    enforce_paths = True
+    def get(self, request, *args, **kwargs):
+        self.pk = self.request.GET.get('pk')
+        self.search_handler = self.get_search_handler(self.request.GET, request.get_full_path(), [])
+        return super().get(request, *args, **kwargs)
 
-    # Whether to redirect child products to their parent's URL. If it's disabled,
-    # we display variant product details on the separate page. Otherwise, details
-    # displayed on parent product page.
-    enforce_parent = False
-
-    def get(self, request, **kwargs):
-        """
-        Ensures that the correct URL is used before rendering a response
-        """
-        self.object = product = self.get_object()
-
-        redirect = self.redirect_if_necessary(request.path, product)
-        if redirect is not None:
-            return redirect
-
-        # Do allow staff members so they can test layout etc.
-        if not self.is_viewable(product, request):
-            raise Http404()
-
-        response = super().get(request, **kwargs)
-        self.send_signal(request, response, product)
-        return response
-
-    def is_viewable(self, product, request):
-        return product.is_public or request.user.is_staff
-
-    def get_object(self, queryset=None):
-        # Check if self.object is already set to prevent unnecessary DB calls
-        if hasattr(self, 'object'):
-            return self.object
-        else:
-            return super().get_object(queryset)
-
-    def redirect_if_necessary(self, current_path, product):
-        if self.enforce_parent and product.is_child:
-            return HttpResponsePermanentRedirect(
-                product.parent.get_absolute_url())
-
-        if self.enforce_paths:
-            expected_path = product.get_absolute_url()
-            if expected_path != urlquote(current_path):
-                return HttpResponsePermanentRedirect(expected_path)
+    def get_search_handler(self, *args, **kwargs):
+        return get_product_search_handler_class()(*args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        ctx = super().get_context_data(**kwargs)
-        ctx['alert_form'] = self.get_alert_form()
-        ctx['has_active_alert'] = self.get_alert_status()
+        ctx = {}
+        search_context = self.search_handler.get_search_context_data(
+                            self.context_object_name)
+        quiz = Quiz.objects.get(pk=self.pk)
+        template = QuizTemplate.objects.get(pk=quiz.quiz_template_id)
+        questions = Product.objects.filter(pk__in=quiz.item_list)
+        ctx['template'] = template
+        ctx['quiz'] = quiz
+        search_context[self.context_object_name] = questions
+        ctx.update(search_context)
         return ctx
-
-    def get_alert_status(self):
-        # Check if this user already have an alert for this product
-        has_alert = False
-        if self.request.user.is_authenticated:
-            alerts = ProductAlert.objects.filter(
-                product=self.object, user=self.request.user,
-                status=ProductAlert.ACTIVE)
-            has_alert = alerts.exists()
-        return has_alert
-
-    def get_alert_form(self):
-        return ProductAlertForm(
-            user=self.request.user, product=self.object)
-
-    def send_signal(self, request, response, product):
-        self.view_signal.send(
-            sender=self, product=product, user=request.user, request=request,
-            response=response)
-
-    def get_template_names(self):
-        """
-        Return a list of possible templates.
-
-        If an overriding class sets a template name, we use that. Otherwise,
-        we try 2 options before defaulting to :file:`catalogue/detail.html`:
-
-            1. :file:`detail-for-upc-{upc}.html`
-            2. :file:`detail-for-class-{classname}.html`
-
-        This allows alternative templates to be provided for a per-product
-        and a per-item-class basis.
-        """
-        if self.template_name:
-            return [self.template_name]
-
-        return [
-            'oscar/%s/detail-for-upc-%s.html' % (
-                self.template_folder, self.object.upc),
-            'oscar/%s/detail-for-class-%s.html' % (
-                self.template_folder, self.object.get_product_class().slug),
-            'oscar/%s/detail.html' % self.template_folder]
 
 
 class CatalogueView(TemplateView):
@@ -278,6 +204,7 @@ class ProductCreateView(TemplateView):
 class ProductUpdateView(TemplateView):
     context_object_name = "products"
     template_name = 'oscar/catalogue/partials/products.html'
+    quiz_pk = ""
     pk_list = []
 
     def get(self, request, *args, **kwargs):
@@ -287,6 +214,7 @@ class ProductUpdateView(TemplateView):
         # payload = dict(request.GET.lists())
         ques_type = self.request.GET.getlist("type")
         ques_topic = self.request.GET.getlist("topic")
+        self.pk = self.request.GET.get("pk")
         ques_type_id = []
         ques_topic_id = []
         for qt in ques_type:
@@ -329,7 +257,9 @@ class ProductUpdateView(TemplateView):
         search_context = self.search_handler.get_search_context_data(
                             self.context_object_name)
         data = Product.objects.filter(pk__in=self.pk_list)
+        quiz = Quiz.objects.get(pk=self.pk)
         search_context[self.context_object_name] = data
+        ctx['quiz'] = quiz
         ctx.update(search_context)
         return ctx
 
@@ -391,24 +321,3 @@ class ProductDownloadView(TemplateView):
         if not pdf.err:
             return HttpResponse(result.getvalue(), content_type='application/pdf')
         return HttpResponse('We had some errors<pre>%s</pre>' % escape(html))
-        # self.search_handler = self.get_search_handler(self.request.GET, request.get_full_path(), [])
-        # return super().get(request, *args, **kwargs)
-
-    # def get_search_handler(self, *args, **kwargs):
-    #     return get_product_search_handler_class()(*args, **kwargs)
-
-    # def get_context_data(self, **kwargs):
-    #     ctx = {}
-    #     quiz = Quiz.objects.get(pk=self.pk)
-    #     template = QuizTemplate.objects.get(pk=quiz.quiz_template_id)
-    #     questions = Product.objects.filter(pk__in=quiz.item_list)
-    #     template = get_template(template_name)
-    #     ctx['questions'] = questions
-    #     html  = template.render(ctx)
-    #     result = StringIO.StringIO()
-
-    #     pdf = pisa.pisaDocument(StringIO.StringIO(html.encode("ISO-8859-1")), result)
-    #     if not pdf.err:
-    #         return HttpResponse(result.getvalue(), content_type='application/pdf')
-    #     return HttpResponse('We had some errors<pre>%s</pre>' % escape(html))
-        # return ctx
