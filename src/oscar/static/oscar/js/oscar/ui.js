@@ -179,6 +179,11 @@ var oscar = (function(o, $) {
                         success: function (data) {
                              console.log(data, 'SUCCESS');
                             // location.reload();
+                            document.getElementById("tlheader").textContent = document.getElementById('side_tlheader').value
+                            document.getElementById("trheader").textContent = document.getElementById('side_trheader').value
+                            document.getElementById("title").textContent = document.getElementById('side_title').value
+                            document.getElementById("blheader").textContent = document.getElementById('side_blheader').value
+                            document.getElementById("brheader").textContent = document.getElementById('side_brheader').value
                         },
                         error: function (data) {
                             console.log('ERROR', data);
@@ -208,7 +213,7 @@ var oscar = (function(o, $) {
             var url = "?cat=" + $(this).val();
 
             var id = $(this).val();
-            console.log(url)
+            // console.log(url)
 
             // Construct the full URL with "id"
             document.location.href = url;
