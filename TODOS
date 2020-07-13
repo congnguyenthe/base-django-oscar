@@ -1,16 +1,35 @@
 * REQ01: Add more questions with dynamic category structure --> Done
-* REQ02: Show checkboxes next to categories to enable/disable questions belongs to that category
-* REQ03: Replace Done/Cancel by Next button to indicate the process of creating test/quiz
-* REQ04: Show questions in docx/pdf template
-* REQ05: Create docx/pdf file and send link back to client to download test/quiz
+* REQ02: Show checkboxes next to categories to enable/disable questions belongs to that category --> Done
+* REQ03: Replace Done/Cancel by Next button to indicate the process of creating test/quiz --> Done
+* REQ04: Show questions in pdf template --> Done
+* REQ05: Create pdf file and send link back to client to download test/quiz --> Done
+
+* REQ06: Show quiz details
+* REQ07: Admin/Traffic analysis
+* REQ08: User registration
+* REQ09: Pricing / Premium features: doc format, question shuffle with answer sheet
+* REQ10: Utilizing production
+* REQ11: Import data
+* REQ12: Allow download answer sheet
+* REQ13: Web design
 
 July/06/2020 - July/12/2020:
-  + Create page:
+  + Create page: --> Done
     --> url: create/english/{pk}
     --> Left side tree view
       --> Add drop-down button to
     --> Two columns to show questions
     --> Next/Prev button to move to next stage
+
+July/13/2020 - July/19/2020:
+  + Download page:
+    --> pdf: 
+    --> doc:
+  + Detail page:
+    --> Summary
+    --> Total ques in each topic
+  + Login required features
+  + UI design
 
 Features:
   + Provide sample layout for test/quiz
@@ -48,7 +67,7 @@ Back-end:
         --> bottom-left: text
         --> bottom-right: text
         --> page_show: boolean
-    --> Mapping 1 composite product (quiz) with template_id/name
+    --> Mapping 1 composite product (quiz) with template_id/name --> Done
     --> https://stackoverflow.com/questions/22356496/django-create-odt-or-docx-documents-to-download
     --> https://stackoverflow.com/questions/3521727/how-to-create-doc-files-using-templates-with-django-python
   + Tracking total questions/test/quiz created by users
