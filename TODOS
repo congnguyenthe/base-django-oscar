@@ -13,23 +13,33 @@
 * REQ12: Allow download answer sheet
 * REQ13: Web design
 
-July/06/2020 - July/12/2020:
-  + Create page: --> Done
-    --> url: create/english/{pk}
-    --> Left side tree view
-      --> Add drop-down button to
-    --> Two columns to show questions
-    --> Next/Prev button to move to next stage
-
 July/13/2020 - July/19/2020:
-  + Download page:
-    --> pdf: 
-    --> doc:
-  + Detail page:
-    --> Summary
-    --> Total ques in each topic
   + Login required features
+    --> Create a management command to add demo users
   + UI design
+    --> Merge UI code
+    --> Define pages in site
+      --> Landing page
+      --> Login page
+      --> User page
+      --> Builder page
+    --> Select template
+      --> Landing page
+      --> Builder page
+        --> Filter at nav bar
+          --> Date added/created
+          --> Rating
+          --> Layout
+        --> Filter at side bar
+        --> Done/Cancel/Save/Discard/Download
+        --> https://github.com/coreui/coreui-free-bootstrap-admin-template
+        --> https://github.com/learning-zone/website-templates/free-bootstrap-admin-template-dream --> Do not use
+  + Download page: mostly done
+    --> pdf: 
+    --> doc: no doc yet
+  + Detail page: Done
+    --> Summary: Quiz name
+    --> Total ques in each topic/type: Done
 
 Features:
   + Provide sample layout for test/quiz
