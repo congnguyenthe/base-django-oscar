@@ -13,7 +13,7 @@
 				<input class="checked_ques" id="selected_question" type="checkbox" name="selected_ques" value=" {{ product.pk  }}"><em></em>
 			</div>
 		{% endif %}
-	     
+
 	    <div class="col-sm-11">
 		    {{ index }}. {{ product.get_question }}
 		    {% for answer in product.get_answers %}

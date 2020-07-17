@@ -175,7 +175,7 @@ class ProductCreateView(TemplateView):
     Create a composite product
     """
     context_object_name = "products"
-    template_name = 'oscar/catalogue/create2.html'
+    template_name = 'oscar/catalogue/create_coreui.html'
     category_slug = ""
 
     def get(self, request, *args, **kwargs):

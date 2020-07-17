@@ -1,0 +1,134 @@
+{% extends "oscar/layout_coreui.html" %}
+{% load staticfiles %}
+{% load basket_tags %}
+{% load category_tags %}
+{% load product_tags %}
+{% load attribute_tags %}
+{% load class_tags %}
+{% load i18n %}
+
+{# Main content of page - other layout templates may override this block #}
+{% block content_wrapper %}
+<div class="row mt-0 pt-0">
+    <div class="col-sm-2 col-md-2 mt-0 pt-0 ml-0 pl-0 mr-0 pr-0">
+        <div class="row align-items-center mt-0 pt-0">
+            <div class="col-sm-12 col-md-12 mt-0 pt-0">
+                <div class="card mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0">
+                    <div class="card-header bg-gray-100">Question Types</div>
+                    <div class="card-body">
+                        {% category_tree as tree_categories %}
+                        {% if tree_categories %}
+                            <ul class="normal-list" id="treeviewCategories">
+                                {% for tree_category in tree_categories %}
+                                    {% if tree_category.has_children %}
+                                    <li class="normal-list-item">
+                                        <input class="checked_parent_type" id="selected_type" type="checkbox" name="selected_type" value=" {{ tree_category.name  }}" checked="true">
+                                        {{ tree_category.name }}
+                                        <ul class="nested normal-list">
+                                    {% else %}
+                                        <li class="normal-list-item">
+                                        <input class="checked_child_type" id="selected_child_topic" type="checkbox" name="selected_type" value=" {{ tree_category.name  }}" checked="true">
+                                        {{ tree_category.name }}
+                                        </li>
+                                    {% endif %}
+                                    {% for n in tree_category.num_to_close %}
+                                        </ul></li>
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row align-items-center">
+            <div class="col-sm-12 col-md-12">
+                <div class="card mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0">
+                    <div class="card-header bg-gray-100">Question Topics</div>
+                    <div class="card-body">
+                        <div class="collapse show" id="collapseExample">
+                            <div class="card-body">
+                                {% attributes as attributes_list %}
+                                {% if attributes_list %}
+                                    <ul class="normal-list" id="topicList">
+                                    {% for attribute in attributes_list%}
+                                    <li class="normal-list-item">
+                                        <input class="checked_topic" id="selected_topic" type="checkbox" name="selected_topic" value=" {{ attribute.name }}" checked="true">
+                                        {{ attribute.name }}
+                                        </li>
+                                    {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-10 col-md-10 mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 bg-white">
+        <div class="row mt-0 pt-0 ml-0 pl-0 mr-0 pr-0">
+            <div class="c-subheader px-3 border-top bg-gray-100">
+                <div class="col-sm-3 col-md-2">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <button class="btn btn-sm btn-facebook" type="button">
+                                    <svg class="c-icon">
+                                        <use xlink:href="{% static "oscar/coreui/assets/brand/coreui.svg" %}#cib-facebook-f"></use>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="col-md-4">
+                                <button class="btn btn-sm btn-twitter" type="button">
+                                    <svg class="c-icon">
+                                        <use xlink:href="{% static "oscar/coreui/assets/brand/coreui.svg" %}#cib-twitter"></use>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="col-md-4">
+                                <button class="btn btn-sm btn-linkedin" type="button">
+                                    <svg class="c-icon">
+                                        <use xlink:href="{% static "oscar/coreui/assets/brand/coreui.svg" %}#cib-linkedin"></use>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-9 col-md-10">
+                    <div class="row">
+                        <div class="col-6 col-sm-4 col-md-2 col-xl mb-3 mb-xl-0">
+                            <button class="btn btn-block btn-outline-primary" type="button" disabled="">Primary</button>
+                        </div>
+                        <div class="col-6 col-sm-4 col-md-2 col-xl mb-3 mb-xl-0">
+                            <button class="btn btn-block btn-outline-secondary" type="button" disabled="">Secondary</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-0 pt-0 ml-0 pl-0 mr-0 pr-0">
+            <div class="col-sm-9 col-md-10" id="list_product">
+                {% include "oscar/partials/alert_messages.html" %}
+                {% block content %}
+                    {% if products %}
+                        <section>
+                            <div>
+                                <div class="row">
+                                    {% for product in products %}
+                                    {% render_product product forloop.counter "enable" %}
+                                    {% endfor %}
+                                </div>
+                                {% include "oscar/partials/pagination.html" %}
+                            </div>
+                        </section>
+                    {% else %}
+                        <p class="nonefound">{% trans "No products found." %}</p>
+                    {% endif %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

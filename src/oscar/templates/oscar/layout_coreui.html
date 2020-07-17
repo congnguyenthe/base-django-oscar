@@ -1,0 +1,179 @@
+{% extends "oscar/base_coreui.html" %}
+{% load staticfiles %}
+{% load basket_tags %}
+{% load category_tags %}
+{% load product_tags %}
+{% load attribute_tags %}
+{% load class_tags %}
+{% load i18n %}
+{% block styles %}
+    {% comment %}
+        If you are developing Oscar's CSS, or overriding Oscar's CSS
+        files in your project, then set OSCAR_USE_LESS = True in your
+        settings file. This will enable the on-the-fly less compiler.
+    {% endcomment %}
+    <link rel="stylesheet" type="text/css" href="{% static "oscar/coreui/css/style.css" %}" />
+    <link href="{% static "oscar/coreui/vendors/@coreui/icons/css/flag.min.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block layout %}
+    <body class="c-app">
+        <div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show" id="sidebar">
+            <div class="c-sidebar-brand d-lg-down-none">
+            <svg class="c-sidebar-brand-full" width="118" height="46" alt="CoreUI Logo">
+                <use xlink:href="{% static "oscar/coreui/assets/brand/coreui.svg" %}#full"></use>
+            </svg>
+            <svg class="c-sidebar-brand-minimized" width="46" height="46" alt="CoreUI Logo">
+                <use xlink:href="{% static "oscar/coreui/assets/brand/coreui.svg" %}#signet"></use>
+            </svg>
+            </div>
+            <ul class="c-sidebar-nav">
+            <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="">
+                <svg class="c-sidebar-nav-icon">
+                    <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-speedometer"></use>
+                </svg> Dashboard</a></li>
+            <li class="c-sidebar-nav-item c-sidebar-nav-dropdown"><a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="">
+                <svg class="c-sidebar-nav-icon">
+                    <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-color-border"></use>
+                </svg> Create </a>
+                <ul class="c-sidebar-nav-dropdown-items">
+                    <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="{% url 'catalogue:create' %}?cat=english"><span class="c-sidebar-nav-icon"></span>English</a></li>
+                    <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="{% url 'catalogue:create' %}?cat=japanese"><span class="c-sidebar-nav-icon"></span>Japanese</a></li>
+                    <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="{% url 'catalogue:create' %}?cat=chinese"><span class="c-sidebar-nav-icon"></span>Chinese</a></li>
+                    <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="{% url 'catalogue:create' %}?cat=korean"><span class="c-sidebar-nav-icon"></span>Korean</a></li>
+                </ul>
+            </li>
+            <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="#">
+                <svg class="c-sidebar-nav-icon">
+                    <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-bold"></use>
+                </svg> Browse </a></li>
+            <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="#">
+                <svg class="c-sidebar-nav-icon">
+                    <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-settings"></use>
+                </svg> Settings </a></li>
+            </ul>
+            <button class="c-sidebar-minimizer c-class-toggler" type="button" data-target="_parent" data-class="c-sidebar-minimized"></button>
+        </div>
+        <div class="c-wrapper c-fixed-components mb-0 pb-0">
+            <header class="c-header c-header-light c-header-fixed c-header-with-subheader">
+                <button class="c-header-toggler c-class-toggler d-lg-none mfe-auto" type="button" data-target="#sidebar" data-class="c-sidebar-show">
+                <svg class="c-icon c-icon-lg">
+                    <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-menu"></use>
+                </svg>
+                </button><a class="c-header-brand d-lg-none" href="#">
+                <svg width="118" height="46" alt="CoreUI Logo">
+                    <use xlink:href="{% static "oscar/coreui/assets/brand/coreui.svg" %}#full"></use>
+                </svg></a>
+                <button class="c-header-toggler c-class-toggler mfs-3 d-md-down-none" type="button" data-target="#sidebar" data-class="c-sidebar-lg-show" responsive="true">
+                <svg class="c-icon c-icon-lg">
+                    <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-menu"></use>
+                </svg>
+                </button>
+                <ul class="c-header-nav ml-auto mr-4">
+                <li class="c-header-nav-item d-md-down-none mx-2"><a class="c-header-nav-link" href="#">
+                    <svg class="c-icon">
+                        <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-bell"></use>
+                    </svg></a></li>
+                <li class="c-header-nav-item d-md-down-none mx-2"><a class="c-header-nav-link" href="#">
+                    <svg class="c-icon">
+                        <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-list-rich"></use>
+                    </svg></a></li>
+                <li class="c-header-nav-item d-md-down-none mx-2"><a class="c-header-nav-link" href="#">
+                    <svg class="c-icon">
+                        <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-envelope-open"></use>
+                    </svg></a></li>
+                <li class="c-header-nav-item dropdown"><a class="c-header-nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    <div class="c-avatar"><img class="c-avatar-img" src="{% static "oscar/coreui/assets/img/avatars/6.jpg" %}" alt="user@email.com"></div>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right pt-0">
+                    <div class="dropdown-header bg-light py-2"><strong>Account</strong></div><a class="dropdown-item" href="#">
+                        <svg class="c-icon mr-2">
+                        <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-bell"></use>
+                        </svg> Updates<span class="badge badge-info ml-auto">42</span></a><a class="dropdown-item" href="#">
+                        <svg class="c-icon mr-2">
+                        <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-envelope-open"></use>
+                        </svg> Messages<span class="badge badge-success ml-auto">42</span></a><a class="dropdown-item" href="#">
+                        <svg class="c-icon mr-2">
+                        <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-task"></use>
+                        </svg> Tasks<span class="badge badge-danger ml-auto">42</span></a><a class="dropdown-item" href="#">
+                        <svg class="c-icon mr-2">
+                        <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-comment-square"></use>
+                        </svg> Comments<span class="badge badge-warning ml-auto">42</span></a>
+                    <div class="dropdown-header bg-light py-2"><strong>Settings</strong></div><a class="dropdown-item" href="#">
+                        <svg class="c-icon mr-2">
+                        <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-user"></use>
+                        </svg> Profile</a><a class="dropdown-item" href="#">
+                        <svg class="c-icon mr-2">
+                        <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-settings"></use>
+                        </svg> Settings</a><a class="dropdown-item" href="#">
+                        <svg class="c-icon mr-2">
+                        <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-credit-card"></use>
+                        </svg> Payments<span class="badge badge-secondary ml-auto">42</span></a><a class="dropdown-item" href="#">
+                        <svg class="c-icon mr-2">
+                        <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-file"></use>
+                        </svg> Projects<span class="badge badge-primary ml-auto">42</span></a>
+                    <div class="dropdown-divider"></div><a class="dropdown-item" href="#">
+                        <svg class="c-icon mr-2">
+                        <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-lock-locked"></use>
+                        </svg> Lock Account</a><a class="dropdown-item" href="#">
+                        <svg class="c-icon mr-2">
+                        <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-account-logout"></use>
+                        </svg> Logout</a>
+                    </div>
+                </li>
+                </ul>
+            </header>
+            <div class="c-body ml-0 pl-0">
+                <div class="container-fluid ml-0 pl-0">
+                    <div class="fade-in">
+                        {# Main content of page - other layout templates may override this block #}
+                        {% block content_wrapper %}
+                        {% endblock %}
+                    </div>
+                </div>
+                {% include "oscar/partials/footer.html" %}
+            </div>
+        </div>
+    </body>
+{% endblock %}
+
+{% block cdn_scripts %}
+  {{ block.super }}
+  {% if use_less and debug %}
+    {# Load the on-the-fly less compiler. Never do this in production. #}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.9.0/less.min.js"></script>
+  {% endif %}
+{% endblock %}
+
+{# Local scripts #}
+{% block scripts %}
+    {{ block.super }}
+    <!-- Twitter Bootstrap -->
+    <!-- <script src="{% static "oscar/js/bootstrap3/bootstrap.min.js" %}"></script> -->
+    <!-- Oscar -->
+    <!-- <script src="{% static "oscar/js/oscar/ui.js" %}"></script> -->
+    <!-- CoreUI and necessary plugins-->
+    <script src="{% static "oscar/coreui/vendors/@coreui/coreui/js/coreui.bundle.min.js" %}"></script>
+    <!--[if IE]><!-->
+    <script src="{% static "oscar/coreui/vendors/@coreui/icons/js/svgxuse.min.js" %}"></script>
+    <!--<![endif]-->
+    <script src="{% static "oscar/coreui/vendors/@coreui/utils/js/coreui-utils.js" %}"></script>
+    <script src="{% static "oscar/coreui/js/main.js" %}"></script>
+{% endblock %}
+
+{% block extrascripts %}
+    {% include "oscar/partials/extrascripts.html" %}
+    {{ block.super }}
+{% endblock %}
+
+{% block onbodyload %}
+    {{ block.super }}
+    oscar.init();
+    oscar.search.init();
+    var options = {
+        'catalogueURL': '{% url 'catalogue:update' %}',
+	    'composite': '{{ quiz.pk }}'
+    };
+    oscar.catalogue.init(options);
+    oscar.treeview.init(options);
+{% endblock %}

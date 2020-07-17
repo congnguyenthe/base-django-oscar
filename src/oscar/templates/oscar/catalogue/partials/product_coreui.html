@@ -1,0 +1,30 @@
+{% load reviews_tags %}
+{% load image_tags %}
+{% load i18n %}
+{% load display_tags %}
+{% load staticfiles %}
+
+{% block product %}
+<div class="col-sm-6 col-md-4">
+	<div class="card">
+		{% block product_title %}
+		<div class="row">
+		   {% if show_checkboxes %}
+			   <div class="col-sm-1">
+				   <input class="checked_ques" id="selected_question" type="checkbox" name="selected_ques" value=" {{ product.pk  }}"><em></em>
+			   </div>
+		   {% endif %}
+	
+		   <div class="col-sm-11">
+			   {{ index }}. {{ product.get_question }}
+			   {% for answer in product.get_answers %}
+			   <li>
+				   {{ answer }}
+			   </li>
+			   {% endfor %}
+		   </div>
+		</div> 
+	   {% endblock %}
+	</div>
+</div>
+{% endblock %}

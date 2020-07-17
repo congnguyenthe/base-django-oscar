@@ -21,7 +21,7 @@ def render_product(context, product, index, show_checkboxes="enable"):
     names = ['oscar/catalogue/partials/product/upc-%s.html' % product.upc,
              'oscar/catalogue/partials/product/class-%s.html'
              % product.get_product_class().slug,
-             'oscar/catalogue/partials/product.html']
+             'oscar/catalogue/partials/product_coreui.html']
     template_ = select_template(names)
     context = context.flatten()
 
