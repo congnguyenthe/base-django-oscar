@@ -74,14 +74,6 @@
                     <svg class="c-icon">
                         <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-bell"></use>
                     </svg></a></li>
-                <li class="c-header-nav-item d-md-down-none mx-2"><a class="c-header-nav-link" href="#">
-                    <svg class="c-icon">
-                        <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-list-rich"></use>
-                    </svg></a></li>
-                <li class="c-header-nav-item d-md-down-none mx-2"><a class="c-header-nav-link" href="#">
-                    <svg class="c-icon">
-                        <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-envelope-open"></use>
-                    </svg></a></li>
                 <li class="c-header-nav-item dropdown"><a class="c-header-nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                     <div class="c-avatar"><img class="c-avatar-img" src="{% static "oscar/coreui/assets/img/avatars/6.jpg" %}" alt="user@email.com"></div>
                     </a>
@@ -123,8 +115,25 @@
                 </li>
                 </ul>
             </header>
+            <header class="c-header c-header-light c-header-fixed c-header-with-subheader">
+                <div class="float-left mr-auto ml-0 align-items-center">
+                    <button class="c-header-toggler c-class-toggler btn btn-lg btn-info ml-4 d-md-down-none" type="button" responsive="true">
+                        <svg class="c-icon c-icon-2xl">
+                            <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-chevron-left"></use>
+                        </svg>
+                    </button>
+                </div>
+                <strong class="align-items-center">1. Quiz Type Selection </strong>
+                <div class="float-right ml-auto mr-0 align-items-center">
+                    <button class="c-header-toggler c-class-toggler btn btn-lg btn-info mr-4 d-md-down-none" type="button" responsive="true">
+                        <svg class="c-icon c-icon-2xl">
+                            <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-chevron-right"></use>
+                        </svg>
+                    </button>
+                </div>
+            </header>
             <div class="c-body ml-0 pl-0">
-                <div class="container-fluid ml-0 pl-0">
+                <div class="container-fluid ml-0 pl-0 mr-0 pr-0">
                     <div class="fade-in">
                         {# Main content of page - other layout templates may override this block #}
                         {% block content_wrapper %}

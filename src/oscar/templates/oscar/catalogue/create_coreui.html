@@ -9,52 +9,67 @@
 
 {# Main content of page - other layout templates may override this block #}
 {% block content_wrapper %}
-<div class="row mt-0 pt-0">
+<div class="row mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0">
     <div class="col-sm-2 col-md-2 mt-0 pt-0 ml-0 pl-0 mr-0 pr-0">
-        <div class="row align-items-center mt-0 pt-0">
-            <div class="col-sm-12 col-md-12 mt-0 pt-0">
+        <div class="row align-items-center mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0">
+            <div class="col-sm-12 col-md-12 mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0">
                 <div class="card mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0">
-                    <div class="card-header bg-gray-100">Question Types</div>
+                    <div class="card-header bg-gray-100">
+                        Question Types
+                    </div>
                     <div class="card-body">
                         {% category_tree as tree_categories %}
                         {% if tree_categories %}
-                            <ul class="normal-list" id="treeviewCategories">
+                            <div class="accordion" id="accordion" role="tablist"></div>
                                 {% for tree_category in tree_categories %}
                                     {% if tree_category.has_children %}
-                                    <li class="normal-list-item">
-                                        <input class="checked_parent_type" id="selected_type" type="checkbox" name="selected_type" value=" {{ tree_category.name  }}" checked="true">
-                                        {{ tree_category.name }}
-                                        <ul class="nested normal-list">
+                                        <div class="card mb-0">
+                                            <div class="card-header b-b-0 bg-gray-100" id="heading{{ forloop.counter }}">
+                                                <h5 class="mb-0">
+                                                    {{ tree_category.name }}
+                                                    <label class="c-switch c-switch-3d c-switch-primary c-switch-sm mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0 float-right">
+                                                        <input class="c-switch-input" data-toggle="collapse" href="#{{ tree_category.name }}" aria-expanded="false" aria-controls="{{ tree_category.name }}" id="selected_child_topic" type="checkbox" value=" {{ tree_category.name }}" checked="true"><span class="c-switch-slider"></span>
+                                                    </label>
+                                                </h5>
+                                            </div>
+                                            <div class="collapse show" id="{{ tree_category.name }}" data-parent="#accordion">
+                                                <div class="card-body">
                                     {% else %}
-                                        <li class="normal-list-item">
-                                        <input class="checked_child_type" id="selected_child_topic" type="checkbox" name="selected_type" value=" {{ tree_category.name  }}" checked="true">
-                                        {{ tree_category.name }}
-                                        </li>
+                                                    <li class="list-group-item mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0 b-a-0">
+                                                        {{ tree_category.name }}
+                                                        <span class="badge badge-primary badge-pill">14</span>
+                                                        <label class="c-switch c-switch-3d c-switch-primary c-switch-sm mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0 float-right">
+                                                            <input class="c-switch-input" id="selected_child_topic" type="checkbox" value=" {{ tree_category.name }}" checked="true"><span class="c-switch-slider"></span>
+                                                        </label>
+                                                    </li>
                                     {% endif %}
                                     {% for n in tree_category.num_to_close %}
-                                        </ul></li>
+                                                </div>
+                                            </div>
+                                        </div>
                                     {% endfor %}
                                 {% endfor %}
-                            </ul>
+                            </div>
                         {% endif %}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row align-items-center">
-            <div class="col-sm-12 col-md-12">
+        <div class="row align-items-center mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0">
+            <div class="col-sm-12 col-md-12 mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0">
                 <div class="card mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0">
-                    <div class="card-header bg-gray-100">Question Topics</div>
+                    <div class="card-header bg-gray-100">
+                        Question Topics
+                    </div>
                     <div class="card-body">
                         <div class="collapse show" id="collapseExample">
-                            <div class="card-body">
+                            <div class="card-body mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0">
                                 {% attributes as attributes_list %}
                                 {% if attributes_list %}
-                                    <ul class="normal-list" id="topicList">
+                                    <ul class="list-group mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0 b-a-0" id="topicList">
                                     {% for attribute in attributes_list%}
-                                    <li class="normal-list-item">
-                                        <input class="checked_topic" id="selected_topic" type="checkbox" name="selected_topic" value=" {{ attribute.name }}" checked="true">
+                                    <li class="list-group-item mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0 b-a-0">
                                         {{ attribute.name }}
+                                        <span class="badge badge-primary badge-pill">5</span>
+                                        <label class="c-switch c-switch-3d c-switch-primary c-switch-sm mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0 float-right">
+                                            <input class="c-switch-input" id="selected_topic" type="checkbox" value=" {{ attribute.name  }}" checked="true"><span class="c-switch-slider"></span>
+                                        </label>
                                         </li>
                                     {% endfor %}
                                     </ul>
@@ -67,45 +82,12 @@
         </div>
     </div>
     <div class="col-sm-10 col-md-10 mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 bg-white">
-        <div class="row mt-0 pt-0 ml-0 pl-0 mr-0 pr-0">
-            <div class="c-subheader px-3 border-top bg-gray-100">
-                <div class="col-sm-3 col-md-2">
-                    <div class="col-md-6">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <button class="btn btn-sm btn-facebook" type="button">
-                                    <svg class="c-icon">
-                                        <use xlink:href="{% static "oscar/coreui/assets/brand/coreui.svg" %}#cib-facebook-f"></use>
-                                    </svg>
-                                </button>
-                            </div>
-                            <div class="col-md-4">
-                                <button class="btn btn-sm btn-twitter" type="button">
-                                    <svg class="c-icon">
-                                        <use xlink:href="{% static "oscar/coreui/assets/brand/coreui.svg" %}#cib-twitter"></use>
-                                    </svg>
-                                </button>
-                            </div>
-                            <div class="col-md-4">
-                                <button class="btn btn-sm btn-linkedin" type="button">
-                                    <svg class="c-icon">
-                                        <use xlink:href="{% static "oscar/coreui/assets/brand/coreui.svg" %}#cib-linkedin"></use>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-9 col-md-10">
-                    <div class="row">
-                        <div class="col-6 col-sm-4 col-md-2 col-xl mb-3 mb-xl-0">
-                            <button class="btn btn-block btn-outline-primary" type="button" disabled="">Primary</button>
-                        </div>
-                        <div class="col-6 col-sm-4 col-md-2 col-xl mb-3 mb-xl-0">
-                            <button class="btn btn-block btn-outline-secondary" type="button" disabled="">Secondary</button>
-                        </div>
-                    </div>
-                </div>
+        <div class="row align-items-center mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0 border c-subheader c-subheader-fixed">
+            <div class="col-md-1 float-right">
+                <label> <strong> Total: </strong></label> <label> <strong> 0 </strong></label>
+            </div>
+            <div class="col-md-2 float-right">
+                <button class="btn btn-block btn-danger" type="button">Clear All</button>
             </div>
         </div>
         <div class="row mt-0 pt-0 ml-0 pl-0 mr-0 pr-0">

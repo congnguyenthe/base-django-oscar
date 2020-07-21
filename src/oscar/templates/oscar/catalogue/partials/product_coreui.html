@@ -8,22 +8,27 @@
 <div class="col-sm-6 col-md-4">
 	<div class="card">
 		{% block product_title %}
-		<div class="row">
-		   {% if show_checkboxes %}
-			   <div class="col-sm-1">
-				   <input class="checked_ques" id="selected_question" type="checkbox" name="selected_ques" value=" {{ product.pk  }}"><em></em>
-			   </div>
-		   {% endif %}
-	
-		   <div class="col-sm-11">
-			   {{ index }}. {{ product.get_question }}
-			   {% for answer in product.get_answers %}
-			   <li>
-				   {{ answer }}
-			   </li>
-			   {% endfor %}
-		   </div>
-		</div> 
+		<div class="card-body">
+			<div class="row">
+				{% if show_checkboxes %}
+					<div class="col-1">
+						<input class="checked_ques" id="selected_question" type="checkbox" name="selected_ques" value=" {{ product.pk  }}"><em></em>
+					</div>
+				{% endif %}
+
+				<div class="col-11">
+					{{ index }}. {{ product.get_question }}
+				</div>
+			</div>
+			<ul class="list-group mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0 b-a-0"></ul>
+				{% for answer in product.get_answers %}
+					<li class="list-group-item mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0 b-a-0">
+						{{ answer }}
+					</li>
+				{% endfor %}
+			</ul>
+
+		</div>
 	   {% endblock %}
 	</div>
 </div>
