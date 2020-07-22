@@ -26,6 +26,7 @@ class CatalogueOnlyConfig(OscarConfig):
         self.product_create_view = get_class('catalogue.views', 'ProductCreateView')
         self.product_update_view = get_class('catalogue.views', 'ProductUpdateView')
         self.product_layout_view = get_class('catalogue.views', 'ProductLayoutView')
+        self.product_select_view = get_class('catalogue.views', 'ProductSelectView')
         self.product_download_view = get_class('catalogue.views', 'ProductDownloadView')
 
     def get_urls(self):
@@ -35,6 +36,7 @@ class CatalogueOnlyConfig(OscarConfig):
             url(r'^create/$', self.product_create_view.as_view(), name='create'),
             url(r'^update/$', self.product_update_view.as_view(), name='update'),
             url(r'^layout/$', self.product_layout_view.as_view(), name='layout'),
+            url(r'^select/$', self.product_select_view.as_view(), name='select'),
             url(r'^download/$', self.product_download_view.as_view(), name='download'),
 
             url(r'^detail/$', self.detail_view.as_view(), name='detail'),

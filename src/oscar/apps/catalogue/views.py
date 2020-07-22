@@ -217,7 +217,51 @@ class ProductCreateView(TemplateView):
         search_context = self.search_handler.get_search_context_data(
             self.context_object_name)
         search_context[self.context_object_name] = data
+
+        build_step = dict()
+        build_step['step_prev'] = "Select Domain"
+        build_step['step_present'] = "Select Contents"
+        build_step['step_next'] = "Select layout"
+        build_step['action_prev'] = "select"
+        build_step['action_present'] = "create"
+        build_step['action_next'] = "layout"
+        # ctx['build_previous'] = "None"
+        ctx['build_step'] = build_step
+
         ctx.update(search_context)
+        return ctx
+
+class ProductSelectView(TemplateView):
+    """
+    Select a composite product
+    """
+    context_object_name = "products"
+    template_name = 'oscar/catalogue/select_coreui.html'
+    category_slug = ""
+
+    def get(self, request, *args, **kwargs):
+        try:
+            self.category_slug = self.request.GET.get('cat')
+            self.search_handler = self.get_search_handler(
+                self.request.GET, request.get_full_path(), [])
+        except InvalidPage:
+            # Redirect to page one.
+            messages.error(request, _('The given page number was invalid.'))
+            return redirect('catalogue:index')
+        return super().get(request, *args, **kwargs)
+
+    def get_search_handler(self, *args, **kwargs):
+        return get_product_search_handler_class()(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        ctx = {}
+        build_step = dict()
+        build_step['step_present'] = "Select Domain"
+        build_step['step_next'] = "Select Contents"
+        build_step['action_present'] = "select"
+        build_step['action_next'] = "create"
+        # ctx['build_previous'] = "None"
+        ctx['build_step'] = build_step
         return ctx
 
 class ProductUpdateView(TemplateView):

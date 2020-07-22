@@ -1,0 +1,92 @@
+{% extends "oscar/layout_coreui.html" %}
+{% load staticfiles %}
+{% load basket_tags %}
+{% load category_tags %}
+{% load product_tags %}
+{% load attribute_tags %}
+{% load class_tags %}
+{% load i18n %}
+
+{# Main content of page - other layout templates may override this block #}
+{% block content_wrapper %}
+<div class="row">
+    <div class="col-sm-4 col-md-4">
+        <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="select3">Domain</label>
+            <div class="col-md-9">
+                <select class="form-control form-control-sm" id="select3" name="select3">
+                    <option value="0">Please select</option>
+                    <option value="1">English</option>
+                    <option value="2">Japanese</option>
+                    <option value="3">Korean</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4 col-md-4">
+        <div class="card mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0">
+            <div class="card-header bg-gray-100">
+                Question Types
+            </div>
+            <div class="card-body">
+                {% category_tree as tree_categories %}
+                {% if tree_categories %}
+                    <div class="accordion" id="accordion" role="tablist"></div>
+                        {% for tree_category in tree_categories %}
+                            {% if tree_category.has_children %}
+                                <div class="card mb-0">
+                                    <div class="card-header b-b-0 bg-gray-100" id="heading{{ forloop.counter }}">
+                                        <h5 class="mb-0">
+                                            {{ tree_category.name }}
+                                            <label class="c-switch c-switch-3d c-switch-primary c-switch-sm mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0 float-right">
+                                                <input class="c-switch-input" data-toggle="collapse" href="#{{ tree_category.name }}" aria-expanded="false" aria-controls="{{ tree_category.name }}" id="selected_child_topic" type="checkbox" value=" {{ tree_category.name }}" checked="true"><span class="c-switch-slider"></span>
+                                            </label>
+                                        </h5>
+                                    </div>
+                                    <div class="collapse show" id="{{ tree_category.name }}" data-parent="#accordion">
+                                        <div class="card-body">
+                            {% else %}
+                                            <li class="list-group-item mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0 b-a-0">
+                                                {{ tree_category.name }}
+                                                <span class="badge badge-primary badge-pill">14</span>
+                                                <label class="c-switch c-switch-3d c-switch-primary c-switch-sm mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0 float-right">
+                                                    <input class="c-switch-input" id="selected_child_topic" type="checkbox" value=" {{ tree_category.name }}" checked="true"><span class="c-switch-slider"></span>
+                                                </label>
+                                            </li>
+                            {% endif %}
+                            {% for n in tree_category.num_to_close %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                {% endif %}
+    <div class="col-sm-4 col-md-4">
+        <div class="card mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0">
+            <div class="card-header bg-gray-100">
+                Question Topics
+            </div>
+            <div class="card-body">
+                <div class="collapse show" id="collapseExample">
+                    <div class="card-body mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0">
+                        {% attributes as attributes_list %}
+                        {% if attributes_list %}
+                            <ul class="list-group mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0 b-a-0" id="topicList">
+                            {% for attribute in attributes_list%}
+                            <li class="list-group-item mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0 b-a-0">
+                                {{ attribute.name }}
+                                <span class="badge badge-primary badge-pill">5</span>
+                                <label class="c-switch c-switch-3d c-switch-primary c-switch-sm mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0 float-right">
+                                    <input class="c-switch-input" id="selected_topic" type="checkbox" value=" {{ attribute.name  }}" checked="true"><span class="c-switch-slider"></span>
+                                </label>
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
