@@ -1,0 +1,53 @@
+{% extends "oscar/layout_coreui.html" %}
+{% load staticfiles %}
+{% load basket_tags %}
+{% load category_tags %}
+{% load product_tags %}
+{% load attribute_tags %}
+{% load class_tags %}
+{% load i18n %}
+
+{# Main content of page - other layout templates may override this block #}
+{% block content_wrapper %}
+<div class="row mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0">
+    <div class="col-sm-2 col-md-2 mt-0 pt-0 ml-0 pl-0 mr-0 pr-0">
+        <div class="row align-items-center mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0">
+            <div class="col-sm-12 col-md-12 mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0">
+                <div class="card mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0">
+                    <div class="card-header bg-gray-100">
+                        Layout
+                    </div>
+                    <div class="card-body">
+                        <form action="" method="post">
+                            <div class="form-group">
+                              <label for="tl-header">Top-left Header</label>
+                              <input class="form-control" id="tl-header" type="text" name="tl-header" placeholder="Enter Top Left Header...">
+                            </div>
+                            <div class="form-group">
+                                <label for="tr-header">Top-right Header</label>
+                                <input class="form-control" id="tr-header" type="text" name="tr-header" placeholder="Enter Top Right Header...">
+                            </div>
+                            <div class="form-group">
+                                <label for="title">Title</label>
+                                <input class="form-control" id="title" type="text" name="title" placeholder="Enter Title...">
+                            </div>
+                            <div class="form-group">
+                                <label for="bl-header">Bottem-left Header</label>
+                                <input class="form-control" id="bl-header" type="text" name="bl-header" placeholder="Enter Bottom Left Header..">
+                            </div>
+                            <div class="form-group">
+                                <label for="br-header">Bottom-right Header</label>
+                                <input class="form-control" id="br-header" type="text" name="br-header" placeholder="Enter Bottom Right Header..">
+                            </div>
+                          </form>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-sm btn-primary" type="submit"> Submit</button>
+                        <button class="btn btn-sm btn-danger" type="reset"> Reset</button>
+                      </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

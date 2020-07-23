@@ -37,7 +37,7 @@ get_product_search_handler_class = get_class(
 
 class ProductDetailView(TemplateView):
     context_object_name = 'product'
-    template_name = "oscar/catalogue/detail.html"
+    template_name = "oscar/catalogue/detail_coreui.html"
     pk = ""
 
     def get(self, request, *args, **kwargs):
@@ -50,34 +50,42 @@ class ProductDetailView(TemplateView):
 
     def get_context_data(self, **kwargs):
         ctx = {}
-        search_context = self.search_handler.get_search_context_data(
-                            self.context_object_name)
-        topics = dict()
-        types = dict()
-        quiz = Quiz.objects.get(pk=self.pk)
-        for question_id in quiz.item_list:
-            topic_id = ProductCategory.objects.get(product_id=question_id).category_id
-            topic_name = Category.objects.get(pk=topic_id).name
-            if topic_name in topics:
-                topics[topic_name] = topics[topic_name] + 1
-            else:
-                topics[topic_name] = 1
+        build_step = dict()
+        build_step['step_prev'] = "Setup layout"
+        build_step['step_present'] = "Finish"
+        # build_step['step_next'] = "Finish"
+        build_step['action_prev'] = "layout"
+        build_step['action_present'] = "summarize"
+        # build_step['action_next'] = "summarize"
+        ctx['build_step'] = build_step
+        # search_context = self.search_handler.get_search_context_data(
+        #                     self.context_object_name)
+        # topics = dict()
+        # types = dict()
+        # quiz = Quiz.objects.get(pk=self.pk)
+        # for question_id in quiz.item_list:
+        #     topic_id = ProductCategory.objects.get(product_id=question_id).category_id
+        #     topic_name = Category.objects.get(pk=topic_id).name
+        #     if topic_name in topics:
+        #         topics[topic_name] = topics[topic_name] + 1
+        #     else:
+        #         topics[topic_name] = 1
 
-            type_id = ProductAttributeValue.objects.get(product_id=question_id).attribute_id
-            type_name = ProductAttribute.objects.get(pk=type_id).name
-            if type_name in topics:
-                types[type_name] = types[type_name] + 1
-            else:
-                types[type_name] = 1
-        quiz = Quiz.objects.get(pk=self.pk)
-        template = QuizTemplate.objects.get(pk=quiz.quiz_template_id)
-        questions = Product.objects.filter(pk__in=quiz.item_list)
-        ctx['template'] = template
-        ctx['quiz'] = quiz
-        ctx['topics'] = topics
-        ctx['types'] = types
-        search_context[self.context_object_name] = questions
-        ctx.update(search_context)
+        #     type_id = ProductAttributeValue.objects.get(product_id=question_id).attribute_id
+        #     type_name = ProductAttribute.objects.get(pk=type_id).name
+        #     if type_name in topics:
+        #         types[type_name] = types[type_name] + 1
+        #     else:
+        #         types[type_name] = 1
+        # quiz = Quiz.objects.get(pk=self.pk)
+        # template = QuizTemplate.objects.get(pk=quiz.quiz_template_id)
+        # questions = Product.objects.filter(pk__in=quiz.item_list)
+        # ctx['template'] = template
+        # ctx['quiz'] = quiz
+        # ctx['topics'] = topics
+        # ctx['types'] = types
+        # search_context[self.context_object_name] = questions
+        # ctx.update(search_context)
         return ctx
 
 
@@ -330,7 +338,7 @@ class ProductUpdateView(TemplateView):
 
 class ProductLayoutView(TemplateView):
     context_object_name = "questions"
-    template_name = 'oscar/catalogue/layout_quiz.html'
+    template_name = 'oscar/catalogue/template_coreui.html'
     pk = ""
 
     def get(self, request, *args, **kwargs):
@@ -343,15 +351,24 @@ class ProductLayoutView(TemplateView):
 
     def get_context_data(self, **kwargs):
         ctx = {}
-        search_context = self.search_handler.get_search_context_data(
-                            self.context_object_name)
-        quiz = Quiz.objects.get(pk=self.pk)
-        template = QuizTemplate.objects.get(pk=quiz.quiz_template_id)
-        questions = Product.objects.filter(pk__in=quiz.item_list)
-        ctx['template'] = template
-        ctx['quiz'] = quiz
-        search_context[self.context_object_name] = questions
-        ctx.update(search_context)
+        build_step = dict()
+        build_step['step_prev'] = "Select Contents"
+        build_step['step_present'] = "Setup layout"
+        build_step['step_next'] = "Finish"
+        build_step['action_prev'] = "create"
+        build_step['action_present'] = "layout"
+        build_step['action_next'] = "summarize"
+        ctx['build_step'] = build_step
+
+        # search_context = self.search_handler.get_search_context_data(
+        #                     self.context_object_name)
+        # quiz = Quiz.objects.get(pk=self.pk)
+        # template = QuizTemplate.objects.get(pk=quiz.quiz_template_id)
+        # questions = Product.objects.filter(pk__in=quiz.item_list)
+        # ctx['template'] = template
+        # ctx['quiz'] = quiz
+        # search_context[self.context_object_name] = questions
+        # ctx.update(search_context)
         return ctx
 
     def post(self, request, *args, **kwargs):
