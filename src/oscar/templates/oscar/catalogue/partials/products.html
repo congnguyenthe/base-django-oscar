@@ -3,28 +3,29 @@
 {% load i18n %}
 <!-- This is for update questions by selecting check-boxes -->
 {% block content %}
-	{% if products %}
-		<section>
-			<div>
-				<ol class="row">
-					{% for product in products %}
-					{% render_product product forloop.counter "enable"%}
-					{% endfor %}
-				</ol>
-				{% include "oscar/partials/pagination.html" %}
-			</div>
-		</section>
-	{% else %}
-		<p class="nonefound">{% trans "No products found." %}</p>
-	{% endif %}
+    {% if products %}
+        <section>
+            <div>
+                <div class="row">
+                    {% for product in products %}
+                    {% render_product product forloop.counter "enable" %}
+                    {% endfor %}
+                </div>
+                {% include "oscar/partials/pagination.html" %}
+            </div>
+        </section>
+    {% else %}
+        <p class="nonefound">{% trans "No products found." %}</p>
+    {% endif %}
 {% endblock %}
 <script>
 	$(function() {
-    var options = {
-        'catalogueURL': '{% url 'catalogue:update' %}',
+		var datas = {
+        'layoutURL': '{% url 'catalogue:layout' %}',
+        'createURL': '{% url 'catalogue:create' %}',
+        'updateURL': '{% url 'catalogue:update' %}',
 	    'composite': '{{ quiz.pk }}'
     };
-    oscar.catalogue.init(options);
-    oscar.treeview.init(options);
+    oscar.create.init(datas);
 	});
 </script>
