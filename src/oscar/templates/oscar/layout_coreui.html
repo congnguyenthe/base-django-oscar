@@ -117,21 +117,37 @@
             </header>
             <header class="c-header c-header-light c-header-fixed c-header-with-subheader">
                 <div class="float-left mr-auto ml-0 align-items-center">
-                    <button class="c-header-toggler c-class-toggler btn btn-lg btn-info ml-4 d-md-down-none" type="button" responsive="true">
-                        <svg class="c-icon c-icon-2xl">
-                            <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-chevron-left"></use>
-                        </svg>
-                    </button>
+                    {% if build_step.step_prev %}
+                        <button class="c-header-toggler c-class-toggler btn btn-lg btn-info ml-4 d-md-down-none" onclick="window.history.back()" id="prev_step" type="button" responsive="true">
+                            <svg class="c-icon c-icon-2xl">
+                                <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-chevron-left"></use>
+                            </svg>
+                        </button>
+                    {% else %}
+                        <button class="c-header-toggler c-class-toggler btn btn-lg btn-info ml-4 d-md-down-none" disabled="" id="prev_step" type="button" responsive="true">
+                            <svg class="c-icon c-icon-2xl">
+                                <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-chevron-left"></use>
+                            </svg>
+                        </button>
+                    {% endif %}
                     <strong class="align-items-center"> {{ build_step.step_prev }} </strong>
                 </div>
                 <strong class="align-items-center"> {{ build_step.step_present }} </strong>
                 <div class="float-right ml-auto mr-0 align-items-center">
                     <strong class="align-items-center"> {{ build_step.step_next }} </strong>
-                    <button class="c-header-toggler c-class-toggler btn btn-lg btn-info mr-4 d-md-down-none" type="button" responsive="true">
-                        <svg class="c-icon c-icon-2xl">
-                            <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-chevron-right"></use>
-                        </svg>
-                    </button>
+                    {% if build_step.step_next %}
+                        <button class="c-header-toggler c-class-toggler btn btn-lg btn-info mr-4 d-md-down-none" id="next_step" type="button" responsive="true">
+                            <svg class="c-icon c-icon-2xl">
+                                <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-chevron-right"></use>
+                            </svg>
+                        </button>
+                    {% else %}
+                        <button class="c-header-toggler c-class-toggler btn btn-lg btn-info mr-4 d-md-down-none" disabled="" id="next_step" type="button" responsive="true">
+                            <svg class="c-icon c-icon-2xl">
+                                <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-chevron-right"></use>
+                            </svg>
+                        </button>
+                    {% endif %}
                 </div>
             </header>
             <div class="c-body ml-0 pl-0">
@@ -186,5 +202,4 @@
 	    'composite': '{{ quiz.pk }}'
     };
     oscar.catalogue.init(options);
-    oscar.treeview.init(options);
 {% endblock %}

@@ -193,76 +193,76 @@ var oscar = (function(o, $) {
     }
     };
 
-    o.treeview = {
+    o.select = {
         init: function(options) {
             if (typeof options == 'undefined') {
-                options = {'catalogueURL': document.URL};
+                options = {'createURL': document.URL};
             }
-            o.treeview.url = options.catalogueURL || document.URL;
-            o.treeview.pk = options.composite || document.URL;
-            var toggler = document.getElementsByClassName("caretTreeView");
-            var i;
-
-            for (i = 0; i < toggler.length; i++) {
-                toggler[i].addEventListener("click", function() {
-                    this.parentElement.querySelector(".nested").classList.toggle("activeTreeView");
-                    this.classList.toggle("caretTreeView-down");
-                });
-            }
-            $('.checked_parent_type').click(function() {
-                $(this.parentElement.querySelector(".nested")).find("input[type='checkbox']").prop('checked', this.checked);
-                this.parentElement.querySelector(".nested").classList.toggle("activeTreeView");
-                this.parentElement.querySelector(".nested").parentElement.querySelector(".caretTreeView").classList.toggle("caretTreeView-down");
-            });
-            $('.quiz').click(function(){
-                var url = "?cat=" + $(this).val();
-
-                var id = $(this).val();
-                // console.log(url)
-
-                // Construct the full URL with "id"
-                document.location.href = url;
-            });
-            $('#update_ques_list').click(function() {
+            o.select.url = options.createURL || document.URL;
+            
+            $('#next_step').click(function() {
                 // Construct a list of filter
                 var ques_type = [];
                 var ques_topic = [];
                 // Get all the checked boxes in the side_categories div
-                $('.nested input:checked').each(function() {
-                    ques_type.push($(this).val());
+                $('.child_quiztype').each(function() {
+                    // var key = $(this).closest('.card').find('.card-header')[0].innerText
+                    // console.log(key)
+                    // console.log($(this).val())
+                    // if( key.trim() in ques_type) {
+                    if ($(this)[0].checked) {
+                        ques_type.push($(this).val().trim())
+                    }
+                    // }
                 });
-                $('#topicList input:checked').each(function() {
-                    ques_topic.push($(this).val());
-                });
-                console.log(ques_topic)
-                console.log(ques_type)
 
-                // Query data from the backend
-                var obj = {
-                    pk: o.treeview.pk,
-                    type: ques_type,
-                    topic: ques_topic
-                }
-                // obj['type'] = ques_type
-                // obj['topic'] = ques_topic
-                var csrf = o.getCsrfToken();
-                $.ajax({
-                    type: 'GET',
-                    data: obj,
-                    traditional: true,
-                    url: o.catalogue.url,
-                    beforeSend: function(xhr) {
-                        xhr.setRequestHeader("X-CSRFToken", csrf);
-                    },
-                    success: function (data) {
-                        console.log(data, 'SUCCESS');
-                        $('#list_product').html(data);
-                    },
-                    error: function (data) {
-                        console.log('ERROR', data);
+                // Get all the checked boxes in the side_categories div
+                $('.quiztopic').each(function() {
+                    if ($(this)[0].checked) {
+                        ques_topic.push($(this).val().trim())
                     }
                 });
-                // Load data into the template tags
+                // console.log(ques_topic)
+                // console.log(ques_type)
+                var cat = $('#domain_selection').val()
+
+                // Query data from the backend
+                const q_type = new URLSearchParams({ques_type})
+                const q_topic = new URLSearchParams({ques_topic})
+                var temp_url = o.select.url + "?cat="+ cat + "&" + q_type.toString() + "&" + q_topic.toString();
+                // var target_url = temp_url.concat(obj.toString());
+                console.log(temp_url)
+                window.location.href = temp_url;
+            });
+        }
+    };
+
+    o.create = {
+        init: function(options) {
+            if (typeof options == 'undefined') {
+                options = {'layoutURL': document.URL};
+            }
+            o.create.next_url = options.layoutURL || document.URL;
+            o.create.pk = options.composite || document.URL;
+            
+            $('#next_step').click(function() {
+                var temp_url = o.create.next_url + "?pk="+ o.create.pk;
+                window.location.href = temp_url;
+            });
+        }
+    };
+
+    o.template = {
+        init: function(options) {
+            if (typeof options == 'undefined') {
+                options = {'detailURL': document.URL};
+            }
+            o.template.next_url = options.detailURL || document.URL;
+            o.template.pk = options.composite || document.URL;
+
+            $('#next_step').click(function() {
+                var temp_url = o.template.next_url + "?pk="+ o.template.pk;
+                window.location.href = temp_url;
             });
         }
     };

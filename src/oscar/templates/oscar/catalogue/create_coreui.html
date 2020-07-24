@@ -37,10 +37,17 @@
                                     {% else %}
                                                     <li class="list-group-item mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0 b-a-0">
                                                         {{ tree_category.name }}
-                                                        <span class="badge badge-primary badge-pill">14</span>
-                                                        <label class="c-switch c-switch-3d c-switch-primary c-switch-sm mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0 float-right">
-                                                            <input class="c-switch-input" id="selected_child_topic" type="checkbox" value=" {{ tree_category.name }}" checked="true"><span class="c-switch-slider"></span>
-                                                        </label>
+                                                        {% if tree_category.name in build_step.type_selection %}
+                                                            <span class="badge badge-primary badge-pill">14</span>
+                                                            <label class="c-switch c-switch-3d c-switch-primary c-switch-sm mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0 float-right">
+                                                                <input class="c-switch-input" id="selected_child_topic" type="checkbox" checked="true" value="{{ tree_category.name }}"><span class="c-switch-slider"></span>
+                                                            </label>
+                                                        {% else %}
+                                                            <span class="badge badge-primary badge-pill">14</span>
+                                                            <label class="c-switch c-switch-3d c-switch-primary c-switch-sm mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0 float-right">
+                                                                <input class="c-switch-input" id="selected_child_topic" type="checkbox" value="{{ tree_category.name }}"><span class="c-switch-slider"></span>
+                                                            </label>
+                                                        {% endif %}
                                                     </li>
                                     {% endif %}
                                     {% for n in tree_category.num_to_close %}
@@ -66,10 +73,17 @@
                                     {% for attribute in attributes_list%}
                                     <li class="list-group-item mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0 b-a-0">
                                         {{ attribute.name }}
-                                        <span class="badge badge-primary badge-pill">5</span>
-                                        <label class="c-switch c-switch-3d c-switch-primary c-switch-sm mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0 float-right">
-                                            <input class="c-switch-input" id="selected_topic" type="checkbox" value=" {{ attribute.name  }}" checked="true"><span class="c-switch-slider"></span>
-                                        </label>
+                                        {% if attribute.name in build_step.topic_selection %}
+                                            <span class="badge badge-primary badge-pill">5</span>
+                                            <label class="c-switch c-switch-3d c-switch-primary c-switch-sm mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0 float-right">
+                                                <input class="c-switch-input" id="selected_topic" type="checkbox" value=" {{ attribute.name  }}" checked="true"><span class="c-switch-slider"></span>
+                                            </label>
+                                        {% else %}
+                                            <span class="badge badge-primary badge-pill">5</span>
+                                            <label class="c-switch c-switch-3d c-switch-primary c-switch-sm mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 mb-0 float-right">
+                                                <input class="c-switch-input" id="selected_topic" type="checkbox" value=" {{ attribute.name  }}"><span class="c-switch-slider"></span>
+                                            </label>
+                                        {% endif %}
                                         </li>
                                     {% endfor %}
                                     </ul>
@@ -113,4 +127,12 @@
         </div>
     </div>
 </div>
+{% endblock %}
+{% block onbodyload %}
+    {{ block.super }}
+    var datas = {
+        'layoutURL': '{% url 'catalogue:layout' %}',
+	    'composite': '{{ quiz.pk }}'
+    };
+    oscar.create.init(datas);
 {% endblock %}

@@ -51,3 +51,11 @@
     </div>
 </div>
 {% endblock %}
+{% block onbodyload %}
+    {{ block.super }}
+    var datas = {
+        'detailURL': '{% url 'catalogue:detail' %}',
+	    'composite': '{{ quiz.pk }}'
+    };
+    oscar.template.init(datas);
+{% endblock %}
