@@ -1,8 +1,13 @@
-* REQ01: Add more questions with dynamic category structure --> Done
-* REQ02: Show checkboxes next to categories to enable/disable questions belongs to that category --> Done
-* REQ03: Replace Done/Cancel by Next button to indicate the process of creating test/quiz --> Done
-* REQ04: Show questions in pdf template --> Done
-* REQ05: Create pdf file and send link back to client to download test/quiz --> Done
+Features:
+  + Login/Register
+    --> Redirect login page
+  + Dashboard
+  + Bigger checkbox when selecting questions
+  + Provide sample layout for test/quiz
+    --> At least with predefined template for title/date...
+    --> Otherwise have to export to word so users can modify
+  + Users can create questions of their own and can determine to share it or not
+  + Logo
 
 * REQ06: Show quiz details
 * REQ07: Admin/Traffic analysis
@@ -20,10 +25,10 @@ July/20/2020 - July/27/2020:
     --> Merge UI code
       --> JS code:
         --> Next/Back button in the header <-- post method when click
-        --> Screen Select:
+        --> Screen Select: --> Done
           --> Post method with selected state of options
-          --> Disable header will disable all inside items
-        --> Screen Create:
+          --> Disable header will disable all inside items --> No need
+        --> Screen Create: --> Done
           --> Change state --> update question filter
           --> Select questions
             --> add to quiz
@@ -31,7 +36,8 @@ July/20/2020 - July/27/2020:
           --> Deselect/Clear All button
             --> Remove from quiz
         --> Screen Layout:
-          --> A4 format with pages
+          --> A4 format with pages --> Done.
+            --> No need to be print-ready
           --> Submit/Reset button --> Apply changes in A4
         --> Screen Summarize:
           --> Capture/minimize A4 to show in carousel
@@ -63,12 +69,6 @@ July/20/2020 - July/27/2020:
   + Detail page: Done
     --> Summary: Quiz name
     --> Total ques in each topic/type: Done
-
-Features:
-  + Provide sample layout for test/quiz
-    --> At least with predefined template for title/date...
-    --> Otherwise have to export to word so users can modify
-  + Users can create questions of their own and can determine to share it or not
 
 Back-end:
   + Consider creating a different type of model for product: product and quiz
