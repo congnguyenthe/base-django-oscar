@@ -26,17 +26,6 @@ July/20/2020 - July/27/2020:
   + UI design
     --> Merge UI code
       --> JS code:
-        --> Next/Back button in the header <-- post method when click
-        --> Screen Select: --> Done
-          --> Post method with selected state of options
-          --> Disable header will disable all inside items --> No need
-        --> Screen Create: --> Done
-          --> Change state --> update question filter
-          --> Select questions
-            --> add to quiz
-            --> increase Total
-          --> Deselect/Clear All button
-            --> Remove from quiz
         --> Screen Layout:
           --> A4 format with pages --> Done.
             --> No need to be print-ready
@@ -48,6 +37,17 @@ July/20/2020 - July/27/2020:
             --> Total questions
             --> Number of question in each type/topics
             --> Download --> Zip file of question and answer
+        --> Next/Back button in the header <-- post method when click
+        --> Screen Select: --> Done
+          --> Post method with selected state of options
+          --> Disable header will disable all inside items --> No need
+        --> Screen Create: --> Done
+          --> Change state --> update question filter
+          --> Select questions
+            --> add to quiz
+            --> increase Total
+          --> Deselect/Clear All button
+            --> Remove from quiz
       --> Footer/page
     --> Define pages in site
       --> Landing page
