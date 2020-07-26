@@ -2,6 +2,8 @@ Features:
   + Login/Register
     --> Redirect login page
   + Dashboard
+  + Check if question is in the list of quiz
+    --> Set checked box
   + Bigger checkbox when selecting questions
   + Provide sample layout for test/quiz
     --> At least with predefined template for title/date...
@@ -19,8 +21,8 @@ Features:
 * REQ13: Web design
 
 July/20/2020 - July/27/2020:
-  + Login required features
-    --> Create a management command to add demo users
+  + Login required features --> Done
+    --> Create a management command to add demo users --> Disable email sent in settings to register
   + UI design
     --> Merge UI code
       --> JS code:
