@@ -17259,7 +17259,39 @@ body {
   border-radius: 5px;
   background: white;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
+
+.page-tlheader {
+  position: absolute;
+  top: 30px;
+  left: 50px;
+}
+
+.page-trheader {
+  position: absolute;
+  top: 30px;
+  right: 50px;
+}
+
+.page-title {
+  position: absolute;
+  top: 60px;
+  right: 300px;
+}
+
+.page-blheader {
+  position: absolute;
+  bottom: 30px;
+  left: 50px;
+}
+
+.page-brheader {
+  position: absolute;
+  bottom: 30px;
+  right: 50px;
+}
+
 .subpage {
   padding: 1cm;
   border: 5px red solid;

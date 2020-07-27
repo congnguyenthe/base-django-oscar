@@ -21,29 +21,29 @@
                         <form action="" method="post">
                             <div class="form-group">
                               <label for="tl-header">Top-left Header</label>
-                              <input class="form-control" id="tl-header" type="text" name="tl-header" placeholder="Enter Top Left Header...">
+                              <input class="form-control" id="side_tlheader" type="text" name="tl-header" placeholder="Enter Top Left Header...">
                             </div>
                             <div class="form-group">
                                 <label for="tr-header">Top-right Header</label>
-                                <input class="form-control" id="tr-header" type="text" name="tr-header" placeholder="Enter Top Right Header...">
+                                <input class="form-control" id="side_trheader" type="text" name="tr-header" placeholder="Enter Top Right Header...">
                             </div>
                             <div class="form-group">
                                 <label for="title">Title</label>
-                                <input class="form-control" id="title" type="text" name="title" placeholder="Enter Title...">
+                                <input class="form-control" id="side_title" type="text" name="title" placeholder="Enter Title...">
                             </div>
                             <div class="form-group">
                                 <label for="bl-header">Bottem-left Header</label>
-                                <input class="form-control" id="bl-header" type="text" name="bl-header" placeholder="Enter Bottom Left Header..">
+                                <input class="form-control" id="side_blheader" type="text" name="bl-header" placeholder="Enter Bottom Left Header..">
                             </div>
                             <div class="form-group">
                                 <label for="br-header">Bottom-right Header</label>
-                                <input class="form-control" id="br-header" type="text" name="br-header" placeholder="Enter Bottom Right Header..">
+                                <input class="form-control" id="side_brheader" type="text" name="br-header" placeholder="Enter Bottom Right Header..">
                             </div>
                           </form>
                     </div>
                     <div class="card-footer">
-                        <button class="btn btn-sm btn-primary" type="submit"> Submit</button>
-                        <button class="btn btn-sm btn-danger" type="reset"> Reset</button>
+                        <button class="btn btn-sm btn-primary" id="update_template" type="submit"> Submit</button>
+                        <button class="btn btn-sm btn-danger" id="reset_template" type="reset"> Reset</button>
                       </div>
                 </div>
             </div>
@@ -51,29 +51,27 @@
     </div>
     <div class="col-sm-10 col-md-10 mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 bg-gray-100">
         <div class="page">
-            <!-- <div class="subpage"> -->
-                <label id="tlheader">QuizMaker</label>
-                <label id="trheader">Sample Test</label><br>
-                <label id="title">English Sample Test</label><br>
-                {% block content %}
-                    {% if questions %}
-                        <section>
-                            <div>
-                                <ol class="row">
-                                    {% for question in questions %}
-                                        {% render_product question forloop.counter disable %}
-                                    {% endfor %}
-                                </ol>
-                                {% include "oscar/partials/pagination.html" %}
-                            </div>
-                        </section>
-                    {% else %}
-                        <p class="nonefound">{% trans "No products found." %}</p>
-                    {% endif %}
-                {% endblock %}
-                <label id="blheader">QuizMaker</label>
-                <label id="brheader">Sample Test</label><br>
-            <!-- </div> -->
+            <label class="page-tlheader" id="tlheader">{{ template.top_left }}</label>
+            <label class="page-trheader" id="trheader">{{ template.top_right }}</label><br>
+            <label class="page-title" id="title">{{ template.title }}</label><br>
+            {% block content %}
+                {% if questions %}
+                    <section>
+                        <div>
+                            <ol class="row">
+                                {% for question in questions %}
+                                    {% render_product question forloop.counter disable %}
+                                {% endfor %}
+                            </ol>
+                            {% include "oscar/partials/pagination.html" %}
+                        </div>
+                    </section>
+                {% else %}  
+                    <p class="nonefound">{% trans "No products found." %}</p>
+                {% endif %}
+            {% endblock %}
+            <label class="page-blheader" id="blheader">{{ template.bottom_left }}</label>
+            <label class="page-brheader" id="brheader">{{ template.bottom_right }}</label><br>
         </div>
     </div>
 </div>
@@ -82,6 +80,8 @@
     {{ block.super }}
     var datas = {
         'detailURL': '{% url 'catalogue:detail' %}',
+        'layoutURL': '{% url 'catalogue:layout' %}',
+		'template': '{{ template.pk }}',
 	    'composite': '{{ quiz.pk }}'
     };
     oscar.template.init(datas);

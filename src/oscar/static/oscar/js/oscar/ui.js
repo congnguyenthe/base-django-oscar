@@ -176,46 +176,7 @@ var oscar = (function(o, $) {
 
     o.layout = {
         init: function(options) {
-            if (typeof options == 'undefined') {
-                options = {'layoutURL': document.URL};
-            }
-            o.layout.url = options.layoutURL || document.URL;
-            o.layout.pk = options.template || document.URL;
-            $('#update_template').click(function() {
-                console.log(o.layout.url)
-                console.log(o.layout.pk)
-                var obj = {}
-                obj['pk'] = o.layout.pk
-                obj['tl'] = document.getElementById('side_tlheader').value
-                obj['tr'] = document.getElementById('side_trheader').value
-                obj['title'] = document.getElementById('side_title').value
-                obj['bl'] = document.getElementById('side_blheader').value
-                obj['br'] = document.getElementById('side_brheader').value
-                obj['pn'] = document.getElementById('side_pn').value
-                var csrf = o.getCsrfToken();
-                    $.ajax({
-                        type: 'POST',
-                        data: JSON.stringify(obj),
-                        dataType: "json",
-                        contentType : 'application/json',
-                        url: o.layout.url,
-                        beforeSend: function(xhr) {
-                            xhr.setRequestHeader("X-CSRFToken", csrf);
-                        },
-                        success: function (data) {
-                             console.log(data, 'SUCCESS');
-                            // location.reload();
-                            document.getElementById("tlheader").textContent = document.getElementById('side_tlheader').value
-                            document.getElementById("trheader").textContent = document.getElementById('side_trheader').value
-                            document.getElementById("title").textContent = document.getElementById('side_title').value
-                            document.getElementById("blheader").textContent = document.getElementById('side_blheader').value
-                            document.getElementById("brheader").textContent = document.getElementById('side_brheader').value
-                        },
-                        error: function (data) {
-                            console.log('ERROR', data);
-                        }
-                    });
-            });
+            
     }
     };
 
@@ -412,14 +373,90 @@ var oscar = (function(o, $) {
     o.template = {
         init: function(options) {
             if (typeof options == 'undefined') {
-                options = {'detailURL': document.URL};
+                options = {
+                    'detailURL': document.URL,
+                    'layoutURL': document.URL
+                };
             }
             o.template.next_url = options.detailURL || document.URL;
-            o.template.pk = options.composite || document.URL;
+            o.template.quiz_pk = options.composite || document.URL;
+            o.template.url = options.layoutURL || document.URL;
+            o.template.pk = options.template || document.URL;
 
             $('#next_step').click(function() {
-                var temp_url = o.template.next_url + "?pk="+ o.template.pk;
+                var temp_url = o.template.next_url + "?pk="+ o.template.quiz_pk;
                 window.location.href = temp_url;
+            });
+
+            if (typeof options == 'undefined') {
+                options = {'layoutURL': document.URL};
+            }
+
+            $('#update_template').click(function() {
+                var obj = {}
+                obj['pk'] = o.template.pk
+                obj['tl'] = document.getElementById('side_tlheader').value
+                obj['tr'] = document.getElementById('side_trheader').value
+                obj['title'] = document.getElementById('side_title').value
+                obj['bl'] = document.getElementById('side_blheader').value
+                obj['br'] = document.getElementById('side_brheader').value
+                obj['pn'] = "False"
+                var csrf = o.getCsrfToken();
+                    $.ajax({
+                        type: 'POST',
+                        data: JSON.stringify(obj),
+                        dataType: "json",
+                        contentType : 'application/json',
+                        url: o.template.url,
+                        beforeSend: function(xhr) {
+                            xhr.setRequestHeader("X-CSRFToken", csrf);
+                        },
+                        success: function (data) {
+                             console.log(data, 'SUCCESS');
+                            // location.reload();
+                            document.getElementById("tlheader").textContent = document.getElementById('side_tlheader').value
+                            document.getElementById("trheader").textContent = document.getElementById('side_trheader').value
+                            document.getElementById("title").textContent = document.getElementById('side_title').value
+                            document.getElementById("blheader").textContent = document.getElementById('side_blheader').value
+                            document.getElementById("brheader").textContent = document.getElementById('side_brheader').value
+                        },
+                        error: function (data) {
+                            console.log('ERROR', data);
+                        }
+                    });
+            });
+        }
+    };
+
+    o.details = {
+        init: function() {
+            var typeChart = new Chart(document.getElementById("type-canvas"), {
+                type: 'pie',
+                data: {
+                  labels: ['IELTS', 'TOEIC', 'TOFLE'],
+                  datasets: [{
+                    data: [100, 50, 100],
+                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+                    hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+                  }]
+                },
+                options: {
+                  responsive: true
+                }
+            });
+            var topicChart = new Chart(document.getElementById("topic-canvas"), {
+                type: 'pie',
+                data: {
+                  labels: ['Adverbs', 'Adjectives', 'Verbs', 'Nouns', 'Conditional'],
+                  datasets: [{
+                    data: [300, 50, 100, 200, 100],
+                    backgroundColor: ['#FE6394', '#46A2EE', '#BFCE66', '#E34621', '#235432'],
+                    hoverBackgroundColor: ['#FE6394', '#46A2EE', '#BFCE66', '#E34621', '#235432']
+                  }]
+                },
+                options: {
+                  responsive: true
+                }
             });
         }
     };
