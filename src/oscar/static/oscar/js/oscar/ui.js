@@ -82,67 +82,93 @@ var oscar = (function(o, $) {
 			options = {'catalogueURL': document.URL};
 		}
 		o.catalogue.url = options.catalogueURL || document.URL;
-		o.catalogue.pk = options.composite || document.URL;
+        o.catalogue.pk = options.composite || document.URL;
+        $('#clearAllQuestion').click(function(){
+            var obj = {}
+			obj['action'] = "remove"
+			obj['pk'] = "all"
+			obj['quiz_pk'] = o.catalogue.pk
+		    var csrf = o.getCsrfToken();
+            $.ajax({
+		        type: 'POST',
+                data: JSON.stringify(obj),
+		        dataType: "json",
+                contentType : 'application/json',
+		        url: o.catalogue.url,
+                beforeSend: function(xhr) {
+		            xhr.setRequestHeader("X-CSRFToken", csrf);
+                },
+		        success: function (data) {
+	                // console.log(data, 'SUCCESS');
+                    // location.reload();
+                    $('.checked_ques').each(function(){
+                        this.checked = false
+                    })
+                    document.getElementById("totalQuesNum").textContent = 0
+		        },
+            	error: function (data) {
+		            console.log('ERROR', data);
+                }
+		    });
+        })
+
 		$('.checked_ques').click(function() {
 			if(this.checked) {
-		        console.log($(this).val());
+		        // console.log($(this).val());
 				var obj = {}
 				obj['action'] = "add"
 				obj['pk'] = $(this).val()
 				obj['quiz_pk'] = o.catalogue.pk
-		                var csrf = o.getCsrfToken();
-                		    $.ajax({
-		                        type: 'POST',
-                		        data: JSON.stringify(obj),
-		                        dataType: "json",
-                		        contentType : 'application/json',
-		                        url: o.catalogue.url,
-                		        beforeSend: function(xhr) {
-		                            xhr.setRequestHeader("X-CSRFToken", csrf);
-                		        },
-		                        success: function (data) {
-	        	     		        // console.log(data, 'SUCCESS');
-		        	                // location.reload();
-                                    var text = $('#totalQuesNum').text()
-                                    console.log(text)
-                                    var number = parseInt(text, 10) + 1
-                                    console.log(number)
-                                    document.getElementById("totalQuesNum").textContent = number
-		                        },
-                        		error: function (data) {
-		                            console.log('ERROR', data);
-                		        }
-		                    });
+		        var csrf = o.getCsrfToken();
+                $.ajax({
+		            type: 'POST',
+                    data: JSON.stringify(obj),
+		            dataType: "json",
+                    contentType : 'application/json',
+		            url: o.catalogue.url,
+                    beforeSend: function(xhr) {
+		                xhr.setRequestHeader("X-CSRFToken", csrf);
+                    },
+		            success: function (data) {
+	        	        // console.log(data, 'SUCCESS');
+		                // location.reload();
+                        var text = $('#totalQuesNum').text()
+                        // console.log(text)
+                        var number = parseInt(text, 10) + 1
+                        // console.log(number)
+                        document.getElementById("totalQuesNum").textContent = number.toString()
+		            },
+                	error: function (data) {
+		                console.log('ERROR', data);
+                    }
+		        });
 			}
 			else {
 				var obj = {}
 				obj['action'] = "remove"
 				obj['pk'] = $(this).val()
 				obj['quiz_pk'] = o.catalogue.pk
-		                var csrf = o.getCsrfToken();
-                		    $.ajax({
-		                        type: 'POST',
-					// data: JSON.stringify($(this).val()),
-                		        data: JSON.stringify(obj),
-		                        dataType: "json",
-                		        contentType : 'application/json',
-		                        url: o.catalogue.url,
-                		        beforeSend: function(xhr) {
-		                            xhr.setRequestHeader("X-CSRFToken", csrf);
-                		        },
-		                        success: function (data) {
-	        	     		        // console.log(data, 'SUCCESS');
-		        	                // location.reload();
-                                    var text = $('.totalQues').text()
-                                    // console.log(text)
-                                    var number = parseInt(text, 10) - 1
-                                    // console.log(number)
-                                    document.getElementById("totalQuesNum").textContent = number
-		                        },
-                        		error: function (data) {
-		                            console.log('ERROR', data);
-                		        }
-		                    });
+		        var csrf = o.getCsrfToken();
+                $.ajax({
+		            type: 'POST',
+                    data: JSON.stringify(obj),
+		            dataType: "json",
+                    contentType : 'application/json',
+		            url: o.catalogue.url,
+                    beforeSend: function(xhr) {
+		                xhr.setRequestHeader("X-CSRFToken", csrf);
+                    },
+		            success: function (data) {
+                        var text = $('#totalQuesNum').text()
+                        // console.log(text)
+                        var number = parseInt(text, 10) - 1
+                        // console.log(number)
+                        document.getElementById("totalQuesNum").textContent = number.toString()
+		            },
+                	error: function (data) {
+		                console.log('ERROR', data);
+                    }
+		        });
 			}
 		});
 	}
@@ -191,6 +217,19 @@ var oscar = (function(o, $) {
                     });
             });
     }
+    };
+
+    o.login = {
+        init: function(options) {
+            if (typeof options == 'undefined') {
+                options = {'registerURL': document.URL};
+            }
+            o.login.url = options.registerURL || document.URL;
+
+            $('#register_button').click(function(){
+                window.location.href = o.login.url
+            })
+        }
     };
 
     o.select = {

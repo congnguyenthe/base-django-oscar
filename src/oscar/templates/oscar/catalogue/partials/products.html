@@ -27,5 +27,10 @@
 	    'composite': '{{ quiz.pk }}'
     };
     oscar.create.init(datas);
+    var options = {
+        'catalogueURL': '{% url 'catalogue:update' %}',
+	    'composite': '{{ quiz.pk }}'
+    };
+    oscar.catalogue.init(options);
 	});
 </script>

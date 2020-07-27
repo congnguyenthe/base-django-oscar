@@ -68,7 +68,7 @@ OSCAR_ACCOUNTS_REDIRECT_URL = 'customer:profile-view'
 OSCAR_EAGER_ALERTS = True
 
 # Registration
-OSCAR_SEND_REGISTRATION_EMAIL = True
+OSCAR_SEND_REGISTRATION_EMAIL = False
 OSCAR_FROM_EMAIL = 'oscar@example.com'
 
 # Slug handling

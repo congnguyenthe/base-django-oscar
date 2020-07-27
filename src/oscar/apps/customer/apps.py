@@ -34,9 +34,11 @@ class CustomerConfig(OscarConfig):
 
         self.email_list_view = get_class('customer.views', 'EmailHistoryView')
         self.email_detail_view = get_class('customer.views', 'EmailDetailView')
-        self.login_view = get_class('customer.views', 'AccountAuthView')
+        # self.login_view = get_class('customer.views', 'AccountAuthView')
+        self.login_view = get_class('customer.views', 'LoginView')
         self.logout_view = get_class('customer.views', 'LogoutView')
-        self.register_view = get_class('customer.views', 'AccountRegistrationView')
+        # self.register_view = get_class('customer.views', 'AccountRegistrationView')
+        self.register_view = get_class('customer.views', 'RegistrationView')
         self.profile_view = get_class('customer.views', 'ProfileView')
         self.profile_update_view = get_class('customer.views', 'ProfileUpdateView')
         self.profile_delete_view = get_class('customer.views', 'ProfileDeleteView')

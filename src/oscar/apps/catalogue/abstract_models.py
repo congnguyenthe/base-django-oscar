@@ -1306,7 +1306,7 @@ class AbstractQuiz(models.Model):
         on_delete=models.PROTECT,
         verbose_name=_('Quiz type'), related_name="quiz",
         help_text=_("Choose what type of quiz this is"))
-    
+
     quiz_template = models.ForeignKey(
         'catalogue.QuizTemplate',
         null=True,
@@ -1340,5 +1340,8 @@ class AbstractQuiz(models.Model):
             for item in items:
                 self.item_list.append(item)
         else:
-            self.item_list = [x for x in self.item_list if x not in items]
+            if items[0] == "all":
+                self.item_list.clear()
+            else:
+                self.item_list = [x for x in self.item_list if x not in items]
     update_itemlist.short_description = pgettext_lazy("UpdateItemList", "UpdateItemList")

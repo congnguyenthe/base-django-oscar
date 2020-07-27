@@ -1,0 +1,139 @@
+{% load staticfiles %}
+{% load i18n %}
+
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:"en-gb" }}" class="{% block html_class %}no-js{% endblock %}">
+    <head>
+        <title>{% block title %}{{ shop_name }} - {{ shop_tagline }}{% endblock %}</title>
+
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+        <meta name="created" content="{% now "jS M Y h:i" %}" />
+        <meta name="description" content="{% block description %}{% endblock %}" />
+        <meta name="viewport" content="{% block viewport %}width=device-width{% endblock %}" />
+        <meta name="robots" content="NOARCHIVE,NOCACHE" />
+        {% block favicon %}
+            <link rel="shortcut icon" href="{% static "oscar/favicon.ico" %}" />
+        {% endblock %}
+
+        {# Block where global CSS will go. #}
+        {% block styles %}
+            <link rel="stylesheet" type="text/css" href="{% static "oscar/coreui/css/style.css" %}" />
+            <link href="{% static "oscar/coreui/vendors/@coreui/icons/css/flag.min.css" %}" rel="stylesheet">
+        {% endblock %}
+
+        {# Additional CSS - specific to certain pages #}
+        {% block extrastyles %}{% endblock %}
+
+        {% block extrahead %}{% endblock %}
+
+        {% block tracking %}
+            {# Default to using Google analytics #}
+            {% include "oscar/partials/google_analytics.html" %}
+        {% endblock %}
+    </head>
+
+    <body class="c-app flex-row align-items-center">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <div class="card mx-4">
+              <div class="card-body p-4">
+                <!-- <h1>Register</h1>
+                <p class="text-muted">Create your account</p>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend"><span class="input-group-text">
+                      <svg class="c-icon">
+                        <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-user"></use>
+                      </svg></span></div>
+                  <input class="form-control" type="text" placeholder="Username">
+                </div>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend"><span class="input-group-text">
+                      <svg class="c-icon">
+                        <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-envelope-open"></use>
+                      </svg></span></div>
+                  <input class="form-control" type="text" placeholder="Email">
+                </div>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend"><span class="input-group-text">
+                      <svg class="c-icon">
+                        <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-lock-locked"></use>
+                      </svg></span></div>
+                  <input class="form-control" type="password" placeholder="Password">
+                </div>
+                <div class="input-group mb-4">
+                  <div class="input-group-prepend"><span class="input-group-text">
+                      <svg class="c-icon">
+                        <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-lock-locked"></use>
+                      </svg></span></div>
+                  <input class="form-control" type="password" placeholder="Repeat password">
+                </div>
+                <button class="btn btn-block btn-success" type="button">Create Account</button> -->
+                <div class="register_form">
+                  <form id="register_form" method="post" class="form-stacked">
+                      {% csrf_token %}
+                      {% include "oscar/partials/form_fields.html"  %}
+                      <button name="registration_submit" type="submit" value="Register" class="btn btn-primary btn-lg" data-loading-text="{%trans 'Registering...' %}">{% trans 'Register' %}</button>
+                      {% if cancel_url %}
+                          {% trans "or" %} <a href="{{ cancel_url }}">{% trans "cancel" %}</a>.
+                      {% endif %}
+                  </form>
+                </div>
+              </div>
+              <!-- <div class="card-footer p-4">
+                <div class="row">
+                  <div class="col-6">
+                    <button class="btn btn-block btn-facebook" type="button"><span>facebook</span></button>
+                  </div>
+                  <div class="col-6">
+                    <button class="btn btn-block btn-twitter" type="button"><span>twitter</span></button>
+                  </div>
+                </div>
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      {# Scripts loaded from a CDN. #}
+      {% block cdn_scripts %}
+          <!-- jQuery -->
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+          <script>window.jQuery || document.write('<script src="{% static "oscar/js/jquery/jquery.min.js" %}"><\/script>')</script>
+          <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-118965717-3"></script>
+          <script>
+              window.dataLayer = window.dataLayer || [];
+        
+              function gtag() {
+                dataLayer.push(arguments);
+              }
+              gtag('js', new Date());
+              // Shared ID
+              gtag('config', 'UA-118965717-3');
+              // Bootstrap ID
+              gtag('config', 'UA-118965717-5');
+            </script>
+          {% if use_less and debug %}
+          {# Load the on-the-fly less compiler. Never do this in production. #}
+          <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/3.9.0/less.min.js"></script>
+        {% endif %}
+      {% endblock %}
+
+      {# Local scripts #}
+      {% block scripts %}
+          <!-- CoreUI and necessary plugins-->
+          <script src="{% static "oscar/coreui/js/perfect-scrollbar.js" %}"></script>
+          <script src="{% static "oscar/coreui/js/coreui.js" %}"></script>
+          <!--[if IE]><!-->
+          <script src="{% static "oscar/coreui/vendors/@coreui/icons/js/svgxuse.min.js" %}"></script>
+          <!--<![endif]-->
+          <script src="{% static "oscar/js/oscar/ui.js" %}"></script>
+      {% endblock %}
+
+      {# Block for body onload functions #}
+      <script>
+          $(function() {
+              {% block onbodyload %}{% endblock %}
+          });
+      </script>
+    </body>
+</html>

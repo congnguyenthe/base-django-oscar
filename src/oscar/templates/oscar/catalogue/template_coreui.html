@@ -49,6 +49,33 @@
             </div>
         </div>
     </div>
+    <div class="col-sm-10 col-md-10 mt-0 pt-0 ml-0 pl-0 mr-0 pr-0 bg-gray-100">
+        <div class="page">
+            <!-- <div class="subpage"> -->
+                <label id="tlheader">QuizMaker</label>
+                <label id="trheader">Sample Test</label><br>
+                <label id="title">English Sample Test</label><br>
+                {% block content %}
+                    {% if questions %}
+                        <section>
+                            <div>
+                                <ol class="row">
+                                    {% for question in questions %}
+                                        {% render_product question forloop.counter disable %}
+                                    {% endfor %}
+                                </ol>
+                                {% include "oscar/partials/pagination.html" %}
+                            </div>
+                        </section>
+                    {% else %}
+                        <p class="nonefound">{% trans "No products found." %}</p>
+                    {% endif %}
+                {% endblock %}
+                <label id="blheader">QuizMaker</label>
+                <label id="brheader">Sample Test</label><br>
+            <!-- </div> -->
+        </div>
+    </div>
 </div>
 {% endblock %}
 {% block onbodyload %}
