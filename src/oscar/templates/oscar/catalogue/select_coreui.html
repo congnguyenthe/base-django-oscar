@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% load basket_tags %}
 {% load category_tags %}
+{% load domain_tags %}
 {% load product_tags %}
 {% load attribute_tags %}
 {% load class_tags %}
@@ -15,9 +16,21 @@
             <label class="col-md-3 col-form-label" for="domain_selection">Domain</label>
             <div class="col-md-9">
                 <select class="form-control form-control-sm" id="domain_selection" name="domain_selection">
-                    <option value="english">English</option>
-                    <option value="japanese">Japanese</option>
-                    <option value="korean">Korean</option>
+                    {% domain_names as roots %}
+                    {% if domain %}
+                        <option value="{{ domain.slug }}">{{ domain.name }}</option>
+                        {% for root in roots %}
+                            {% if root.name != domain.name %}
+                                <option value="{{ root.slug }}">{{ root.name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        {% for root in roots %}
+                            {% if root.name != domain.name %}
+                                <option value="{{ root.slug }}">{{ root.name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
                 </select>
             </div>
         </div>

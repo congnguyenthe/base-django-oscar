@@ -372,7 +372,7 @@ class LogoutView(generic.RedirectView):
 
 
 class ProfileView(PageTitleMixin, generic.TemplateView):
-    template_name = 'oscar/customer/profile/profile.html'
+    template_name = 'oscar/customer/profile/profile_coreui.html'
     page_title = _('Profile')
     active_tab = 'profile'
 
