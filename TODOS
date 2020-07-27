@@ -21,6 +21,9 @@ Features:
 * REQ13: Web design
 
 July/20/2020 - July/27/2020:
+  + Sidebar:
+  + Dashboard/homepage/Main screen
+  + Account info/Settings
   + Login required features --> Done
     --> Create a management command to add demo users --> Disable email sent in settings to register
   + UI design
@@ -31,8 +34,8 @@ July/20/2020 - July/27/2020:
             --> No need to be print-ready
           --> Submit/Reset button --> Apply changes in A4
         --> Screen Summarize:
-          --> Capture/minimize A4 to show in carousel
-          --> Display Quiz Title
+          --> Capture/minimize A4 to show in carousel --> Display types/topic summarize in charts
+          --> Display Quiz Title --> Done
           --> Detail infor:
             --> Total questions
             --> Number of question in each type/topics
