@@ -75,6 +75,15 @@ var oscar = (function(o, $) {
         return csrf_token;
     };
 
+    o.getRandomColor = function() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      }
+
     // Trigger adding new question when boxes are checked
     o.catalogue = {
         init: function(options) {
@@ -172,12 +181,6 @@ var oscar = (function(o, $) {
 			}
 		});
 	}
-    };
-
-    o.layout = {
-        init: function(options) {
-            
-    }
     };
 
     o.login = {
@@ -429,15 +432,48 @@ var oscar = (function(o, $) {
     };
 
     o.details = {
-        init: function() {
+        init: function(options) {
+            topics = options.topics.replace(/{/g, "").replace(/}/g, "").split(",");
+            types = options.types.replace(/{/g, "").replace(/}/g, "").split(",");
+            
+            // console.log(topics)
+            // console.log(types)
+
+            type_labels = []
+            type_datas = []
+            type_colors = []
+            for (var i = 0; i < types.length; i++) {
+                var tmp_type = types[i].replace(/"/g, "").replace(/ /g, "")
+                var type_data = tmp_type.split(":")
+                // console.log(topics[i])
+                // console.log(type_data)
+                type_labels.push(type_data[0].replace(/'/g, ""))
+                type_datas.push(type_data[1].replace(/'/g, ""))
+                type_colors.push(o.getRandomColor())
+            }
+
+            topic_labels = []
+            topic_datas = []
+            topic_colors = []
+            for (var i = 0; i < topics.length; i++) {
+                var tmp_topic = topics[i].replace(/"/g, "").replace(/ /g, "")
+                var topic_data = tmp_topic.split(":")
+                // console.log(topics[i])
+                // console.log(type_data)
+                topic_labels.push(topic_data[0].replace(/'/g, ""))
+                topic_datas.push(topic_data[1].replace(/'/g, ""))
+                topic_colors.push(o.getRandomColor())
+            }
+            // // console.log(topic_labels)
+            // // console.log(type_labels)
             var typeChart = new Chart(document.getElementById("type-canvas"), {
                 type: 'pie',
                 data: {
-                  labels: ['IELTS', 'TOEIC', 'TOFLE'],
+                  labels: type_labels,
                   datasets: [{
-                    data: [100, 50, 100],
-                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-                    hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+                    data: type_datas,
+                    backgroundColor: type_colors,
+                    hoverBackgroundColor: type_colors
                   }]
                 },
                 options: {
@@ -447,11 +483,11 @@ var oscar = (function(o, $) {
             var topicChart = new Chart(document.getElementById("topic-canvas"), {
                 type: 'pie',
                 data: {
-                  labels: ['Adverbs', 'Adjectives', 'Verbs', 'Nouns', 'Conditional'],
+                  labels: topic_labels,
                   datasets: [{
-                    data: [300, 50, 100, 200, 100],
-                    backgroundColor: ['#FE6394', '#46A2EE', '#BFCE66', '#E34621', '#235432'],
-                    hoverBackgroundColor: ['#FE6394', '#46A2EE', '#BFCE66', '#E34621', '#235432']
+                    data: topic_datas,
+                    backgroundColor: topic_colors,
+                    hoverBackgroundColor: topic_colors
                   }]
                 },
                 options: {

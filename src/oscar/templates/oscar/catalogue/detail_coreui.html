@@ -43,7 +43,7 @@
     <div class="col-sm-6 col-md-6 align-self-center">
         <div class="row">
             <div class="col-sm-6 col-md-6">
-                <label> <strong> Title </strong></label> <label> <strong> {{ template.title }} </strong></label>
+                <label> <strong> Title: </strong></label> <label> <strong> {{ template.title }} </strong></label>
             </div>
         </div>
         <div class="row">
@@ -71,5 +71,9 @@
 {% endblock %}
 {% block onbodyload %}
     {{ block.super }}
-    oscar.details.init();
+    var datas = {
+        'topics': "{{ topics | safe }}",
+        'types': "{{ types | safe }}"
+    };
+    oscar.details.init(datas);
 {% endblock %}

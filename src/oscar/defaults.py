@@ -57,7 +57,7 @@ OSCAR_ALLOW_ANON_REVIEWS = True
 OSCAR_MODERATE_REVIEWS = False
 
 # Accounts
-OSCAR_ACCOUNTS_REDIRECT_URL = 'customer:profile-view'
+OSCAR_ACCOUNTS_REDIRECT_URL = 'customer:home-view'
 
 # This enables sending alert notifications/emails instantly when products get
 # back in stock by listening to stock record update signals.

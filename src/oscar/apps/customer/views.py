@@ -367,6 +367,24 @@ class LogoutView(generic.RedirectView):
 
 
 # =============
+# Home
+# =============
+
+class HomeView(generic.TemplateView):
+    template_name = 'oscar/homepage/index.html'
+    page_title = _('Home')
+    # active_tab = 'profile'
+
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        # ctx['profile_fields'] = self.get_profile_fields(self.request.user)
+        return ctx
+    
+
+# =============
 # Profile
 # =============
 
