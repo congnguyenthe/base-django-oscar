@@ -306,8 +306,14 @@ class ProductSelectView(TemplateView):
         build_step['step_next'] = "2. Select Contents"
         build_step['action_present'] = "select"
         build_step['action_next'] = "create"
-        # ctx['build_previous'] = "None"
         ctx['build_step'] = build_step
+        
+        if self.category_slug:
+            domain = dict()
+            domain['slug'] = self.category_slug
+            domain['name'] = Category.objects.get(slug=self.category_slug).name
+            ctx['domain'] = domain
+
         return ctx
 
 class ProductUpdateView(TemplateView):

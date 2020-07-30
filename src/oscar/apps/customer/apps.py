@@ -34,10 +34,13 @@ class CustomerConfig(OscarConfig):
 
         self.email_list_view = get_class('customer.views', 'EmailHistoryView')
         self.email_detail_view = get_class('customer.views', 'EmailDetailView')
-        self.login_view = get_class('customer.views', 'AccountAuthView')
+        # self.login_view = get_class('customer.views', 'AccountAuthView')
+        self.login_view = get_class('customer.views', 'LoginView')
         self.logout_view = get_class('customer.views', 'LogoutView')
-        self.register_view = get_class('customer.views', 'AccountRegistrationView')
+        # self.register_view = get_class('customer.views', 'AccountRegistrationView')
+        self.register_view = get_class('customer.views', 'RegistrationView')
         self.profile_view = get_class('customer.views', 'ProfileView')
+        self.home_view = get_class('customer.views', 'HomeView')
         self.profile_update_view = get_class('customer.views', 'ProfileUpdateView')
         self.profile_delete_view = get_class('customer.views', 'ProfileDeleteView')
         self.change_password_view = get_class('customer.views', 'ChangePasswordView')
@@ -95,6 +98,9 @@ class CustomerConfig(OscarConfig):
             url(r'^profile/$',
                 login_required(self.profile_view.as_view()),
                 name='profile-view'),
+            url(r'^home/$',
+                login_required(self.home_view.as_view()),
+                name='home-view'),
             url(r'^profile/edit/$',
                 login_required(self.profile_update_view.as_view()),
                 name='profile-update'),

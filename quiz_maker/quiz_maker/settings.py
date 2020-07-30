@@ -33,6 +33,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 OSCAR_SHOP_NAME="Test Maker"
+LOGIN_REDIRECT_URL="/accounts/home/"
 
 # Application definition
 

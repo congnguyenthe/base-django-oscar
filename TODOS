@@ -25,13 +25,22 @@ Brainstorm:
       --> Add to their compilation
     --> Shuffle created questions into multiple test when download
 
+Road to closed beta:
+  + Logo/Title
+  + Host/Domain Name
+  + Avatar based on first letter name
+  + Real Data
+  + Design
+  + Add quiz to users
+  + Re-design database
+    --> Composite and concrete products?
+
+Investigation:
+  + Client based or Backend based
+
 Features:
-  + Login/Register
-    --> Redirect login page
-  + Dashboard
-  + Check if question is in the list of quiz
-    --> Set checked box
-  + Bigger checkbox when selecting questions
+  + Backend/Model utilize
+    --> Quiz => Composite product
   + Provide sample layout for test/quiz
     --> At least with predefined template for title/date...
     --> Otherwise have to export to word so users can modify
@@ -48,6 +57,18 @@ Features:
 * REQ13: Web design
 
 July/20/2020 - July/27/2020:
+  + Bigger checkbox when selecting questions
+  + Check if question is in the list of quiz
+    --> Set checked box
+  + List quiz created by an user
+  + Login/Register --> Done
+    --> Redirect login page
+  + Django commercial apps/sites
+  + Sidebar:
+    --> Disable 
+  + Dashboard/homepage/Main screen: Dummy data
+  + Account info/Settings:
+    --> Disable
   + Login required features --> Done
     --> Create a management command to add demo users --> Disable email sent in settings to register
   + UI design
@@ -58,8 +79,8 @@ July/20/2020 - July/27/2020:
             --> No need to be print-ready
           --> Submit/Reset button --> Apply changes in A4
         --> Screen Summarize:
-          --> Capture/minimize A4 to show in carousel
-          --> Display Quiz Title
+          --> Capture/minimize A4 to show in carousel --> Display types/topic summarize in charts
+          --> Display Quiz Title --> Done
           --> Detail infor:
             --> Total questions
             --> Number of question in each type/topics

@@ -75,6 +75,15 @@ var oscar = (function(o, $) {
         return csrf_token;
     };
 
+    o.getRandomColor = function() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      }
+
     // Trigger adding new question when boxes are checked
     o.catalogue = {
         init: function(options) {
@@ -82,115 +91,109 @@ var oscar = (function(o, $) {
 			options = {'catalogueURL': document.URL};
 		}
 		o.catalogue.url = options.catalogueURL || document.URL;
-		o.catalogue.pk = options.composite || document.URL;
+        o.catalogue.pk = options.composite || document.URL;
+        $('#clearAllQuestion').click(function(){
+            var obj = {}
+			obj['action'] = "remove"
+			obj['pk'] = "all"
+			obj['quiz_pk'] = o.catalogue.pk
+		    var csrf = o.getCsrfToken();
+            $.ajax({
+		        type: 'POST',
+                data: JSON.stringify(obj),
+		        dataType: "json",
+                contentType : 'application/json',
+		        url: o.catalogue.url,
+                beforeSend: function(xhr) {
+		            xhr.setRequestHeader("X-CSRFToken", csrf);
+                },
+		        success: function (data) {
+	                // console.log(data, 'SUCCESS');
+                    // location.reload();
+                    $('.checked_ques').each(function(){
+                        this.checked = false
+                    })
+                    document.getElementById("totalQuesNum").textContent = 0
+		        },
+            	error: function (data) {
+		            console.log('ERROR', data);
+                }
+		    });
+        })
+
 		$('.checked_ques').click(function() {
 			if(this.checked) {
-		        console.log($(this).val());
+		        // console.log($(this).val());
 				var obj = {}
 				obj['action'] = "add"
 				obj['pk'] = $(this).val()
 				obj['quiz_pk'] = o.catalogue.pk
-		                var csrf = o.getCsrfToken();
-                		    $.ajax({
-		                        type: 'POST',
-                		        data: JSON.stringify(obj),
-		                        dataType: "json",
-                		        contentType : 'application/json',
-		                        url: o.catalogue.url,
-                		        beforeSend: function(xhr) {
-		                            xhr.setRequestHeader("X-CSRFToken", csrf);
-                		        },
-		                        success: function (data) {
-	        	     		        // console.log(data, 'SUCCESS');
-		        	                // location.reload();
-                                    var text = $('#totalQuesNum').text()
-                                    console.log(text)
-                                    var number = parseInt(text, 10) + 1
-                                    console.log(number)
-                                    document.getElementById("totalQuesNum").textContent = number
-		                        },
-                        		error: function (data) {
-		                            console.log('ERROR', data);
-                		        }
-		                    });
+		        var csrf = o.getCsrfToken();
+                $.ajax({
+		            type: 'POST',
+                    data: JSON.stringify(obj),
+		            dataType: "json",
+                    contentType : 'application/json',
+		            url: o.catalogue.url,
+                    beforeSend: function(xhr) {
+		                xhr.setRequestHeader("X-CSRFToken", csrf);
+                    },
+		            success: function (data) {
+	        	        // console.log(data, 'SUCCESS');
+		                // location.reload();
+                        var text = $('#totalQuesNum').text()
+                        // console.log(text)
+                        var number = parseInt(text, 10) + 1
+                        // console.log(number)
+                        document.getElementById("totalQuesNum").textContent = number.toString()
+		            },
+                	error: function (data) {
+		                console.log('ERROR', data);
+                    }
+		        });
 			}
 			else {
 				var obj = {}
 				obj['action'] = "remove"
 				obj['pk'] = $(this).val()
 				obj['quiz_pk'] = o.catalogue.pk
-		                var csrf = o.getCsrfToken();
-                		    $.ajax({
-		                        type: 'POST',
-					// data: JSON.stringify($(this).val()),
-                		        data: JSON.stringify(obj),
-		                        dataType: "json",
-                		        contentType : 'application/json',
-		                        url: o.catalogue.url,
-                		        beforeSend: function(xhr) {
-		                            xhr.setRequestHeader("X-CSRFToken", csrf);
-                		        },
-		                        success: function (data) {
-	        	     		        // console.log(data, 'SUCCESS');
-		        	                // location.reload();
-                                    var text = $('.totalQues').text()
-                                    // console.log(text)
-                                    var number = parseInt(text, 10) - 1
-                                    // console.log(number)
-                                    document.getElementById("totalQuesNum").textContent = number
-		                        },
-                        		error: function (data) {
-		                            console.log('ERROR', data);
-                		        }
-		                    });
+		        var csrf = o.getCsrfToken();
+                $.ajax({
+		            type: 'POST',
+                    data: JSON.stringify(obj),
+		            dataType: "json",
+                    contentType : 'application/json',
+		            url: o.catalogue.url,
+                    beforeSend: function(xhr) {
+		                xhr.setRequestHeader("X-CSRFToken", csrf);
+                    },
+		            success: function (data) {
+                        var text = $('#totalQuesNum').text()
+                        // console.log(text)
+                        var number = parseInt(text, 10) - 1
+                        // console.log(number)
+                        document.getElementById("totalQuesNum").textContent = number.toString()
+		            },
+                	error: function (data) {
+		                console.log('ERROR', data);
+                    }
+		        });
 			}
 		});
 	}
     };
 
-    o.layout = {
+    o.login = {
         init: function(options) {
             if (typeof options == 'undefined') {
-                options = {'layoutURL': document.URL};
+                options = {'registerURL': document.URL};
             }
-            o.layout.url = options.layoutURL || document.URL;
-            o.layout.pk = options.template || document.URL;
-            $('#update_template').click(function() {
-                console.log(o.layout.url)
-                console.log(o.layout.pk)
-                var obj = {}
-                obj['pk'] = o.layout.pk
-                obj['tl'] = document.getElementById('side_tlheader').value
-                obj['tr'] = document.getElementById('side_trheader').value
-                obj['title'] = document.getElementById('side_title').value
-                obj['bl'] = document.getElementById('side_blheader').value
-                obj['br'] = document.getElementById('side_brheader').value
-                obj['pn'] = document.getElementById('side_pn').value
-                var csrf = o.getCsrfToken();
-                    $.ajax({
-                        type: 'POST',
-                        data: JSON.stringify(obj),
-                        dataType: "json",
-                        contentType : 'application/json',
-                        url: o.layout.url,
-                        beforeSend: function(xhr) {
-                            xhr.setRequestHeader("X-CSRFToken", csrf);
-                        },
-                        success: function (data) {
-                             console.log(data, 'SUCCESS');
-                            // location.reload();
-                            document.getElementById("tlheader").textContent = document.getElementById('side_tlheader').value
-                            document.getElementById("trheader").textContent = document.getElementById('side_trheader').value
-                            document.getElementById("title").textContent = document.getElementById('side_title').value
-                            document.getElementById("blheader").textContent = document.getElementById('side_blheader').value
-                            document.getElementById("brheader").textContent = document.getElementById('side_brheader').value
-                        },
-                        error: function (data) {
-                            console.log('ERROR', data);
-                        }
-                    });
-            });
-    }
+            o.login.url = options.registerURL || document.URL;
+
+            $('#register_button').click(function(){
+                window.location.href = o.login.url
+            })
+        }
     };
 
     o.select = {
@@ -373,14 +376,123 @@ var oscar = (function(o, $) {
     o.template = {
         init: function(options) {
             if (typeof options == 'undefined') {
-                options = {'detailURL': document.URL};
+                options = {
+                    'detailURL': document.URL,
+                    'layoutURL': document.URL
+                };
             }
             o.template.next_url = options.detailURL || document.URL;
-            o.template.pk = options.composite || document.URL;
+            o.template.quiz_pk = options.composite || document.URL;
+            o.template.url = options.layoutURL || document.URL;
+            o.template.pk = options.template || document.URL;
 
             $('#next_step').click(function() {
-                var temp_url = o.template.next_url + "?pk="+ o.template.pk;
+                var temp_url = o.template.next_url + "?pk="+ o.template.quiz_pk;
                 window.location.href = temp_url;
+            });
+
+            if (typeof options == 'undefined') {
+                options = {'layoutURL': document.URL};
+            }
+
+            $('#update_template').click(function() {
+                var obj = {}
+                obj['pk'] = o.template.pk
+                obj['tl'] = document.getElementById('side_tlheader').value
+                obj['tr'] = document.getElementById('side_trheader').value
+                obj['title'] = document.getElementById('side_title').value
+                obj['bl'] = document.getElementById('side_blheader').value
+                obj['br'] = document.getElementById('side_brheader').value
+                obj['pn'] = "False"
+                var csrf = o.getCsrfToken();
+                    $.ajax({
+                        type: 'POST',
+                        data: JSON.stringify(obj),
+                        dataType: "json",
+                        contentType : 'application/json',
+                        url: o.template.url,
+                        beforeSend: function(xhr) {
+                            xhr.setRequestHeader("X-CSRFToken", csrf);
+                        },
+                        success: function (data) {
+                             console.log(data, 'SUCCESS');
+                            // location.reload();
+                            document.getElementById("tlheader").textContent = document.getElementById('side_tlheader').value
+                            document.getElementById("trheader").textContent = document.getElementById('side_trheader').value
+                            document.getElementById("title").textContent = document.getElementById('side_title').value
+                            document.getElementById("blheader").textContent = document.getElementById('side_blheader').value
+                            document.getElementById("brheader").textContent = document.getElementById('side_brheader').value
+                        },
+                        error: function (data) {
+                            console.log('ERROR', data);
+                        }
+                    });
+            });
+        }
+    };
+
+    o.details = {
+        init: function(options) {
+            topics = options.topics.replace(/{/g, "").replace(/}/g, "").split(",");
+            types = options.types.replace(/{/g, "").replace(/}/g, "").split(",");
+            
+            // console.log(topics)
+            // console.log(types)
+
+            type_labels = []
+            type_datas = []
+            type_colors = []
+            for (var i = 0; i < types.length; i++) {
+                var tmp_type = types[i].replace(/"/g, "").replace(/ /g, "")
+                var type_data = tmp_type.split(":")
+                // console.log(topics[i])
+                // console.log(type_data)
+                type_labels.push(type_data[0].replace(/'/g, ""))
+                type_datas.push(type_data[1].replace(/'/g, ""))
+                type_colors.push(o.getRandomColor())
+            }
+
+            topic_labels = []
+            topic_datas = []
+            topic_colors = []
+            for (var i = 0; i < topics.length; i++) {
+                var tmp_topic = topics[i].replace(/"/g, "").replace(/ /g, "")
+                var topic_data = tmp_topic.split(":")
+                // console.log(topics[i])
+                // console.log(type_data)
+                topic_labels.push(topic_data[0].replace(/'/g, ""))
+                topic_datas.push(topic_data[1].replace(/'/g, ""))
+                topic_colors.push(o.getRandomColor())
+            }
+            // // console.log(topic_labels)
+            // // console.log(type_labels)
+            var typeChart = new Chart(document.getElementById("type-canvas"), {
+                type: 'pie',
+                data: {
+                  labels: type_labels,
+                  datasets: [{
+                    data: type_datas,
+                    backgroundColor: type_colors,
+                    hoverBackgroundColor: type_colors
+                  }]
+                },
+                options: {
+                  responsive: true
+                }
+            });
+            var topicChart = new Chart(document.getElementById("topic-canvas"), {
+                type: 'pie',
+                data: {
+                  labels: topic_labels,
+                  datasets: [{
+                    data: topic_datas,
+                    backgroundColor: topic_colors,
+                    hoverBackgroundColor: topic_colors
+                  }]
+                },
+                options: {
+                  responsive: true
+                }
             });
         }
     };

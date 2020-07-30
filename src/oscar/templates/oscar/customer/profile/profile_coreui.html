@@ -1,0 +1,43 @@
+{% extends "oscar/layout_coreui.html" %}
+
+{% load i18n %}
+
+{% block content_wrapper %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header"><i class="fa fa-align-justify"></i> User Profile</div>
+            <div class="card-body">
+                <table class="table table-responsive-sm table-bordered table-striped table-sm">
+                    <tbody>
+                        <tr>
+                            <th>{% trans 'Name' %}</th>
+                            <td>{{ user.get_full_name|default:'-' }}</td>
+                        </tr>
+                        <tr>
+                            <th>{% trans 'Email address' %}</th>
+                            <td>{{ user.email }}</td>
+                        </tr>
+                        {% block profile_fields %}
+                            {% for field in profile_fields %}
+                                <tr>
+                                    <th>{{ field.name }}</th>
+                                    <td>{{ field.value|default:"-" }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% endblock %}
+                        <tr>
+                            <th>{% trans 'Date registered' %}</th>
+                            <td>{{ user.date_joined }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+    <a href="{% url 'customer:change-password' %}" class="btn btn-primary">{% trans 'Change password' %}</a>
+    <a href="{% url 'customer:profile-update' %}" class="btn btn-primary">{% trans 'Edit profile' %}</a>
+    <a id="delete_profile" href="{% url 'customer:profile-delete' %}" class="btn btn-danger">{% trans 'Delete profile' %}</a>
+
+{% endblock %}
