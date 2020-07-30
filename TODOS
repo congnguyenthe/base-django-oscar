@@ -1,3 +1,30 @@
+Brainstorm:
+  + Pages:
+    --> Homepage/Dashboard page: Summarize what user has
+      --> Builder page: Create Test/Drawing/Other Printable/Print-Ready
+      --> Domain Selection
+      --> Content Selection
+      --> Layout Edition
+      --> Info Summarization
+    --> Account page:
+      --> Notifications
+      --> Messages
+      --> Profile
+    --> Setting page:
+    --> Pricing page:
+    --> Explore/Collection page:
+  + Features:
+    --> Create a Test Compilation
+      --> 15 min tests
+      --> Mid-term test
+      --> Final Test
+      --> Test for separated classes
+      --> Test for separated groups
+    --> Search for test/test compilation
+      --> Edit for fitting their purpose
+      --> Add to their compilation
+    --> Shuffle created questions into multiple test when download
+
 Features:
   + Login/Register
     --> Redirect login page
