@@ -56,7 +56,9 @@ Features:
 * REQ12: Allow download answer sheet
 * REQ13: Web design
 
-July/20/2020 - July/27/2020:
+Aug/03/2020 - Aug/09/2020:
+  + Finish UI
+  + Allow Download
   + Bigger checkbox when selecting questions
   + Check if question is in the list of quiz
     --> Set checked box
