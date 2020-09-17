@@ -1,0 +1,422 @@
+{% extends "oscar/layout_adminlte.html" %}
+{% load staticfiles %}
+{% load basket_tags %}
+{% load category_tags %}
+{% load domain_tags %}
+{% load product_tags %}
+{% load attribute_tags %}
+{% load class_tags %}
+{% load i18n %}
+
+{# Main content of page - other layout templates may override this block #}
+{% block content_wrapper %}
+<section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item">English Quiz</li>
+            <li class="breadcrumb-item">
+              A NEW QUIZ NAME
+              <i class="fas fa-edit"></i>
+            </li>
+          </ol>
+        </div>
+        <div class="col-sm-6">
+          <button id="to_edit" onclick="location.href = 'edit_layout.html';" type="button" class="btn btn-success float-right" style="width: 150px;">Done</button>
+          <button type="button" class="btn btn-danger float-right mr-2" style="width: 150px;">Cancel</button>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+</section>
+  <!-- Main content -->
+  <section class="content">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <h3 class="card-title">
+              Filter Questions
+            </h3>
+            <div class="card-tools">
+              <button type="button" class="btn btn-block btn-info">Apply</button>
+            </div>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <div class="form-group">
+              <label>Grade</label>
+              <select class="select2" multiple="multiple" data-placeholder="Choose grade(s)" style="width: 100%;">
+                <option>8</option>
+                <option>9</option>
+                <option>10</option>
+                <option>11</option>
+                <option>12</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Level</label>
+              <select class="select2" multiple="multiple" data-placeholder="Choose level(s)" style="width: 100%;">
+                <option>A2</option>
+                <option>A1</option>
+                <option>B2</option>
+                <option>B1</option>
+                <option>C2</option>
+                <option>C1</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Certificate</label>
+              <select class="select2" multiple="multiple" data-placeholder="Choose certificate(s)" style="width: 100%;">
+                <option>IELTS</option>
+                <option>TOEFL</option>
+                <option>TOEIC</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Topic</label>
+              <select class="select2" multiple="multiple" data-placeholder="Choose topic(s)" style="width: 100%;">
+                <option>Adjectives</option>
+                <option>Adverbs</option>
+                <option>Articles</option>
+                <option>Conditional</option>
+                <option>Nouns</option>
+                <option>Passive Voice</option>
+                <option>Relative Clauses</option>
+                <option>Reported Speech</option>
+                <option>Tenses</option>
+                <option>Verbs</option>
+                <option>Word Order</option>
+              </select>
+            </div>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+      <!-- /.col -->
+      <div class="col-md-9">
+        <div class="card card-primary card-outline">
+          <div class="card-header">
+            <div class="mailbox-controls">
+              <!-- Check all button -->
+              <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="far fa-square"></i>
+              </button>
+              <div class="btn-group">
+                <button type="button" class="btn btn-default btn-sm">
+                  <i class="far fa-trash-alt"></i>
+                </button>
+                <button type="button" class="btn btn-default btn-sm">
+                  <i class="fas fa-reply"></i>
+                </button>
+                <button type="button" class="btn btn-default btn-sm">
+                  <i class="fas fa-share"></i>
+                </button>
+              </div>
+              <!-- /.btn-group -->
+              <button type="button" class="btn btn-default btn-sm">
+                <i class="fas fa-sync-alt"></i>
+              </button>
+              <button type="button" class="btn btn-sm btn-outline-info float-right" style="width: 100px;">Save</button>
+              <button type="button" class="btn btn-sm btn-outline-warning float-right mr-2" style="width: 100px;">Clear All</button>
+            </div>
+            <!-- /.card-tools -->
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body p-0">
+            <div class="card card-solid">
+              <div class="card-body pb-0">
+                <div class="row d-flex align-items-stretch">
+                  <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch" style="width: 100%;">
+                    <div class="card bg-light">
+                      <div class="card-header">
+                        <div class="row">
+                          <div class="col-3">
+                            <div class="icheck-primary">
+                              <input type="checkbox" value="" id="check1">
+                              <label for="check1"></label>
+                            </div>
+                          </div>
+                          <div class="col-9">
+                            <i class="fas fa-star text-warning float-right"></i>
+                            <i class="fas fa-star text-warning float-right"></i>
+                            <i class="fas fa-star text-warning float-right"></i>
+                            <i class="fas fa-star text-warning float-right"></i>
+                            <i class="fas fa-star text-warning float-right"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body pt-0">
+                        <div class="row">
+                          <h5>1. There are one thousand?</h5><br>
+                          A: How many are there grams in a kilogram?<br>
+                          B: How many grams are there in a kilogram?<br>
+                          C: How many grams are they in a kilogram?<br>
+                          D: How many grams are there of a kilogram?<br>
+                          E: How much grams in a kilogram?
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch" style="width: 100%;">
+                    <div class="card bg-light">
+                      <div class="card-header">
+                        <div class="row">
+                          <div class="col-3">
+                            <div class="icheck-primary">
+                              <input type="checkbox" value="" id="check2">
+                              <label for="check2"></label>
+                            </div>
+                          </div>
+                          <div class="col-9">
+                            <i class="fas fa-star text-warning float-right"></i>
+                            <i class="fas fa-star text-warning float-right"></i>
+                            <i class="fas fa-star text-warning float-right"></i>
+                            <i class="fas fa-star text-warning float-right"></i>
+                            <i class="fas fa-star text-warning float-right"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body pt-0">
+                        <div class="row">
+                          <h5>2. I dislike ________ to the movies by myself.</h5><br>
+                          A: going<br>
+                          B: to go<br>
+                          C: going/to go <br>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch" style="width: 100%;">
+                    <div class="card bg-light">
+                      <div class="card-header">
+                        <div class="row">
+                          <div class="col-3">
+                            <div class="icheck-primary">
+                              <input type="checkbox" value="" id="check3">
+                              <label for="check3"></label>
+                            </div>
+                          </div>
+                          <div class="col-9">
+                            <i class="fas fa-star text-warning float-right"></i>
+                            <i class="fas fa-star text-warning float-right"></i>
+                            <i class="fas fa-star text-warning float-right"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body pt-0">
+                        <div class="row">
+                          <h5>3. We started ________ dinner without you.</h5><br>
+                          A: eating<br>
+                          B: to eat<br>
+                          C: eating/to eat <br>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch" style="width: 100%;">
+                    <div class="card bg-light">
+                      <div class="card-header">
+                        <div class="row">
+                          <div class="col-3">
+                            <div class="icheck-primary">
+                              <input type="checkbox" value="" id="check4">
+                              <label for="check4"></label>
+                            </div>
+                          </div>
+                          <div class="col-9">
+                            <i class="fas fa-star text-warning float-right"></i>
+                            <i class="fas fa-star text-warning float-right"></i>
+                            <i class="fas fa-star text-warning float-right"></i>
+                            <i class="fas fa-star text-warning float-right"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body pt-0">
+                        <div class="row">
+                          <h5>4. I can't imagine ________ my own house.</h5><br>
+                          A: buying<br>
+                          B: to buy<br>
+                          C: buying/to buy <br>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch" style="width: 100%;">
+                    <div class="card bg-light">
+                      <div class="card-header">
+                        <div class="row">
+                          <div class="col-3">
+                            <div class="icheck-primary">
+                              <input type="checkbox" value="" id="check5">
+                              <label for="check5"></label>
+                            </div>
+                          </div>
+                          <div class="col-9">
+                            <i class="fas fa-star text-warning float-right"></i>
+                            <i class="fas fa-star text-warning float-right"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body pt-0">
+                        <div class="row">
+                          <h5>5. I used ________ that television show all the time.</h5><br>
+                          A: watching<br>
+                          B: to watch<br>
+                          C: watching/to watch <br>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch" style="width: 100%;">
+                    <div class="card bg-light">
+                      <div class="card-header">
+                        <div class="row">
+                          <div class="col-3">
+                            <div class="icheck-primary">
+                              <input type="checkbox" value="" id="check6">
+                              <label for="check6"></label>
+                            </div>
+                          </div>
+                          <div class="col-9">
+                            <i class="fas fa-star text-warning float-right"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body pt-0">
+                        <div class="row">
+                          <h5>6. I always eat breakfast before ________ to school.</h5><br>
+                          A: going<br>
+                          B: to go<br>
+                          C: going/to go <br>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch" style="width: 100%;">
+                    <div class="card bg-light">
+                      <div class="card-header">
+                        <div class="row">
+                          <div class="col-3">
+                            <div class="icheck-primary">
+                              <input type="checkbox" value="" id="check7">
+                              <label for="check7"></label>
+                            </div>
+                          </div>
+                          <div class="col-9">
+                            <i class="fas fa-star text-warning float-right"></i>
+                            <i class="fas fa-star text-warning float-right"></i>
+                            <i class="fas fa-star text-warning float-right"></i>
+                            <i class="fas fa-star text-warning float-right"></i>
+                            <i class="fas fa-star text-warning float-right"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body pt-0">
+                        <div class="row">
+                          <h5>7. When do you practise ________ the piano?</h5><br>
+                          A: playing<br>
+                          B: to play<br>
+                          C: playing/to play <br>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch" style="width: 100%;">
+                    <div class="card bg-light">
+                      <div class="card-header">
+                        <div class="row">
+                          <div class="col-3">
+                            <div class="icheck-primary">
+                              <input type="checkbox" value="" id="check8">
+                              <label for="check8"></label>
+                            </div>
+                          </div>
+                          <div class="col-9">
+                            <i class="fas fa-star text-warning float-right"></i>
+                            <i class="fas fa-star text-warning float-right"></i>
+                            <i class="fas fa-star text-warning float-right"></i>
+                            <i class="fas fa-star text-warning float-right"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body pt-0">
+                        <div class="row">
+                          <h5>8. My grandmother prefers ________ science fiction books.</h5><br>
+                          A: reading<br>
+                          B: to read<br>
+                          C: reading/to read <br>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch" style="width: 100%;">
+                    <div class="card bg-light">
+                      <div class="card-header">
+                        <div class="row">
+                          <div class="col-3">
+                            <div class="icheck-primary">
+                              <input type="checkbox" value="" id="check9">
+                              <label for="check9"></label>
+                            </div>
+                          </div>
+                          <div class="col-9">
+                            <i class="fas fa-star text-warning float-right"></i>
+                            <i class="fas fa-star text-warning float-right"></i>
+                            <i class="fas fa-star text-warning float-right"></i>
+                            <i class="fas fa-star text-warning float-right"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="card-body pt-0">
+                        <div class="row">
+                          <h5> 9. My teacher said my essay needs ________ by tomorrow.</h5><br>
+                          A: correcting<br>
+                          B: to correct<br>
+                          C: corrected<br>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.card-body -->
+          <div class="card-footer p-0">
+            <div class="mailbox-controls">
+              <div class="float-right">
+                1-50/200
+                <div class="btn-group">
+                  <button type="button" class="btn btn-default btn-sm">
+                    <i class="fas fa-chevron-left"></i>
+                  </button>
+                  <button type="button" class="btn btn-default btn-sm">
+                    <i class="fas fa-chevron-right"></i>
+                  </button>
+                </div>
+                <!-- /.btn-group -->
+              </div>
+              <!-- /.float-right -->
+            </div>
+          </div>
+        </div>
+        <!-- /.card -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </section>
+  <!-- /.content -->
+{% endblock %}
+{% block onbodyload %}
+    {{ block.super }}
+    var datas = {
+        'createURL': '{% url 'catalogue:create' %}',
+	    'composite': '{{ quiz.pk }}'
+    };
+    oscar.select.init(datas);
+{% endblock %}

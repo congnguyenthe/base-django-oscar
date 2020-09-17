@@ -96,7 +96,7 @@ class AccountRegistrationView(RegisterUserMixin, generic.FormView):
 
 class RegistrationView(RegisterUserMixin, generic.FormView):
     form_class = EmailUserCreationForm
-    template_name = 'oscar/customer/registration_coreui.html'
+    template_name = 'oscar/customer/registration_adminlte.html'
     redirect_field_name = 'next'
 
     def get(self, request, *args, **kwargs):
@@ -269,7 +269,7 @@ class LoginView(generic.TemplateView):
     This is actually a slightly odd double form view that allows a customer to
     either login or register.
     """
-    template_name = 'oscar/customer/login_coreui.html'
+    template_name = 'oscar/customer/login_adminlte.html'
     login_prefix, registration_prefix = 'login', 'registration'
     login_form_class = EmailAuthenticationForm
     redirect_field_name = 'next'
@@ -390,7 +390,7 @@ class HomeView(generic.TemplateView):
 
 
 class ProfileView(PageTitleMixin, generic.TemplateView):
-    template_name = 'oscar/customer/profile/profile_coreui.html'
+    template_name = 'oscar/customer/profile/profile_adminlte.html'
     page_title = _('Profile')
     active_tab = 'profile'
 

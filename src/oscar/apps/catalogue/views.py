@@ -282,7 +282,7 @@ class ProductSelectView(TemplateView):
     Select a composite product
     """
     context_object_name = "products"
-    template_name = 'oscar/catalogue/select_coreui.html'
+    template_name = 'oscar/catalogue/select_adminlte.html'
     category_slug = ""
 
     def get(self, request, *args, **kwargs):
@@ -382,7 +382,7 @@ class ProductUpdateView(TemplateView):
 
 class ProductLayoutView(TemplateView):
     context_object_name = "questions"
-    template_name = 'oscar/catalogue/template_coreui.html'
+    template_name = 'oscar/catalogue/template_adminlte.html'
     pk = ""
 
     def get(self, request, *args, **kwargs):
@@ -397,7 +397,7 @@ class ProductLayoutView(TemplateView):
         ctx = {}
         build_step = dict()
         build_step['step_prev'] = "2. Select Contents"
-        build_step['step_present'] = "3. Setup layout"
+        build_step['step_present'] = "3. Select layout"
         build_step['step_next'] = "4. Finish"
         build_step['action_prev'] = "create"
         build_step['action_present'] = "layout"
@@ -406,12 +406,12 @@ class ProductLayoutView(TemplateView):
 
         search_context = self.search_handler.get_search_context_data(
                             self.context_object_name)
-        quiz = Quiz.objects.get(pk=self.pk)
-        template = QuizTemplate.objects.get(pk=quiz.quiz_template_id)
-        questions = Product.objects.filter(pk__in=quiz.item_list)
-        ctx['template'] = template
-        ctx['quiz'] = quiz
-        search_context[self.context_object_name] = questions
+        # quiz = Quiz.objects.get(pk=self.pk)
+        # template = QuizTemplate.objects.get(pk=quiz.quiz_template_id)
+        # questions = Product.objects.filter(pk__in=quiz.item_list)
+        # ctx['template'] = template
+        # ctx['quiz'] = quiz
+        # search_context[self.context_object_name] = questions
         ctx.update(search_context)
         return ctx
 

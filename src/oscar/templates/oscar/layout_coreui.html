@@ -13,44 +13,45 @@
         settings file. This will enable the on-the-fly less compiler.
     {% endcomment %}
     <link rel="stylesheet" type="text/css" href="{% static "oscar/coreui/css/style.css" %}" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.10/dist/shoelace/shoelace.css">
     <link href="{% static "oscar/coreui/vendors/@coreui/icons/css/flag.min.css" %}" rel="stylesheet">
 {% endblock %}
 
 {% block layout %}
     <body class="c-app">
-        <div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show" id="sidebar">
+        <div class="c-sidebar c-sidebar-dark c-sidebar-fixed c-sidebar-lg-show c-sidebar-minimized" id="sidebar">
             <div class="c-sidebar-brand d-lg-down-none">
-            <svg class="c-sidebar-brand-full" width="118" height="46" alt="CoreUI Logo">
-                <use xlink:href="{% static "oscar/coreui/assets/brand/coreui.svg" %}#full"></use>
-            </svg>
-            <svg class="c-sidebar-brand-minimized" width="46" height="46" alt="CoreUI Logo">
-                <use xlink:href="{% static "oscar/coreui/assets/brand/coreui.svg" %}#signet"></use>
-            </svg>
+                <svg class="c-sidebar-brand-full" width="118" height="46" alt="CoreUI Logo">
+                    <use xlink:href="{% static "oscar/coreui/assets/brand/coreui.svg" %}#full"></use>
+                </svg>
+                <svg class="c-sidebar-brand-minimized" width="46" height="46" alt="CoreUI Logo">
+                    <use xlink:href="{% static "oscar/coreui/assets/brand/coreui.svg" %}#signet"></use>
+                </svg>
             </div>
             <ul class="c-sidebar-nav">
-            <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="{% url 'customer:home-view' %}">
-                <svg class="c-sidebar-nav-icon">
-                    <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-speedometer"></use>
-                </svg> Home</a></li>
-            <li class="c-sidebar-nav-item c-sidebar-nav-dropdown"><a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="">
-                <svg class="c-sidebar-nav-icon">
-                    <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-color-border"></use>
-                </svg> Create </a>
-                <ul class="c-sidebar-nav-dropdown-items">
-                    <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="{% url 'catalogue:select' %}?cat=english"><span class="c-sidebar-nav-icon"></span>English</a></li>
-                    <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="{% url 'catalogue:select' %}?cat=japanese"><span class="c-sidebar-nav-icon"></span>Japanese</a></li>
-                    <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="{% url 'catalogue:select' %}?cat=chinese"><span class="c-sidebar-nav-icon"></span>Chinese</a></li>
-                    <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="{% url 'catalogue:select' %}?cat=korean"><span class="c-sidebar-nav-icon"></span>Korean</a></li>
-                </ul>
-            </li>
-            <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="#">
-                <svg class="c-sidebar-nav-icon">
-                    <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-bold"></use>
-                </svg> Explore </a></li>
-            <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="#">
-                <svg class="c-sidebar-nav-icon">
-                    <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-settings"></use>
-                </svg> Settings </a></li>
+                <li class="c-sidebar-nav-item c-sidebar-nav-dropdown"><a class="c-sidebar-nav-link c-sidebar-nav-dropdown-toggle" href="">
+                    <svg class="c-sidebar-nav-icon">
+                        <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-plus"></use>
+                    </svg> Create New... </a>
+                    <ul class="c-sidebar-nav-dropdown-items">
+                        <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="{% url 'catalogue:select' %}?cat=english"><span class="c-sidebar-nav-icon"></span>English</a></li>
+                        <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="{% url 'catalogue:select' %}?cat=japanese"><span class="c-sidebar-nav-icon"></span>Japanese</a></li>
+                        <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="{% url 'catalogue:select' %}?cat=it"><span class="c-sidebar-nav-icon"></span>IT</a></li>
+                    </ul>
+                </li>
+                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="{% url 'customer:home-view' %}">
+                    <svg class="c-sidebar-nav-icon">
+                        <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-user"></use>
+                    </svg> Account </a></li>
+
+                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="#">
+                    <svg class="c-sidebar-nav-icon">
+                        <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-settings"></use>
+                    </svg> Settings </a></li>
+                <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link" href="#">
+                    <svg class="c-sidebar-nav-icon">
+                        <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-credit-card"></use>
+                    </svg> Pricing </a></li>
             </ul>
             <button class="c-sidebar-minimizer c-class-toggler" type="button" data-target="_parent" data-class="c-sidebar-minimized"></button>
         </div>
@@ -92,50 +93,87 @@
                 </li>
                 </ul>
             </header>
-            <header class="c-header c-header-light c-header-fixed c-header-with-subheader">
-                <div class="float-left mr-auto ml-0 align-items-center">
-                    {% if build_step.step_prev %}
-                        <button class="c-header-toggler c-class-toggler btn btn-lg btn-info ml-4 d-md-down-none" onclick="window.history.back()" id="prev_step" type="button" responsive="true">
-                            <svg class="c-icon c-icon-2xl">
-                                <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-chevron-left"></use>
-                            </svg>
-                        </button>
-                    {% else %}
-                        <button class="c-header-toggler c-class-toggler btn btn-lg btn-info ml-4 d-md-down-none" disabled="" id="prev_step" type="button" responsive="true">
-                            <svg class="c-icon c-icon-2xl">
-                                <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-chevron-left"></use>
-                            </svg>
-                        </button>
-                    {% endif %}
-                    <strong class="align-items-center"> {{ build_step.step_prev }} </strong>
-                </div>
-                <strong class="align-items-center"> {{ build_step.step_present }} </strong>
-                <div class="float-right ml-auto mr-0 align-items-center">
-                    <strong class="align-items-center"> {{ build_step.step_next }} </strong>
-                    {% if build_step.step_next %}
-                        <button class="c-header-toggler c-class-toggler btn btn-lg btn-info mr-4 d-md-down-none" id="next_step" type="button" responsive="true">
-                            <svg class="c-icon c-icon-2xl">
-                                <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-chevron-right"></use>
-                            </svg>
-                        </button>
-                    {% else %}
-                        <button class="c-header-toggler c-class-toggler btn btn-lg btn-info mr-4 d-md-down-none" disabled="" id="next_step" type="button" responsive="true">
-                            <svg class="c-icon c-icon-2xl">
-                                <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-chevron-right"></use>
-                            </svg>
-                        </button>
-                    {% endif %}
-                </div>
-            </header>
-            <div class="c-body ml-0 pl-0">
-                <div class="container-fluid ml-0 pl-0 mr-0 pr-0">
-                    <div class="fade-in">
-                        {# Main content of page - other layout templates may override this block #}
-                        {% block content_wrapper %}
-                        {% endblock %}
+            {% block action_guidance %}
+                <header class="c-header c-header-light c-header-fixed c-header-with-subheader">
+                    <div class="col-2">
+                        <div class="float-left mr-auto ml-0 align-items-center">
+                            {% if build_step.step_prev %}
+                                <button class="c-header-toggler c-class-toggler btn btn-lg btn-info ml-4 d-md-down-none" onclick="window.history.back()" id="prev_step" type="button" responsive="true">
+                                    <svg class="c-icon c-icon-2xl">
+                                        <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-chevron-left"></use>
+                                    </svg>
+                                </button>
+                            {% else %}
+                                <button class="c-header-toggler c-class-toggler btn btn-lg btn-info ml-4 d-md-down-none" disabled="" id="prev_step" type="button" responsive="true">
+                                    <svg class="c-icon c-icon-2xl">
+                                        <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-chevron-left"></use>
+                                    </svg>
+                                </button>
+                            {% endif %}
+                            <strong class="align-items-center"> Back </strong>
+                        </div>
                     </div>
-                </div>
-                {% include "oscar/partials/footer.html" %}
+                    <div class="col-8">
+                        <div class="container-fluid">
+                            <ul class="list-unstyled multi-steps">
+                                {% if build_step.step_present == "1. Select Domain" %}
+                                    <li class="is-active">1. Domain Selection</li>
+                                {% else %}
+                                    <li>1. Domain Selection</li>
+                                {% endif %}
+    
+                                {% if build_step.step_present == "2. Select Contents" %}
+                                    <li class="is-active">2. Content Selection</li>
+                                {% else %}
+                                    <li>2. Content Selection</li>
+                                {% endif %}
+    
+                                {% if build_step.step_present == "3. Select layout" %}
+                                    <li class="is-active">3. Layout Edition</li>
+                                {% else %}
+                                    <li>3. Layout Edition</li>
+                                {% endif %}
+    
+                                {% if build_step.step_present == "4. Finish" %}
+                                    <li class="is-active">4. Summarize</li>
+                                {% else %}
+                                    <li>4. Summarize</li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="float-right ml-auto mr-0 align-items-center">
+                            <strong class="align-items-center"> Next </strong>
+                            {% if build_step.step_next %}
+                                <button class="c-header-toggler c-class-toggler btn btn-lg btn-info mr-4 d-md-down-none" id="next_step" type="button" responsive="true">
+                                    <svg class="c-icon c-icon-2xl">
+                                        <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-chevron-right"></use>
+                                    </svg>
+                                </button>
+                            {% else %}
+                                <button class="c-header-toggler c-class-toggler btn btn-lg btn-info mr-4 d-md-down-none" disabled="" id="next_step" type="button" responsive="true">
+                                    <svg class="c-icon c-icon-2xl">
+                                        <use xlink:href="{% static "oscar/coreui/vendors/@coreui/icons/svg/free.svg" %}#cil-chevron-right"></use>
+                                    </svg>
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                </header>
+            {% endblock %}
+            <div class="c-body">
+                <main class="c-main">
+                    <div class="container-fluid h-100">
+                        <div class="fade-in h-100">
+                            {# Main content of page - other layout templates may override this block #}
+                            {% block content_wrapper %}
+                            {% endblock %}
+                        </div>
+                    </div>
+                </main>
+                {% include "oscar/partials/footer_coreui.html" %}
             </div>
         </div>
     </body>
@@ -166,6 +204,8 @@
     <!--<![endif]-->
 
     <script src="{% static "oscar/js/oscar/ui.js" %}"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.10/dist/shoelace/shoelace.esm.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/js/bootstrap.min.js" integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J" crossorigin="anonymous"></script>
 {% endblock %}
 
 {% block extrascripts %}
@@ -177,9 +217,4 @@
     {{ block.super }}
     oscar.init();
     oscar.search.init();
-    var options = {
-        'catalogueURL': '{% url 'catalogue:update' %}',
-	    'composite': '{{ quiz.pk }}'
-    };
-    oscar.catalogue.init(options);
 {% endblock %}
