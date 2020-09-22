@@ -1345,3 +1345,99 @@ class AbstractQuiz(models.Model):
             else:
                 self.item_list = [x for x in self.item_list if x not in items]
     update_itemlist.short_description = pgettext_lazy("UpdateItemList", "UpdateItemList")
+
+class AbstractLanguageClass(models.Model):
+    name = models.TextField(_('Name'), null=True, blank=True)
+
+    class Meta:
+        abstract = True
+        app_label = 'catalogue'
+        ordering = ['name']
+        verbose_name = _("LanguageClass")
+        verbose_name_plural = _("LanguageClasses")
+
+    def __str__(self):
+        return self.name
+
+class AbstractQuizTopic(models.Model):
+    name = models.TextField(_('Name'), null=True, blank=True)
+
+    quiz_class = models.ForeignKey(
+        'catalogue.LanguageClass',
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT,
+        verbose_name=_('Quiz Class'), related_name="quiz_class",
+        help_text=_("Choose what language is this quiz on"))
+
+    class Meta:
+        abstract = True
+        app_label = 'catalogue'
+        ordering = ['name']
+        verbose_name = _("QuizTopic")
+        verbose_name_plural = _("QuizzTopics")
+
+    def __str__(self):
+        return self.name
+
+class AbstractQuestions(models.Model):
+    question = models.TextField(_('Question'), null=True, blank=True)
+
+    answers = models.TextField(_('Answers'), null=True, blank=True)
+
+    correct_answer = models.TextField(_('CorrectAnswer'), null=True, blank=True)
+
+    date_created = models.DateTimeField(
+        _("Date created"), auto_now_add=True, db_index=True)
+
+    # This field is used by Haystack to reindex search
+    date_updated = models.DateTimeField(
+        _("Date updated"), auto_now=True, db_index=True)
+
+    publicity = models.BooleanField(
+        _("Is publicable?"), default=True, help_text=_(
+            "This flag indicates if this questions can be public or not"))
+
+    difficulty = models.PositiveSmallIntegerField(
+        _('Difficulty'), default=3, db_index=True,
+        help_text=_("Determine the difficulty of a question"))
+
+    question_class = models.ForeignKey(
+        'catalogue.LanguageClass',
+        on_delete=models.CASCADE,
+        related_name='question_class',
+        verbose_name=_("Question Class"))
+
+    question_topic = models.ManyToManyField(
+        'catalogue.QuizTopic',  verbose_name=_("Question Topic"))
+
+    class Meta:
+        abstract = True
+        app_label = 'catalogue'
+        ordering = ['date_updated']
+        verbose_name = _("Quiz")
+        verbose_name_plural = _("Quizzes")
+
+    def __str__(self):
+        return self.name
+
+    def get_itemlist(self):
+        """
+        Return a product's answer
+        """
+        itemlist = self.item_list
+        return itemlist
+    get_itemlist.short_description = pgettext_lazy("ItemList", "ItemList")
+
+    def update_itemlist(self, items, action):
+        if action == "add":
+            if not self.item_list:
+                self.item_list = []
+            for item in items:
+                self.item_list.append(item)
+        else:
+            if items[0] == "all":
+                self.item_list.clear()
+            else:
+                self.item_list = [x for x in self.item_list if x not in items]
+    update_itemlist.short_description = pgettext_lazy("UpdateItemList", "UpdateItemList")

@@ -94,3 +94,21 @@ if not is_model_registered('catalogue', 'QuizTemplate'):
         pass
 
     __all__.append('QuizTemplate')
+
+if not is_model_registered('catalogue', 'LanguageClass'):
+    class LanguageClass(AbstractLanguageClass):
+        pass
+
+    __all__.append('LanguageClass')
+
+if not is_model_registered('catalogue', 'QuizTopic'):
+    class QuizTopic(AbstractQuizTopic):
+        pass
+
+    __all__.append('QuizTopic')
+
+if not is_model_registered('catalogue', 'Questions'):
+    class Questions(AbstractQuestions):
+        pass
+
+    __all__.append('Questions')
