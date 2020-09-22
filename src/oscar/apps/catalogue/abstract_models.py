@@ -1349,33 +1349,14 @@ class AbstractQuiz(models.Model):
 class AbstractLanguageClass(models.Model):
     name = models.TextField(_('Name'), null=True, blank=True)
 
+    slug = SlugField(_('Slug'), max_length=255, null=True, db_index=True)
+
     class Meta:
         abstract = True
         app_label = 'catalogue'
         ordering = ['name']
         verbose_name = _("LanguageClass")
         verbose_name_plural = _("LanguageClasses")
-
-    def __str__(self):
-        return self.name
-
-class AbstractQuizTopic(models.Model):
-    name = models.TextField(_('Name'), null=True, blank=True)
-
-    quiz_class = models.ForeignKey(
-        'catalogue.LanguageClass',
-        null=True,
-        blank=True,
-        on_delete=models.PROTECT,
-        verbose_name=_('Quiz Class'), related_name="quiz_class",
-        help_text=_("Choose what language is this quiz on"))
-
-    class Meta:
-        abstract = True
-        app_label = 'catalogue'
-        ordering = ['name']
-        verbose_name = _("QuizTopic")
-        verbose_name_plural = _("QuizzTopics")
 
     def __str__(self):
         return self.name
@@ -1402,14 +1383,7 @@ class AbstractQuestions(models.Model):
         _('Difficulty'), default=3, db_index=True,
         help_text=_("Determine the difficulty of a question"))
 
-    question_class = models.ForeignKey(
-        'catalogue.LanguageClass',
-        on_delete=models.CASCADE,
-        related_name='question_class',
-        verbose_name=_("Question Class"))
-
-    question_topic = models.ManyToManyField(
-        'catalogue.QuizTopic',  verbose_name=_("Question Topic"))
+    question_categories = models.ManyToManyField('catalogue.Category')
 
     class Meta:
         abstract = True
