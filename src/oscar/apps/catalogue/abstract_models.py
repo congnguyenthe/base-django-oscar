@@ -1267,7 +1267,7 @@ class AbstractQuizTemplate(models.Model):
     top_right = models.TextField(_('Top Right'), null=True, blank=True)
 
     title = models.TextField(_('Title'), null=True, blank=True)
-    
+
     bottom_left = models.TextField(_('Name'), null=True, blank=True)
     bottom_right = models.TextField(_('Name'), null=True, blank=True)
 
@@ -1285,7 +1285,7 @@ class AbstractQuizTemplate(models.Model):
 
     def __str__(self):
         return self.name
-    
+
     def updateTemplateContent(self, tl, tr, title, bl, br, pn):
         self.top_left = tl
         self.top_right = tr
@@ -1389,8 +1389,8 @@ class AbstractQuestions(models.Model):
         abstract = True
         app_label = 'catalogue'
         ordering = ['date_updated']
-        verbose_name = _("Quiz")
-        verbose_name_plural = _("Quizzes")
+        verbose_name = _("Question")
+        verbose_name_plural = _("Questions")
 
     def __str__(self):
         return self.name

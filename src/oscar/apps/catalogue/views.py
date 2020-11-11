@@ -224,8 +224,6 @@ class ProductCreateView(TemplateView):
         ctx['quiz'] = quiz
         ctx['category'] = Category.objects.get(slug=self.category_slug)
 
-        
-
         ques_type_id = []
         ques_topic_id = []
         for qt in self.type_selection:
@@ -277,6 +275,7 @@ class ProductCreateView(TemplateView):
 
         return ctx
 
+
 class ProductSelectView(TemplateView):
     """
     Select a composite product
@@ -301,12 +300,6 @@ class ProductSelectView(TemplateView):
 
     def get_context_data(self, **kwargs):
         ctx = {}
-        build_step = dict()
-        build_step['step_present'] = "1. Select Domain"
-        build_step['step_next'] = "2. Select Contents"
-        build_step['action_present'] = "select"
-        build_step['action_next'] = "create"
-        ctx['build_step'] = build_step
         
         if self.category_slug:
             domain = dict()
@@ -315,6 +308,7 @@ class ProductSelectView(TemplateView):
             ctx['domain'] = domain
 
         return ctx
+
 
 class ProductUpdateView(TemplateView):
     context_object_name = "products"
@@ -380,6 +374,7 @@ class ProductUpdateView(TemplateView):
         ctx.update(search_context)
         return ctx
 
+
 class ProductLayoutView(TemplateView):
     context_object_name = "questions"
     template_name = 'oscar/catalogue/template_adminlte.html'
@@ -425,6 +420,7 @@ class ProductLayoutView(TemplateView):
         template.updateTemplateContent(payload["tl"], payload["tr"], payload["title"], payload["bl"], payload["br"], show_pn)
         template.save()
         return JsonResponse({'result':'ok'})
+
 
 class ProductDownloadView(TemplateView):
     template_name = 'oscar/printable/a4_pdf.html'

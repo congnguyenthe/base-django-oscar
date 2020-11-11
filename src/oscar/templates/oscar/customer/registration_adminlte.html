@@ -27,7 +27,7 @@
     <div class="card-body register-card-body">
       <p class="login-box-msg">Register a new membership</p>
 
-      <form action="../../index.html" method="post">
+      <!-- <form action="../../index.html" method="post">
         <div class="input-group mb-3">
           <input type="text" class="form-control" placeholder="Full name">
           <div class="input-group-append">
@@ -69,12 +69,18 @@
               </label>
             </div>
           </div>
-          <!-- /.col -->
           <div class="col-4">
             <button type="submit" class="btn btn-primary btn-block">Register</button>
           </div>
-          <!-- /.col -->
         </div>
+      </form> -->
+      <form id="register_form" method="post" class="form-stacked">
+        {% csrf_token %}
+        {% include "oscar/partials/form_fields.html"  %}
+        <button name="registration_submit" type="submit" value="Register" class="btn btn-primary btn-lg" data-loading-text="{%trans 'Registering...' %}">{% trans 'Register' %}</button>
+        {% if cancel_url %}
+            {% trans "or" %} <a href="{{ cancel_url }}">{% trans "cancel" %}</a>.
+        {% endif %}
       </form>
 
       <div class="social-auth-links text-center">
@@ -89,7 +95,7 @@
         </a>
       </div>
 
-      <a href="login.html" class="text-center">I already have a membership</a>
+      <a href="{% url 'customer:login' %}" class="text-center">I already have a membership</a>
     </div>
     <!-- /.form-box -->
   </div><!-- /.card -->
