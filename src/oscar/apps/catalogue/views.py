@@ -30,6 +30,7 @@ ProductAlert = get_model('customer', 'ProductAlert')
 ProductAlertForm = get_class('customer.forms', 'ProductAlertForm')
 ProductClass = get_class('catalogue.models', 'ProductClass')
 Quiz = get_class('catalogue.models', 'Quiz')
+Questions = get_class('catalogue.models', 'Questions')
 QuizTemplate = get_class('catalogue.models', 'QuizTemplate')
 get_product_search_handler_class = get_class(
     'catalogue.search_handlers', 'get_product_search_handler_class')
@@ -303,6 +304,7 @@ class ProductSelectView(TemplateView):
 
         if self.category_slug:
             filters = []
+            questions = []
             categories = Category.get_tree()
 
             for node in categories:
@@ -318,6 +320,17 @@ class ProductSelectView(TemplateView):
                         question_filter["values"].append(value)
                     filters.append(question_filter)
             ctx['filters'] = filters
+
+        for question in Questions.objects.filter(publicity=True):
+            new_question = dict()
+            new_question["question"] = question.question
+            new_question["answers"] = []
+            for answer in str(question.answers).replace("[" ,"").replace("]" ,"").split(","):
+                new_question["answers"].append(answer.replace('"', '').replace('\'', ''))
+            new_question["correct_answer"] = question.correct_answer
+            questions.append(new_question)
+
+        ctx['questions'] = questions
 
         return ctx
 
