@@ -300,12 +300,24 @@ class ProductSelectView(TemplateView):
 
     def get_context_data(self, **kwargs):
         ctx = {}
-        
+
         if self.category_slug:
-            domain = dict()
-            domain['slug'] = self.category_slug
-            domain['name'] = Category.objects.get(slug=self.category_slug).name
-            ctx['domain'] = domain
+            filters = []
+            categories = Category.get_tree()
+
+            for node in categories:
+                node_depth = node.get_depth()
+                if node_depth == 2:
+                    question_filter = dict()
+                    question_filter["name"] = str(node).split(" > ")[1]
+                    question_filter["description"] = Category.objects.get(name=question_filter["name"]).description
+                    question_filter["values"] = []
+                    childrens = node.get_descendants()
+                    for child in childrens:
+                        value = str(child).split(" > ")[2]
+                        question_filter["values"].append(value)
+                    filters.append(question_filter)
+            ctx['filters'] = filters
 
         return ctx
 

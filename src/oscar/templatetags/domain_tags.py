@@ -66,7 +66,7 @@ class CheapCategoryInfo(with_metaclass(CategoryFieldPassThroughMetaClass, dict))
         yield self
         yield self
 
-@register.simple_tag(name="domain_names")   # noqa: C901 too complex
+@register.simple_tag(name="filters")   # noqa: C901 too complex
 def get_root_list(depth=None, parent=None):
     """
     Gets an annotated list from a tree branch.
@@ -88,6 +88,7 @@ def get_root_list(depth=None, parent=None):
             max_depth += parent.get_depth()
     else:
         categories = Category.get_tree()
+        print(categories)
 
     if max_depth is not None:
         categories = categories.filter(depth__lte=max_depth)
@@ -96,6 +97,7 @@ def get_root_list(depth=None, parent=None):
 
     for node in categories:
         node_depth = node.get_depth()
+        print(node)
         if start_depth is None:
             start_depth = node_depth
 
