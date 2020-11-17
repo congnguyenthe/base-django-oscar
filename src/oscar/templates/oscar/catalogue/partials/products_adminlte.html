@@ -1,68 +1,8 @@
-{% extends "oscar/layout_adminlte.html" %}
-{% load staticfiles %}
-{% load basket_tags %}
 {% load category_tags %}
 {% load product_tags %}
-{% load attribute_tags %}
-{% load class_tags %}
 {% load i18n %}
-
-{# Main content of page - other layout templates may override this block #}
-{% block content_wrapper %}
-<section class="content-header">
-    <div class="container-fluid">
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item">English Quiz</li>
-            <li class="breadcrumb-item">
-              A NEW QUIZ NAME
-              <i class="fas fa-edit"></i>
-            </li>
-          </ol>
-        </div>
-        <div class="col-sm-6">
-          <button id="to_edit" type="button" class="btn btn-success float-right" style="width: 150px;">Done</button>
-          <button type="button" class="btn btn-danger float-right mr-2" style="width: 150px;">Cancel</button>
-        </div>
-      </div>
-    </div><!-- /.container-fluid -->
-</section>
-<!-- Main content -->
-<section class="content">
-    <div class="row">
-      <div class="col-md-3">
-        <div class="card card-primary card-outline">
-          <div class="card-header">
-            <h3 class="card-title">
-              Filter Questions
-            </h3>
-            <div class="card-tools">
-              <button type="button" class="btn btn-block btn-info" id="applyFilter">Apply</button>
-            </div>
-          </div>
-          <!-- /.card-header -->
-          <div class="card-body">
-            {% for filter in filters %}
-              <div class="form-group">
-                <label>{{ filter.name }}</label>
-                <select class="select2 question_filters" multiple="multiple" data-placeholder="Choose {{ filter.name }}(s)" style="width: 100%;">
-                  {% for value in filter.values %}
-                    <option>{{ value }}</option>
-                  {% endfor %}
-                </select>
-              </div>
-              <!-- /.div -->
-            {% endfor %}
-          </div>
-          <!-- /.card-body -->
-        </div>
-        <!-- /.card -->
-      </div>
-      <!-- /.col -->
-      <div class="col-md-9" id="questionList">
-        {% block content %}
+<!-- This is for update questions by selecting check-boxes -->
+{% block content %}
         <div class="card card-primary card-outline">
           <div class="card-header">
             <div class="mailbox-controls">
@@ -152,17 +92,4 @@
             </div>
           </div>
         </div> <!-- /.card -->
-        {% endblock %}
-      </div> <!-- /.col -->
-    </div> <!-- /.row -->
-</section>
-<!-- /.content -->
-{% endblock %}
-{% block onbodyload %}
-  {{ block.super }}
-  var datas = {
-    'selectURL': '{% url 'catalogue:select' %}',
-    'updateURL': '{% url 'catalogue:update' %}'
-  };
-  oscar.select.init(datas);
 {% endblock %}

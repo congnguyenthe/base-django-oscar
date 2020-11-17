@@ -1393,25 +1393,28 @@ class AbstractQuestions(models.Model):
         verbose_name_plural = _("Questions")
 
     def __str__(self):
-        return self.name
+        return self.question
 
-    def get_itemlist(self):
-        """
-        Return a product's answer
-        """
-        itemlist = self.item_list
-        return itemlist
-    get_itemlist.short_description = pgettext_lazy("ItemList", "ItemList")
+class AbstractQuestionsCategory(models.Model):
+    """
+    Joining model between products and categories. Exists to allow customising.
+    """
+    questions = models.ForeignKey(
+        'catalogue.Questions',
+        on_delete=models.CASCADE,
+        verbose_name=_("Questions"))
+    category = models.ForeignKey(
+        'catalogue.Category',
+        on_delete=models.CASCADE,
+        verbose_name=_("Category"))
 
-    def update_itemlist(self, items, action):
-        if action == "add":
-            if not self.item_list:
-                self.item_list = []
-            for item in items:
-                self.item_list.append(item)
-        else:
-            if items[0] == "all":
-                self.item_list.clear()
-            else:
-                self.item_list = [x for x in self.item_list if x not in items]
-    update_itemlist.short_description = pgettext_lazy("UpdateItemList", "UpdateItemList")
+    class Meta:
+        abstract = True
+        app_label = 'catalogue'
+        ordering = ['questions', 'category']
+        unique_together = ('questions', 'category')
+        verbose_name = _('Questions category')
+        verbose_name_plural = _('Questions categories')
+
+    def __str__(self):
+        return "<questionscategory for question '%s'>" % self.questions

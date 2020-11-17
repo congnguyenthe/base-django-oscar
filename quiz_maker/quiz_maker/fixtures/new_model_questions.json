@@ -7,7 +7,6 @@
             "date_updated": "2013-12-12T16:33:57.426Z",
             "publicity": true, 
             "date_created": "2013-12-12T16:33:57.426Z",
-            "question_categories": [3, 22, 23, 24, 25],
             "question": "She was working on her computer with her baby next to _____.",
             "answers": ["A.herself", "B.her", "C.her own", "D.hers"],
             "correct_answer": "B"
@@ -21,7 +20,6 @@
             "date_updated": "2013-12-12T16:33:57.426Z",
             "publicity": true, 
             "date_created": "2013-12-12T16:33:57.426Z",
-            "question_categories": [3, 22, 23, 24, 25],
             "question": "The woman, who has been missing for 10 days, is believed _____.",
             "answers": ["A.to be abducted", "B.to be abducting", "C.to have been abducted", "D.to have been abducting"],
             "correct_answer": "D"
@@ -35,7 +33,6 @@
             "date_updated": "2013-12-12T16:33:57.426Z",
             "publicity": true,
             "date_created": "2013-12-12T16:33:57.426Z",
-            "question_categories": [3, 22, 23, 24, 25],
             "question": "I wish I _____ those words. But now it's too late.",
             "answers": ["A.not having said", "B.have never said", "C.never said", "D.had never said"],
             "correct_answer": "B"
@@ -49,7 +46,6 @@
             "date_updated": "2013-12-12T16:33:57.426Z",
             "publicity": true,
             "date_created": "2013-12-12T16:33:57.426Z",
-            "question_categories": [3, 22, 23, 24, 25],
             "question": "Whiskey gets better and better as it ______.",
             "answers": ["A.not having said", "B.have never said", "C.never said", "D.had never said"],
             "correct_answer": "A"
@@ -63,7 +59,6 @@
             "date_updated": "2013-12-12T16:33:57.426Z",
             "publicity": true,
             "date_created": "2013-12-12T16:33:57.426Z",
-            "question_categories": [3, 22, 23, 24, 25],
             "question": "______? There is just a little.",
             "answers": ["A.not having said", "B.have never said", "C.never said", "D.had never said"],
             "correct_answer": "C"
@@ -77,7 +72,6 @@
             "date_updated": "2013-12-12T16:33:57.426Z",
             "publicity": true,
             "date_created": "2013-12-12T16:33:57.426Z",
-            "question_categories": [3, 22, 23, 24, 25],
             "question": " ______ my wife sleeps, I watch TV late at night.",
             "answers": ["A.not having said", "B.have never said", "C.never said", "D.had never said"],
             "correct_answer": "C"
@@ -91,7 +85,6 @@
             "date_updated": "2013-12-12T16:33:57.426Z",
             "publicity": true,
             "date_created": "2013-12-12T16:33:57.426Z",
-            "question_categories": [3, 22, 23, 24, 25],
             "question": "Can you swim?",
             "answers": ["A.not having said", "B.have never said", "C.never said", "D.had never said"],
             "correct_answer": "D"
@@ -105,7 +98,6 @@
             "date_updated": "2013-12-12T16:33:57.426Z",
             "publicity": true,
             "date_created": "2013-12-12T16:33:57.426Z",
-            "question_categories": [3, 22, 23, 24, 25],
             "question": "Did he go to work or to school?",
             "answers": ["A.not having said", "B.have never said", "C.never said", "D.had never said"],
             "correct_answer": "A"
@@ -119,7 +111,6 @@
             "date_updated": "2013-12-12T16:33:57.426Z",
             "publicity": true,
             "date_created": "2013-12-12T16:33:57.426Z",
-            "question_categories": [3, 22, 23, 24, 25],
             "question": "Has your class finished?",
             "answers": ["A.not having said", "B.have never said", "C.never said", "D.had never said"],
             "correct_answer": "B"
@@ -133,7 +124,6 @@
             "date_updated": "2013-12-12T16:33:57.426Z",
             "publicity": true,
             "date_created": "2013-12-12T16:33:57.426Z",
-            "question_categories": [3, 22, 23, 24, 25],
             "question": "Are you free tonight?",
             "answers": ["A.not having said", "B.have never said", "C.never said", "D.had never said"],
             "correct_answer": "B"
@@ -147,7 +137,6 @@
             "date_updated": "2013-12-12T16:33:57.426Z",
             "publicity": true,
             "date_created": "2013-12-12T16:33:57.426Z",
-            "question_categories": [3, 22, 23, 24, 25],
             "question": "Where is my pen?",
             "answers": ["A.not having said", "B.have never said", "C.never said", "D.had never said"],
             "correct_answer": "C"
@@ -161,10 +150,106 @@
             "date_updated": "2013-12-12T16:33:57.426Z",
             "publicity": true,
             "date_created": "2013-12-12T16:33:57.426Z",
-            "question_categories": [3, 22, 23, 24, 25],
             "question": "Who did you visit?",
             "answers": ["A.not having said", "B.have never said", "C.never said", "D.had never said"],
             "correct_answer": "D"
+        }
+    },
+
+    {
+        "pk": 1, 
+        "model": "catalogue.questionscategory",
+        "fields": {
+            "category": 3, 
+            "questions": 1
+        }
+    },
+    {
+        "pk": 2, 
+        "model": "catalogue.questionscategory",
+        "fields": {
+            "category": 4, 
+            "questions": 2
+        }
+    },
+    {
+        "pk": 3, 
+        "model": "catalogue.questionscategory",
+        "fields": {
+            "category": 5, 
+            "questions": 3
+        }
+    },
+    {
+        "pk": 4, 
+        "model": "catalogue.questionscategory",
+        "fields": {
+            "category": 6, 
+            "questions": 4
+        }
+    },
+    {
+        "pk": 5, 
+        "model": "catalogue.questionscategory",
+        "fields": {
+            "category": 7,
+            "questions": 5
+        }
+    },
+    {
+        "pk": 6,
+        "model": "catalogue.questionscategory",
+        "fields": {
+            "category": 9, 
+            "questions": 6
+        }
+    },
+    {
+        "pk": 7,
+        "model": "catalogue.questionscategory",
+        "fields": {
+            "category": 10, 
+            "questions": 7
+        }
+    },
+    {
+        "pk": 8,
+        "model": "catalogue.questionscategory",
+        "fields": {
+            "category": 11,
+            "questions": 8
+        }
+    },
+    {
+        "pk": 9,
+        "model": "catalogue.questionscategory",
+        "fields": {
+            "category": 12,
+            "questions": 9
+        }
+    },
+    {
+        "pk": 10,
+        "model": "catalogue.questionscategory",
+        "fields": {
+            "category": 13,
+            "questions": 10
+        }
+    },
+    {
+        "pk": 11,
+        "model": "catalogue.questionscategory",
+        "fields": {
+            "category": 14,
+            "questions": 11
+        }
+    },
+    {
+        "pk": 12,
+        "model": "catalogue.questionscategory",
+        "fields": {
+            "category": 15,
+            "questions": 12
         }
     }
 ]

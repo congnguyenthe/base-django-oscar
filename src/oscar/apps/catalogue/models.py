@@ -106,3 +106,9 @@ if not is_model_registered('catalogue', 'Questions'):
         pass
 
     __all__.append('Questions')
+
+if not is_model_registered('catalogue', 'QuestionsCategory'):
+    class QuestionsCategory(AbstractQuestionsCategory):
+        pass
+
+    __all__.append('QuestionsCategory')

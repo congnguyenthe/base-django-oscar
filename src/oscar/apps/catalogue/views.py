@@ -25,6 +25,7 @@ Product = get_model('catalogue', 'product')
 ProductAttributeValue = get_model('catalogue', 'productattributevalue')
 ProductAttribute = get_model('catalogue', 'productattribute')
 ProductCategory = get_model('catalogue', 'productcategory')
+QuestionsCategory = get_model('catalogue', 'questionscategory')
 Category = get_model('catalogue', 'category')
 ProductAlert = get_model('customer', 'ProductAlert')
 ProductAlertForm = get_class('customer.forms', 'ProductAlertForm')
@@ -337,46 +338,33 @@ class ProductSelectView(TemplateView):
 
 class ProductUpdateView(TemplateView):
     context_object_name = "products"
-    template_name = 'oscar/catalogue/partials/products.html'
+    template_name = 'oscar/catalogue/partials/products_adminlte.html'
     quiz_pk = ""
     pk_list = []
 
     def get(self, request, *args, **kwargs):
-        # print(self.request.GET)
+        ques_filter_id = []
+        self.pk_list = []
         self.search_handler = self.get_search_handler(self.request.GET, request.get_full_path(), [])
 
         # payload = dict(request.GET.lists())
-        ques_type = self.request.GET.getlist("type")
-        ques_topic = self.request.GET.getlist("topic")
-        self.pk = self.request.GET.get("pk")
-        ques_type_id = []
-        ques_topic_id = []
-        for qt in ques_type:
-            try:
-                type_name = Category.objects.get(name=qt.strip())
-                ques_type_id.append(type_name.pk)
-            except Category.DoesNotExist:
-                print("not found " + qt)
+        ques_filters = self.request.GET.getlist("question_filters")
+        if len(ques_filters) == 0:
+            return super().get(request, *args, **kwargs)
+        else:
+            for qf in ques_filters:
+                try:
+                    qf_obj = Category.objects.get(name=qf.strip())
+                    ques_filter_id.append(qf_obj.pk)
+                except Category.DoesNotExist:
+                    print("not found " + qf)
+            # print(ques_filter_id)
+            # print(self.pk_list)
+            for questionCategory in list(QuestionsCategory.objects.filter(category_id__in=ques_filter_id)):
+                self.pk_list.append(questionCategory.questions_id)
+            # print(self.pk_list)
 
-        for qt in ques_topic:
-            try:
-                topic_name = ProductAttribute.objects.get(name=qt.strip())
-                ques_topic_id.append(topic_name.pk)
-            except ProductAttribute.DoesNotExist:
-                print("not found " + qt)
-
-        filter_type = list(ProductAttributeValue.objects.filter(attribute_id__in=ques_type_id))
-        filter_topic = list(ProductCategory.objects.filter(category_id__in=ques_topic_id))
-        type_data = []
-        topic_data = []
-
-        for i in filter_type:
-            type_data.append(i.product_id)
-        for i in filter_topic:
-            topic_data.append(i.product_id)
-        self.pk_list = list(set(type_data).intersection(topic_data))
-
-        return super().get(request, *args, **kwargs)
+            return super().get(request, *args, **kwargs)
 
     def get_search_handler(self, *args, **kwargs):
         return get_product_search_handler_class()(*args, **kwargs)
@@ -390,13 +378,26 @@ class ProductUpdateView(TemplateView):
 
     def get_context_data(self, **kwargs):
         ctx = {}
-        search_context = self.search_handler.get_search_context_data(
-                            self.context_object_name)
-        data = Product.objects.filter(pk__in=self.pk_list)
-        quiz = Quiz.objects.get(pk=self.pk)
-        search_context[self.context_object_name] = data
-        ctx['quiz'] = quiz
-        ctx.update(search_context)
+        questions = []
+
+        question_list = []
+        # print(self.pk_list)
+        if self.pk_list:
+            # print("DKMMMMMMMMMMMMM")
+            question_list = Questions.objects.filter(publicity=True, pk__in=self.pk_list)
+        else:
+            # print("DEO GIIIIIIIIIIIIII")
+            question_list = Questions.objects.filter(publicity=True)
+        for question in question_list:
+            new_question = dict()
+            new_question["question"] = question.question
+            new_question["answers"] = []
+            for answer in str(question.answers).replace("[" ,"").replace("]" ,"").split(","):
+                new_question["answers"].append(answer.replace('"', '').replace('\'', ''))
+            new_question["correct_answer"] = question.correct_answer
+            questions.append(new_question)
+        ctx['questions'] = questions
+
         return ctx
 
 

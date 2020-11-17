@@ -199,104 +199,51 @@ var oscar = (function(o, $) {
     o.select = {
         init: function(options) {
             if (typeof options == 'undefined') {
-                options = {'createURL': document.URL};
+                options = {
+                    'selectURL': document.URL,
+                    'updateURL': document.URL
+                };
             }
-            o.select.url = options.createURL || document.URL;
 
-            $('.child_quiztype').click(function(){
-                if(this.checked) {
-                    // console.log($(this).val());
-                    var obj = {}
-                    obj['action'] = "add"
-                    obj['pk'] = $(this).val()
-                    obj['quiz_pk'] = o.catalogue.pk
-                            var csrf = o.getCsrfToken();
-                                $.ajax({
-                                    type: 'POST',
-                                    data: JSON.stringify(obj),
-                                    dataType: "json",
-                                    contentType : 'application/json',
-                                    url: o.catalogue.url,
-                                    beforeSend: function(xhr) {
-                                        xhr.setRequestHeader("X-CSRFToken", csrf);
-                                    },
-                                    success: function (data) {
-                                        var text = $('.totalQues').text()
-                                        console.log(text)
-                                        var number = parseInt(text, 10) + 1
-                                        console.log(number)
-                                        document.getElementById("totalQuesNum").textContent = number
-                                    },
-                                    error: function (data) {
-                                        console.log('ERROR', data);
-                                    }
-                                });
-                }
-                else {
-                    var obj = {}
-                    obj['action'] = "remove"
-                    obj['pk'] = $(this).val()
-                    obj['quiz_pk'] = o.catalogue.pk
-                            var csrf = o.getCsrfToken();
-                                $.ajax({
-                                    type: 'POST',
-                        // data: JSON.stringify($(this).val()),
-                                    data: JSON.stringify(obj),
-                                    dataType: "json",
-                                    contentType : 'application/json',
-                                    url: o.catalogue.url,
-                                    beforeSend: function(xhr) {
-                                        xhr.setRequestHeader("X-CSRFToken", csrf);
-                                    },
-                                    success: function (data) {
-                                         // console.log(data, 'SUCCESS');
-                                        // location.reload();
-                                        var text = $('.totalQues').text()
-                                        // console.log(text)
-                                        var number = parseInt(text, 10) - 1
-                                        // console.log(number)
-                                        document.getElementById("totalQuesNum").textContent = number
-                                    },
-                                    error: function (data) {
-                                        console.log('ERROR', data);
-                                    }
-                                });
-                }
-            })
+            o.select.url = options.selectURL || document.URL;
+            o.select.update_url = options.updateURL || document.URL;
 
-            $('#next_step').click(function() {
-                // Construct a list of filter
-                var ques_type = [];
-                var ques_topic = [];
-                // Get all the checked boxes in the side_categories div
-                $('.child_quiztype').each(function() {
-                    // var key = $(this).closest('.card').find('.card-header')[0].innerText
-                    // console.log(key)
-                    // console.log($(this).val())
-                    // if( key.trim() in ques_type) {
-                    if ($(this)[0].checked) {
-                        ques_type.push($(this).val().trim())
+            $('#applyFilter').click(function() {
+                var question_filters = [];
+                var selections = $('.question_filters');
+                for(var i = 0; i < selections.length; i++){
+                    // console.log($(selections[i]).length)
+                    // console.log(selections[i])
+                    if ($(selections[i]).val().length > 0) {
+                        for(var j = 0; j < $(selections[i]).val().length; j++) {
+                            // console.log($(selections[i]).val()[j])
+                            question_filters.push($(selections[i]).val()[j]);
+                        }
                     }
-                    // }
-                });
-
-                // Get all the checked boxes in the side_categories div
-                $('.quiztopic').each(function() {
-                    if ($(this)[0].checked) {
-                        ques_topic.push($(this).val().trim())
-                    }
-                });
-                // console.log(ques_topic)
-                // console.log(ques_type)
-                var cat = $('#domain_selection').val()
+                }
 
                 // Query data from the backend
-                const q_type = new URLSearchParams({ques_type})
-                const q_topic = new URLSearchParams({ques_topic})
-                var temp_url = o.select.url + "?cat="+ cat + "&" + q_type.toString() + "&" + q_topic.toString()
-                // var target_url = temp_url.concat(obj.toString());
-                // console.log(temp_url)
-                window.location.href = temp_url
+                var obj = {
+                    question_filters: question_filters
+                }
+
+                var csrf = o.getCsrfToken();
+                $.ajax({
+                    type: 'GET',
+                    data: obj,
+                    traditional: true,
+                    url: o.select.update_url,
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader("X-CSRFToken", csrf);
+                    },
+                    success: function (data) {
+                        // console.log(data, 'SUCCESS');
+                        $('#questionList').html(data);
+                    },
+                    error: function (data) {
+                        // console.log('ERROR', data);
+                    }
+                });
             });
         }
     };

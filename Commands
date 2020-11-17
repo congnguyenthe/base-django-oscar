@@ -36,7 +36,7 @@ $ ./manage.py migrate
 $ ./manage.py oscar_create_categories
 
 * Load data from fixture
-$ ./manage.py loaddata quiz_maker/fixtures/questions.json
+$ ./manage.py loaddata quiz_maker/fixtures/new_model_questions.json
 
 * Load sample template --> No need in production
 $ ./manage.py loaddata quiz_maker/fixtures/templates.json
