@@ -16,7 +16,7 @@
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
             <li class="breadcrumb-item">English Quiz</li>
-            <li class="breadcrumb-item">
+            <li class="breadcrumb-item" id="quizName">
               A NEW QUIZ NAME
               <i class="fas fa-edit"></i>
             </li>
@@ -67,7 +67,7 @@
           <div class="card-header">
             <div class="mailbox-controls">
               <!-- Check all button -->
-              <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="far fa-square"></i>
+              <button type="button" id="checkAll" class="btn btn-default btn-sm checkbox-toggle"><i class="far fa-square"></i>
               </button>
               <div class="btn-group">
                 <button type="button" class="btn btn-default btn-sm">
@@ -101,7 +101,7 @@
                           <div class="row">
                             <div class="col-3">
                               <div class="icheck-primary">
-                                <input type="checkbox" value="" id="check{{ forloop.counter }}">
+                                <input type="checkbox" value="" class="checked_ques" id="check{{ forloop.counter }}">
                                 <label for="check{{ forloop.counter }}"></label>
                               </div>
                             </div>
