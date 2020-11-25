@@ -16,10 +16,17 @@
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="#">Home</a></li>
             <li class="breadcrumb-item">English Quiz</li>
-            <li class="breadcrumb-item" id="quizName">
+            <li class="breadcrumb-item hidable" id="textForm" style="display:block;">
               A NEW QUIZ NAME
-              <i class="fas fa-edit"></i>
             </li>
+            <a class="btn btn-sm hidable controlEditting" id="quizName" style="display:block;">
+              <i class="fas fa-edit hidable"></i>
+            </a>
+            <input id="textInput" type="text" class="form-control rounded-1 hidable ml-2 col-sm-3" style="display:none;" data-toggle="tooltip" data-trigger="manual" data-placement="top" title="Can not be empty">
+            <span id="buttonInput" class="input-group-append hidable" style="display:none;">
+              <button id="saveChanges" type="button" class="btn btn-outline-info controlEditting">OK</button>
+              <button id="cancelChanges" type="button" class="btn btn-outline-warning controlEditting">Cancel</button>
+            </span>
           </ol>
         </div>
         <div class="col-sm-6">

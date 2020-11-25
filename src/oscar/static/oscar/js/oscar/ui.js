@@ -205,6 +205,13 @@ var oscar = (function(o, $) {
                 };
             }
 
+            $('#textInput').on('show.bs.tooltip', function (e) {
+                setTimeout(function() {   //calls click event after a certain time
+                 $('[data-toggle="tooltip"]').tooltip('hide');
+                 $('#textInput').removeClass('is-invalid');
+              }, 800);
+            });
+
             o.select.url = options.selectURL || document.URL;
             o.select.update_url = options.updateURL || document.URL;
 
@@ -259,6 +266,59 @@ var oscar = (function(o, $) {
                 }
                 $(this).data('clicks', !clicks)
             })
+
+            $('#saveChanges').click(function () {
+                var x = document.getElementById("textInput");
+                if (x.value) {
+                    document.getElementById("textForm").textContent = x.value.trim()
+                    o.select.hideElements();
+                    $('#textInput').removeClass('is-invalid')
+                } else {
+                    $('#textInput').addClass('is-invalid')
+                    $('#textInput').tooltip('show')
+                }
+            })
+
+            $('#quizName').click(function () {
+                var x = document.getElementById("textForm");
+                if (x.textContent) {
+                    document.getElementById("textInput").value = x.textContent.trim()
+                }
+                o.select.hideElements();
+            })
+            $('#cancelChanges').click(function () {
+                o.select.hideElements();
+            })
+        },
+
+        hideElements: function() {
+            var x = document.getElementById("textForm");
+                if (x.style.display === "none") {
+                    x.style.display = "block";
+                } else {
+                    x.style.display = "none";
+                }
+
+                var y = document.getElementById("quizName");
+                if (y.style.display === "none") {
+                    y.style.display = "block";
+                } else {
+                    y.style.display = "none";
+                }
+
+                var z = document.getElementById("textInput");
+                if (z.style.display === "none") {
+                    z.style.display = "block";
+                } else {
+                    z.style.display = "none";
+                }
+
+                var t = document.getElementById("buttonInput");
+                if (t.style.display === "none") {
+                    t.style.display = "block";
+                } else {
+                    t.style.display = "none";
+                }
         }
     };
 
