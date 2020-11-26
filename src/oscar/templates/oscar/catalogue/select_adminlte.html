@@ -77,7 +77,7 @@
               <button type="button" id="checkAll" class="btn btn-default btn-sm checkbox-toggle"><i class="far fa-square"></i>
               </button>
               <div class="btn-group">
-                <button type="button" class="btn btn-default btn-sm">
+                <button type="button" id="deleteSelected" class="btn btn-default btn-sm">
                   <i class="far fa-trash-alt"></i>
                 </button>
                 <button type="button" class="btn btn-default btn-sm">
@@ -88,7 +88,7 @@
                 </button>
               </div>
               <!-- /.btn-group -->
-              <button type="button" class="btn btn-default btn-sm">
+              <button type="button" id="refreshQuestions" class="btn btn-default btn-sm">
                 <i class="fas fa-sync-alt"></i>
               </button>
               <button type="button" class="btn btn-sm btn-outline-info float-right" style="width: 100px;">Save</button>
@@ -102,7 +102,7 @@
               <div class="card-body pb-0">
                 <div class="row d-flex align-items-stretch">
                   {% for question in questions %}
-                    <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch" style="width: 100%;">
+                    <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch question-wrapper" id="wrapper{{ forloop.counter }}" style="width: 100%;display: block;">
                       <div class="card bg-light" style="width: 100%;">
                         <div class="card-header">
                           <div class="row">

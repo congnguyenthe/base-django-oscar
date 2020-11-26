@@ -205,6 +205,7 @@ var oscar = (function(o, $) {
                 };
             }
 
+            // Auto hide tooltip
             $('#textInput').on('show.bs.tooltip', function (e) {
                 setTimeout(function() {   //calls click event after a certain time
                  $('[data-toggle="tooltip"]').tooltip('hide');
@@ -215,6 +216,7 @@ var oscar = (function(o, $) {
             o.select.url = options.selectURL || document.URL;
             o.select.update_url = options.updateURL || document.URL;
 
+            // Filter questions
             $('#applyFilter').click(function() {
                 var question_filters = [];
                 var selections = $('.question_filters');
@@ -253,6 +255,7 @@ var oscar = (function(o, $) {
                 });
             });
 
+            // Check-all button
             $('.checkbox-toggle').click(function () {
                 var clicks = $(this).data('clicks')
                 if (clicks) {
@@ -267,11 +270,15 @@ var oscar = (function(o, $) {
                 $(this).data('clicks', !clicks)
             })
 
+            // Save changes after editting quiz name
             $('#saveChanges').click(function () {
                 var x = document.getElementById("textInput");
                 if (x.value) {
                     document.getElementById("textForm").textContent = x.value.trim()
-                    o.select.hideElements();
+                    o.select.hideElements("textForm");
+                    o.select.hideElements("quizName");
+                    o.select.hideElements("textInput");
+                    o.select.hideElements("buttonInput");
                     $('#textInput').removeClass('is-invalid')
                 } else {
                     $('#textInput').addClass('is-invalid')
@@ -279,46 +286,100 @@ var oscar = (function(o, $) {
                 }
             })
 
+            // Show editting text box for changing quiz name
             $('#quizName').click(function () {
                 var x = document.getElementById("textForm");
                 if (x.textContent) {
                     document.getElementById("textInput").value = x.textContent.trim()
                 }
-                o.select.hideElements();
+                o.select.hideElements("textForm");
+                o.select.hideElements("quizName");
+                o.select.hideElements("textInput");
+                o.select.hideElements("buttonInput");
             })
+
+            // Cancel changes after editting quiz name
             $('#cancelChanges').click(function () {
-                o.select.hideElements();
+                o.select.hideElements("textForm");
+                o.select.hideElements("quizName");
+                o.select.hideElements("textInput");
+                o.select.hideElements("buttonInput");
+            })
+
+            // Delete selected question
+            $('#deleteSelected').click(function () {
+                $('.checked_ques:checkbox:checked').each(function () {
+                    $(this).prop('checked', false)
+                    // var sThisVal = (this.checked ? $(this).val() : "");
+                    var wrapperCard = o.select.getClosest(this, '.question-wrapper');
+                    // console.log(wrapperCard.id)
+                    // o.select.hideElements(wrapperCard.id);
+                    $(wrapperCard).attr("style", "display: none !important");
+                    // var x = document.getElementById("wrapper1");
+                    // // console.log(wrapperCard.id)
+                    // if (x.style.display === "none") {
+                    //     x.style.display = "block";
+                    // } else {
+                    //     x.style.display = "none !important";
+                    // }
+                    // wrapperCard.remove();
+                    // console.log(wrapperCard);
+                });
+            })
+
+            // Refresh
+            $('#refreshQuestions').click(function () {
+                $('.question-wrapper').attr("style", "display: block");
+                // $('.checked_ques:checkbox:checked').each(function () {
+                //     // var sThisVal = (this.checked ? $(this).val() : "");
+                //     var wrapperCard = o.select.getClosest(this, '.question-wrapper');
+                //     // console.log(wrapperCard.id)
+                //     // o.select.hideElements(wrapperCard.id);
+                //     $('.question-wrapper').attr("style", "display: none !important");
+                //     // var x = document.getElementById("wrapper1");
+                //     // // console.log(wrapperCard.id)
+                //     // if (x.style.display === "none") {
+                //     //     x.style.display = "block";
+                //     // } else {
+                //     //     x.style.display = "none !important";
+                //     // }
+                //     // wrapperCard.remove();
+                //     // console.log(wrapperCard);
+                // });
             })
         },
 
-        hideElements: function() {
-            var x = document.getElementById("textForm");
-                if (x.style.display === "none") {
-                    x.style.display = "block";
-                } else {
-                    x.style.display = "none";
-                }
+        getClosest: function (elem, selector) {
+            // Element.matches() polyfill
+            if (!Element.prototype.matches) {
+                Element.prototype.matches =
+                    Element.prototype.matchesSelector ||
+                    Element.prototype.mozMatchesSelector ||
+                    Element.prototype.msMatchesSelector ||
+                    Element.prototype.oMatchesSelector ||
+                    Element.prototype.webkitMatchesSelector ||
+                    function(s) {
+                        var matches = (this.document || this.ownerDocument).querySelectorAll(s),
+                            i = matches.length;
+                        while (--i >= 0 && matches.item(i) !== this) {}
+                        return i > -1;
+                    };
+            }
+            // Get the closest matching element
+            for ( ; elem && elem !== document; elem = elem.parentNode ) {
+                if ( elem.matches( selector ) ) return elem;
+            }
+            return null;
+        },
 
-                var y = document.getElementById("quizName");
-                if (y.style.display === "none") {
-                    y.style.display = "block";
-                } else {
-                    y.style.display = "none";
-                }
-
-                var z = document.getElementById("textInput");
-                if (z.style.display === "none") {
-                    z.style.display = "block";
-                } else {
-                    z.style.display = "none";
-                }
-
-                var t = document.getElementById("buttonInput");
-                if (t.style.display === "none") {
-                    t.style.display = "block";
-                } else {
-                    t.style.display = "none";
-                }
+        hideElements: function(id) {
+            var x = document.getElementById(id);
+            console.log(id)
+            if (x.style.display === "none") {
+                x.style.display = "block";
+            } else {
+                x.style.display = "none";
+            }
         }
     };
 
